@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SteamLogo, SearchIcon, MenuIcon, LibraryIcon, StoreIcon, ProfileIcon, CloseIcon, MinimizeIcon, MaximizeIcon } from './Icons';
 
 interface TopBarProps {
@@ -8,6 +8,21 @@ interface TopBarProps {
 
 export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, isSidebarOpen }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [customLogo, setCustomLogo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkLogo = async () => {
+      try {
+        const response = await fetch('/logo/logo.svg', { method: 'HEAD' });
+        if (response.ok) {
+          setCustomLogo('/logo/logo.svg');
+        }
+      } catch {
+        // Logo not found, use default
+      }
+    };
+    checkLogo();
+  }, []);
 
   const navItems = [
     { id: 'store', label: 'TIENDA', icon: StoreIcon, active: false },
@@ -15,13 +30,19 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, isSidebarOpen }) =>
     { id: 'profile', label: 'PERFIL', icon: ProfileIcon, active: false },
   ];
 
+  const LogoComponent = customLogo ? (
+    <img src={customLogo} alt="Logo" className="custom-logo" />
+  ) : (
+    <SteamLogo className="steam-logo" />
+  );
+
   return (
     <header className="top-bar">
       <div className="top-bar-left">
         <button className="menu-toggle" onClick={onMenuClick} aria-label={isSidebarOpen ? 'Cerrar menú' : 'Abrir menú'}>
           <MenuIcon className="menu-icon" />
         </button>
-        <SteamLogo className="steam-logo" />
+        {LogoComponent}
         <span className="app-title">PORTFOLIO LIBRARY</span>
       </div>
 

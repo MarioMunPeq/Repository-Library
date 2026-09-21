@@ -1,11 +1,11 @@
 :root {
-  --steam-bg: #171a21;
+  --steam-bg: #242830;
   --steam-bg-light: #1b2838;
   --steam-bg-lighter: #2a475e;
-  --steam-accent: #66c0f4;
-  --steam-accent-hover: #7fd1f7;
-  --steam-success: #a4d007;
-  --steam-success-hover: #b8e01a;
+  --steam-accent: #1A9FFF;
+  --steam-accent-hover: #4db8ff;
+  --steam-success: #48bf40;
+  --steam-success-hover: #5cd652;
   --steam-warning: #ffcc00;
   --steam-muted: #8899a6;
   --steam-text: #c7d5e0;
@@ -13,7 +13,7 @@
   --steam-border: #2a475e;
   --steam-input-bg: #1b2838;
   --steam-hover: #2a475e;
-  --steam-active: #1b2838;
+  --steam-active: #3E4F69;
   --steam-scrollbar: #2a475e;
   --steam-scrollbar-hover: #3a5a7a;
 
@@ -154,6 +154,13 @@ input:focus {
   width: 32px;
   height: 32px;
   flex-shrink: 0;
+}
+
+.custom-logo {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .app-title {
@@ -410,7 +417,7 @@ input:focus {
 }
 
 .project-item.selected {
-  background: rgba(102, 192, 244, 0.15);
+  background: var(--steam-active);
   color: var(--steam-accent);
 }
 
