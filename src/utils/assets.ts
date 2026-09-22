@@ -1,15 +1,14 @@
 const base = import.meta.env.BASE_URL;
 const normalizedBase = base.endsWith('/') ? base : `${base}/`;
-const isDev = import.meta.env.DEV;
 
 /**
  * Resuelve una ruta de /public (ej. `/projects/persona5/icon.ico`)
- * ante el `base` de Vite (`/Repository-Library/` en despliegue).
- * En desarrollo NO se antepone el base, porque Vite sirve /public en la raíz.
+ * ante el `base` de Vite (`/Repository-Library/`).
+ * Vite sirve /public bajo el base path TANTO en dev como en prod.
  */
 export const assetUrl = (path: string): string => {
   const cleanPath = path.replace(/^\//, '');
-  return isDev ? `/${cleanPath}` : `${normalizedBase}${cleanPath}`;
+  return `${normalizedBase}${cleanPath}`;
 };
 
 /**
