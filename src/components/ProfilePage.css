@@ -2,6 +2,12 @@
    ProfilePage — Perfil estilo comunidad de Steam (sin artwork, color plano)
    ========================================================================== */
 
+.gradient-fallback {
+  position: absolute;
+  inset: 0;
+  background: inherit;
+}
+
 .profile-page {
   width: 100%;
   max-width: 1400px;

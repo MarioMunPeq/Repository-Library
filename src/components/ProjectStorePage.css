@@ -2,9 +2,17 @@
    ProjectStorePage — Página de proyecto (ámbito "biblioteca" de Steam)
    ========================================================================== */
 
+.gradient-fallback {
+  position: absolute;
+  inset: 0;
+  background: inherit;
+}
+
 .store-page {
   width: 100%;
+  min-height: 100%;
   background: #242830;
+  contain: layout style;
 }
 
 .store-shell {
@@ -244,6 +252,108 @@
   border-bottom-color: #1a9fff;
 }
 
+/* ---------- Recommendation Box ---------- */
+
+.store-recommendation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  margin: 0 28px 20px;
+  background: #2a3f52;
+  border-radius: 2px;
+  flex-wrap: wrap;
+}
+
+.store-recommendation-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.store-recommendation-time {
+  font-size: 14px;
+  color: #66c0f4;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.store-recommendation-time:hover {
+  color: #b9d7ef;
+  text-decoration: underline;
+}
+
+.store-recommendation-question {
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.store-recommendation-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.store-recommend-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #c6d4df;
+  background: #171a21;
+  border: 1px solid #2a3f52;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.store-recommend-btn:hover {
+  background: #2a3f52;
+  border-color: #66c0f4;
+  color: #ffffff;
+}
+
+.store-recommend-btn:active {
+  background: #1b2838;
+}
+
+/* ---------- Activity Input ---------- */
+
+.store-activity-input {
+  margin-bottom: 16px;
+}
+
+.store-activity-textarea {
+  width: 100%;
+  max-width: 720px;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #8f98a0;
+  background: #171a21;
+  border: 1px solid #2a3f52;
+  border-radius: 2px;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.store-activity-textarea:focus {
+  border-color: #66c0f4;
+  box-shadow: 0 0 0 2px rgba(102, 192, 244, 0.2);
+}
+
+.store-activity-textarea::placeholder {
+  color: #6a7682;
+}
+
 /* ---------- Cuerpo: dos columnas ---------- */
 
 .store-body {
@@ -476,13 +586,71 @@
   background: #a4d007;
 }
 
-.store-ach-grid {
+/* Featured Achievement */
+.store-ach-featured {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: #171a21;
+  border-radius: 2px;
+}
+
+.store-ach-featured-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  color: #66c0f4;
+}
+
+.store-ach-featured-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.store-ach-featured-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.store-ach-featured-desc {
+  font-size: 12px;
+  color: #8f98a0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Other Unlocked Achievements */
+.store-ach-unlocked-group {
+  margin-bottom: 16px;
+}
+
+.store-ach-locked-group {
+  margin-bottom: 16px;
+}
+
+.store-ach-locked-title {
+  display: block;
+  font-size: 12px;
+  color: #8f98a0;
+  margin-bottom: 8px;
+}
+
+.store-ach-grid-small {
   display: grid;
   grid-template-columns: repeat(6, 32px);
   gap: 8px;
 }
 
-.store-ach-cell {
+.store-ach-cell-small {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -493,29 +661,44 @@
   font-weight: 700;
 }
 
-.store-ach-cell.unlocked {
+.store-ach-cell-small.unlocked {
   background: #2a3f5a;
   border: 1px solid #66c0f4;
   color: #66c0f4;
 }
 
-.store-ach-cell.locked {
+.store-ach-cell-small.locked {
   background: #1b2838;
-  opacity: 0.4;
+  opacity: 0.35;
   filter: grayscale(1);
   color: #8f98a0;
 }
 
-.store-ach-cell.more {
+.store-ach-cell-small.more {
   background: rgba(42, 63, 90, 0.35);
   border: 1px dashed #2a3f5a;
   color: #8f98a0;
   font-size: 12px;
+  font-weight: 500;
 }
 
-.store-ach-cell-icon {
+.store-ach-cell-small-icon {
   width: 16px;
   height: 16px;
+}
+
+/* View All Link */
+.store-ach-view-all {
+  display: inline-block;
+  font-size: 12px;
+  color: #66c0f4;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.store-ach-view-all:hover {
+  color: #b9d7ef;
+  text-decoration: underline;
 }
 
 /* ---------- Ajustes de ventana estrecha ---------- */

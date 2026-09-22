@@ -24,7 +24,8 @@ interface ProjectStorePageProps {
 
 const PLACEHOLDER_SHOT_COUNT = 3;
 
-const MAX_ACH_CELLS = 12;
+const MAX_FEATURED_UNLOCKED = 6;
+const MAX_LOCKED_SHOWN = 6;
 
 const AVATAR_PALETTE = ['#2a475e', '#2d5a3f', '#4a3a6a', '#6a523a', '#3a4f6a', '#5e3a52'];
 
@@ -36,18 +37,12 @@ function avatarColor(name: string): string {
   return AVATAR_PALETTE[Math.abs(hash) % AVATAR_PALETTE.length];
 }
 
-function friendsPlaying(projectName: string, projectSlug: string): Friend[] {
+function friendsPlaying(projectName: string): Friend[] {
   const related = allFriends.filter((friend) => friend.project === projectName);
   if (related.length > 0) {
     return related.slice(0, 2);
   }
-  let hash = 0;
-  for (let i = 0; i < projectSlug.length; i += 1) {
-    hash = projectSlug.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const total = 1 + (Math.abs(hash) % 2);
-  const start = Math.abs(hash) % allFriends.length;
-  return Array.from({ length: total }, (_, index) => allFriends[(start + index) % allFriends.length]);
+  return [];
 }
 
 const EmptyState: React.FC = () => (
@@ -66,11 +61,17 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
     return <EmptyState />;
   }
 
-  const shownCells = project.totalTech > MAX_ACH_CELLS ? MAX_ACH_CELLS - 1 : project.totalTech;
-  const overflowCount = project.totalTech - shownCells;
   const achievementsPercent =
     project.totalTech === 0 ? 0 : Math.round((project.unlockedTech / project.totalTech) * 100);
-  const playingFriends = friendsPlaying(project.name, project.slug);
+
+  const unlockedTechs = project.technologies.slice(0, project.unlockedTech);
+  const lockedTechs = project.technologies.slice(project.unlockedTech);
+  const featuredAchievement = unlockedTechs[0] || lockedTechs[0];
+  const otherUnlocked = unlockedTechs.slice(1, MAX_FEATURED_UNLOCKED + 1);
+  const otherUnlockedOverflow = unlockedTechs.length - 1 - MAX_FEATURED_UNLOCKED;
+  const shownLocked = lockedTechs.slice(0, MAX_LOCKED_SHOWN);
+  const lockedOverflow = lockedTechs.length - MAX_LOCKED_SHOWN;
+  const playingFriends = friendsPlaying(project.name);
   const friendsCountText =
     playingFriends.length === 1
       ? '1 amigo jugó a él anteriormente'
@@ -174,6 +175,18 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
           </button>
         </nav>
 
+        <section className="store-recommendation" aria-label="Recomendación">
+          <div className="store-recommendation-left">
+            <span className="store-recommendation-time">Has invertido {project.devTime} en este proyecto</span>
+            <span className="store-recommendation-question">¿Recomendarías este proyecto a otros desarrolladores?</span>
+          </div>
+          <div className="store-recommendation-buttons">
+            <button className="store-recommend-btn" type="button">👍 Sí</button>
+            <button className="store-recommend-btn" type="button">👎 No</button>
+            <button className="store-recommend-btn" type="button">Quizás más tarde</button>
+          </div>
+        </section>
+
         <div className="store-body">
           <section className="store-main">
             <section className="store-section">
@@ -215,6 +228,14 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
             {project.updates.length > 0 && (
               <section className="store-section">
                 <h2 className="store-section-title">Actividad</h2>
+                <div className="store-activity-input" aria-label="Escribir actividad">
+                  <input
+                    type="text"
+                    className="store-activity-textarea"
+                    placeholder="Escribe algo sobre este proyecto..."
+                    readOnly
+                  />
+                </div>
                 <div className="store-updates">
                   {project.updates.map((entry) => (
                     <article className="store-update" key={`${entry.date}-${entry.title}`}>
@@ -289,25 +310,61 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
               <div className="store-ach-bar" aria-hidden="true">
                 <div className="store-ach-bar-fill" style={{ width: `${achievementsPercent}%` }} />
               </div>
-              <div className="store-ach-grid">
-                {Array.from({ length: shownCells }, (_, index) => {
-                  const unlocked = index < project.unlockedTech;
-                  return (
-                    <span
-                      key={index}
-                      className={`store-ach-cell ${unlocked ? 'unlocked' : 'locked'}`}
-                      title={project.technologies[index]}
-                    >
-                      <CodeIcon className="store-ach-cell-icon" />
-                    </span>
-                  );
-                })}
-                {overflowCount > 0 && (
-                  <span className="store-ach-cell more" title={`${overflowCount} tecnologías más`}>
-                    +{overflowCount}
-                  </span>
-                )}
-              </div>
+
+              {featuredAchievement && (
+                <div className="store-ach-featured" title={featuredAchievement}>
+                  <TrophyIcon className="store-ach-featured-icon" />
+                  <div className="store-ach-featured-info">
+                    <span className="store-ach-featured-title">{featuredAchievement}</span>
+                    <span className="store-ach-featured-desc">Logro desbloqueado</span>
+                  </div>
+                </div>
+              )}
+
+              {otherUnlocked.length > 0 && (
+                <div className="store-ach-unlocked-group">
+                  <div className="store-ach-grid-small">
+                    {otherUnlocked.map((tech, index) => (
+                      <span
+                        key={index}
+                        className="store-ach-cell-small unlocked"
+                        title={tech}
+                      >
+                        <CodeIcon className="store-ach-cell-small-icon" />
+                      </span>
+                    ))}
+                    {otherUnlockedOverflow > 0 && (
+                      <span className="store-ach-cell-small more" title={`${otherUnlockedOverflow} logros más`}>
+                        +{otherUnlockedOverflow}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {lockedTechs.length > 0 && (
+                <div className="store-ach-locked-group">
+                  <span className="store-ach-locked-title">Logros bloqueados</span>
+                  <div className="store-ach-grid-small">
+                    {shownLocked.map((tech, index) => (
+                      <span
+                        key={index}
+                        className="store-ach-cell-small locked"
+                        title={tech}
+                      >
+                        <CodeIcon className="store-ach-cell-small-icon" />
+                      </span>
+                    ))}
+                    {lockedOverflow > 0 && (
+                      <span className="store-ach-cell-small more" title={`${lockedOverflow} logros más`}>
+                        +{lockedOverflow}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <a className="store-ach-view-all" href="#">Ver todos los logros</a>
             </section>
           </aside>
         </div>

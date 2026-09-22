@@ -2,6 +2,12 @@
    ComunidadPage — Feed de actividad + panel "Sobre mí"
    ========================================================================== */
 
+.gradient-fallback {
+  position: absolute;
+  inset: 0;
+  background: inherit;
+}
+
 .community-page {
   display: flex;
   gap: 24px;

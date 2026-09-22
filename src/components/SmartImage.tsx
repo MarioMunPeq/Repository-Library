@@ -18,8 +18,8 @@ interface SmartImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'src
  * Imagen que resuelve la extensión real en runtime: recibe una ruta sin
  * extensión y una lista ordenada de candidatas; prueba la primera y, si el
  * `<img>` dispara `onError`, avanza a la siguiente. Si todas fallan renderiza
- * `fallback`. La imagen permanece oculta hasta que carga, así nunca se ve el
- * icono de error del navegador ni parpadeos.
+ * `fallback`. Usa opacity para transiciones suaves y evita problemas de layout
+ * con visibility:hidden.
  */
 export const SmartImage: React.FC<SmartImageProps> = ({
   basePath,
@@ -36,12 +36,17 @@ export const SmartImage: React.FC<SmartImageProps> = ({
     [basePath, extensions, kind],
   );
   const [attempt, setAttempt] = useState(0);
-  const [loaded, setLoaded] = useState(false);
+  const [loadedAttempt, setLoadedAttempt] = useState(-1);
 
   const handleError = () => {
-    setLoaded(false);
     setAttempt((current) => current + 1);
   };
+
+  const handleLoad = () => {
+    setLoadedAttempt(attempt);
+  };
+
+  const isLoaded = loadedAttempt === attempt;
 
   if (attempt >= candidates.length) {
     return fallback ?? null;
@@ -54,9 +59,13 @@ export const SmartImage: React.FC<SmartImageProps> = ({
       src={candidates[attempt]}
       alt={alt}
       {...rest}
-      onLoad={() => setLoaded(true)}
+      onLoad={handleLoad}
       onError={handleError}
-      style={{ visibility: loaded ? 'visible' : 'hidden', ...style }}
+      style={{
+        opacity: isLoaded ? 1 : 0,
+        transition: 'opacity 120ms ease',
+        ...style,
+      }}
     />
   );
 };

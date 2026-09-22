@@ -2,10 +2,17 @@
    StorePage — Tienda del portfolio (carrusel + capsules)
    ========================================================================== */
 
+.gradient-fallback {
+  position: absolute;
+  inset: 0;
+  background: inherit;
+}
+
 .store-page {
   width: 100%;
   min-height: 100%;
   background: #242830;
+  contain: layout style;
 }
 
 /* ---------- Carrusel / banner destacado (340px) ---------- */

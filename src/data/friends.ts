@@ -22,7 +22,7 @@ export interface CurrentUser {
 
 export const currentUser: CurrentUser = {
   name: 'MarioMunPeq',
-  avatarInitial: 'MM',
+  avatarInitial: 'MP',
   status: 'invisible',
   statusText: 'Invisible',
 };
@@ -47,7 +47,9 @@ export const friends: Friend[] = [
     avatarInitial: 'PA',
     githubUrl: 'https://github.com/Paula1610',
     status: 'online',
-    statusText: 'En línea',
+    statusText: 'Hollow Knight',
+    project: 'Hollow Knight',
+    activityGroup: 'Hollow Knight',
     favorite: true,
   },
 ];

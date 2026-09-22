@@ -553,11 +553,24 @@
   width: 100%;
   padding: 10px 16px 6px;
   font-size: 11px;
+  font-weight: 400;
   color: #8f98a0;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   text-align: left;
   transition: color var(--transition-fast);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar-category-title {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 400;
+  color: #8f98a0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .sidebar-category-header:hover {
@@ -615,9 +628,9 @@
 
 /* Fallback de gradiente que sustituye una imagen inexistente en SmartImage */
 .gradient-fallback {
-  display: block;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0;
+  background: inherit;
 }
 
 .sidebar-item-name {
@@ -702,6 +715,7 @@
 .main-content {
   flex: 1;
   min-width: 0;
+  min-height: 0;
   overflow-y: auto;
   background: #242830;
 }

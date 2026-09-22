@@ -103,7 +103,7 @@ export const projects: Project[] = [
     category: 'portfolio',
     githubUrl: 'https://github.com/MarioMunPeq/portfolio-persona5',
     status: 'completado',
-    screenshots: [],
+    screenshots: ['1', '2', '3', '4', '5', '6'],
     fallbackGradient: 'linear-gradient(90deg, #14060a 0%, #4a0d16 55%, #8f1420 100%)',
     description:
       'Portfolio personal desarrollado como un CV viviente con una estética inspirada en Persona 5: perfil, proyectos, experiencia, formación y contacto en una experiencia web interactiva y visual.',
@@ -166,7 +166,7 @@ export const projects: Project[] = [
     category: 'otro',
     githubUrl: 'https://github.com/MarioMunPeq/Euromario',
     status: 'completado',
-    screenshots: [],
+    screenshots: ['1'],
     fallbackGradient: 'linear-gradient(90deg, #0e1a2b 0%, #1c3f6e 55%, #a8201f 100%)',
     description:
       'Agregador de noticias de videojuegos que recopila, filtra y resume las historias más relevantes de las últimas 24 horas con IA: detección de juego, puntuación de relevancia, agrupación de historias y digest diario automático publicado como web estática.',
@@ -187,7 +187,7 @@ export const projects: Project[] = [
     category: 'otro',
     githubUrl: 'https://github.com/MarioMunPeq/Dungeon-Archive',
     status: 'completado',
-    screenshots: [],
+    screenshots: ['1', '2', '3', '4', '5'],
     fallbackGradient: 'linear-gradient(90deg, #1c1208 0%, #3a2412 55%, #5c3a1e 100%)',
     description:
       'Compañero móvil para partidas de D&D 5e: compendio completo, reglas de referencia, gestión de personaje, control de combate y tiradas de dados, disponible offline como PWA.',

@@ -7,6 +7,7 @@ import { ChevronDownIcon, ClockIcon, DiceIcon, FilterIcon, GridIcon, SearchIcon 
 interface SidebarProps {
   selectedProject: Project | null;
   onSelectProject: (project: Project) => void;
+  onDeselectProject: () => void;
 }
 
 interface CategorySection {
@@ -80,7 +81,7 @@ const renderGridItems = (
   </div>
 );
 
-export const Sidebar: React.FC<SidebarProps> = ({ selectedProject, onSelectProject }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ selectedProject, onSelectProject, onDeselectProject }) => {
   const [query, setQuery] = useState('');
   const [collapsed, setCollapsed] = useState(false);
   const [view, setView] = useState<SidebarView>('list');
@@ -102,11 +103,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ selectedProject, onSelectProje
 
   return (
     <aside className="sidebar" role="complementary" aria-label="Biblioteca">
-      <div className="sidebar-home">
+      <div className="sidebar-home" role="button" tabIndex={0} onClick={onDeselectProject} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onDeselectProject(); } }}>
         <button
           className="sidebar-view-toggle"
           type="button"
-          onClick={() => setView((prev) => (prev === 'list' ? 'grid' : 'list'))}
+          onClick={(e) => { e.stopPropagation(); setView((prev) => (prev === 'list' ? 'grid' : 'list')); }}
           aria-pressed={gridView}
           aria-label="Cambiar vista lista/cuadrícula"
           title={gridView ? 'Vista cuadrícula' : 'Vista lista'}
