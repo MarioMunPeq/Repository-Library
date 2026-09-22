@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ProjectStorePage — Página de proyecto (ámbito "biblioteca" de Steam)
+   ProjectStorePage — Página de proyecto (ámbito "biblioteca" de Steam)
    ========================================================================== */
 
 .gradient-fallback {
@@ -19,12 +19,12 @@
   flex-direction: column;
 }
 
-/* ---------- Banner (340px, sin botón) ---------- */
+/* ---------- HERO (435px, full width, cinematic banner) ---------- */
 
 .store-banner {
   position: relative;
   width: 100%;
-  height: 340px;
+  height: 435px;
   overflow: hidden;
 }
 
@@ -48,36 +48,40 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  right: 0;
-  padding: 0 28px 28px;
+  padding: 0 35px 35px;
   z-index: 1;
 }
 
-/* ---------- Fila de acción + estadísticas ---------- */
+/* ---------- PLAYBAR (115px, full width, Steam-style action bar) ---------- */
 
 .store-actionbar {
   display: flex;
   align-items: center;
-  gap: 32px;
-  padding: 20px 28px;
+  justify-content: space-between;
+  height: 115px;
   background: #1b2838;
   border-bottom: 1px solid #000000;
+  padding: 0;
 }
 
 .store-play-group {
   display: flex;
+  align-items: center;
   flex-shrink: 0;
+  margin-left: 35px;
 }
 
 .store-play-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 13px 34px;
+  justify-content: center;
+  gap: 10px;
+  width: 225px;
+  height: 62px;
   border-radius: 2px 0 0 2px;
   background: linear-gradient(135deg, #5fd344 0%, #48bf40 100%);
-  color: #0a1a0a;
-  font-size: 15px;
+  color: #ffffff;
+  font-size: 16px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -92,23 +96,24 @@
 
 .store-play-btn:disabled {
   background: #3a4552;
-  color: #626d77;
+  color: #8a9ab3;
   cursor: default;
 }
 
 .store-play-icon {
-  width: 12px;
-  height: 12px;
+  width: 18px;
+  height: 18px;
 }
 
 .store-play-dropdown {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
+  width: 62px;
+  height: 62px;
   border-radius: 0 2px 2px 0;
   background: linear-gradient(135deg, #5fd344 0%, #48bf40 100%);
-  color: #0a1a0a;
+  color: #ffffff;
   border-left: 1px solid rgba(10, 26, 10, 0.3);
   cursor: pointer;
   transition: filter var(--transition-fast);
@@ -120,45 +125,61 @@
 
 .store-play-dropdown:disabled {
   background: #3a4552;
-  color: #626d77;
+  color: #8a9ab3;
   cursor: default;
 }
 
 .store-play-chevron {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
 }
 
 .store-stats {
   display: flex;
   align-items: center;
+  flex: 1;
+  justify-content: center;
   gap: 0;
+  height: 100%;
 }
 
 .store-stat {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 0 24px;
+  justify-content: center;
+  min-width: 170px;
+  height: 100%;
+  padding: 0 20px;
   border-left: 1px solid #2a3f52;
 }
 
 .store-stat:first-child {
   border-left: none;
-  padding-left: 0;
+  padding-left: 20px;
+}
+
+.store-stat-separator {
+  width: 1px;
+  height: 60px;
+  background: #2a3f52;
+  margin: 0 10px;
 }
 
 .store-stat-icon {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   color: #66c0f4;
+  margin-bottom: 6px;
 }
 
 .store-stat-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
 }
 
 .store-stat-label {
@@ -178,9 +199,9 @@
 }
 
 .store-stat-bar {
-  width: 120px;
+  width: 140px;
   height: 4px;
-  margin-top: 4px;
+  margin-top: 6px;
   background: #0e141b;
 }
 
@@ -192,16 +213,16 @@
 .store-icon-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-left: auto;
+  gap: 10px;
+  margin-right: 38px;
 }
 
 .store-icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   border-radius: 2px;
   background: #2a3f5a;
   color: #8f98a0;
@@ -214,31 +235,33 @@
 }
 
 .store-icon-btn-svg {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
 }
 
-/* ---------- Tabs ---------- */
+/* ---------- TABS (80px, full width, Steam client nav style) ---------- */
 
 .store-tabs {
   display: flex;
   align-items: center;
-  padding-left: 28px;
+  height: 80px;
   background: #171a21;
+  border-top: 1px solid #000000;
   border-bottom: 1px solid #000000;
+  padding: 0 0 0 35px;
 }
 
 .store-tab {
   display: flex;
   align-items: center;
-  align-self: stretch;
-  padding: 14px 18px;
+  height: 100%;
+  padding: 0 28px;
   font-size: 13px;
   font-weight: 500;
   color: #8f98a0;
-  text-align: left;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   transition: color var(--transition-fast), border-color var(--transition-fast);
+  background: transparent;
 }
 
 .store-tab:hover {
@@ -251,18 +274,19 @@
   border-bottom-color: #1a9fff;
 }
 
-/* ---------- Recommendation Box ---------- */
+/* ---------- Recommendation Box (105px, full width, Steam-style bar) ---------- */
 
 .store-recommendation {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 16px 20px;
-  margin: 0 28px 20px;
-  background: #2a3f52;
-  border-radius: 2px;
-  flex-wrap: wrap;
+  gap: 24px;
+  height: 105px;
+  margin: 24px 0 0 0;
+  background: #1b2838;
+  border-top: 1px solid #2a3f52;
+  border-bottom: 1px solid #000000;
+  padding: 0 35px;
 }
 
 .store-recommendation-left {
@@ -270,7 +294,6 @@
   flex-direction: column;
   gap: 4px;
   flex: 1;
-  min-width: 280px;
 }
 
 .store-recommendation-time {
@@ -294,7 +317,7 @@
 .store-recommendation-buttons {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex-shrink: 0;
 }
 
@@ -302,26 +325,42 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 14px;
+  gap: 6px;
   font-size: 13px;
   font-weight: 500;
-  color: #c6d4df;
-  background: #171a21;
-  border: 1px solid #2a3f52;
-  border-radius: 100px;
+  color: #66c0f4;
+  background: #4b6174;
+  border: none;
+  border-radius: 2px;
   cursor: pointer;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
   white-space: nowrap;
 }
 
+.store-recommend-btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+.store-recommend-btn-icon svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.store-recommend-btn-text {
+  padding: 0 16px;
+  height: 40px;
+}
+
 .store-recommend-btn:hover {
-  background: #2a3f52;
-  border-color: #66c0f4;
+  background: #5a7a93;
   color: #ffffff;
 }
 
 .store-recommend-btn:active {
-  background: #1b2838;
+  background: #3d4f60;
 }
 
 /* ---------- Activity Input ---------- */
@@ -332,7 +371,6 @@
 
 .store-activity-textarea {
   width: 100%;
-  max-width: 720px;
   padding: 10px;
   font-size: 14px;
   line-height: 1.5;
@@ -353,28 +391,28 @@
   color: #6a7682;
 }
 
-/* ---------- Cuerpo: dos columnas ---------- */
+/* ---------- Content Body: two columns (76/24) ---------- */
 
 .store-body {
-  display: flex;
-  gap: 24px;
-  padding: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 3.2fr) minmax(280px, 1fr);
+  gap: 30px;
+  padding: 0 35px 40px;
+  background: #242830;
 }
 
 .store-main {
-  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
 }
 
 .store-side {
-  flex-shrink: 0;
-  width: 300px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 /* ---------- Columna izquierda ---------- */
@@ -385,14 +423,13 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #66c0f4;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .store-about {
   font-size: 14px;
   line-height: 1.6;
   color: #c6d4df;
-  max-width: 720px;
 }
 
 .store-shots {
@@ -408,8 +445,8 @@
 
 .store-shot {
   position: relative;
-  width: 220px;
-  height: 125px;
+  width: 320px;
+  height: 180px;
   flex-shrink: 0;
   border-radius: 2px;
   overflow: hidden;
@@ -459,14 +496,13 @@
 .store-updates {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  max-width: 720px;
+  gap: 14px;
 }
 
 .store-update {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .store-update-date {
@@ -478,7 +514,7 @@
 }
 
 .store-update-card {
-  padding: 14px;
+  padding: 12px;
   border-radius: 2px;
   background: #1b2838;
 }
@@ -487,7 +523,7 @@
   font-size: 14px;
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .store-update-body {
@@ -499,18 +535,18 @@
 /* ---------- Columna derecha ---------- */
 
 .store-panel {
-  padding: 16px;
+  padding: 14px;
   border-radius: 2px;
   background: #1b2838;
 }
 
 .store-panel-title {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #8f98a0;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .store-friends-title {
@@ -520,14 +556,14 @@
 .store-friends-count {
   font-size: 13px;
   color: #c6d4df;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .store-friends-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 6px;
+  margin-bottom: 12px;
 }
 
 .store-friends-avatar {
@@ -570,13 +606,13 @@
 .store-ach-text {
   font-size: 13px;
   color: #ffffff;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .store-ach-bar {
   width: 100%;
   height: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   background: #0e141b;
 }
 
@@ -589,9 +625,9 @@
 .store-ach-featured {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
-  margin-bottom: 16px;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 14px;
   background: #171a21;
   border-radius: 2px;
 }
@@ -629,24 +665,24 @@
 
 /* Other Unlocked Achievements */
 .store-ach-unlocked-group {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .store-ach-locked-group {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .store-ach-locked-title {
   display: block;
   font-size: 12px;
   color: #8f98a0;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .store-ach-grid-small {
   display: grid;
   grid-template-columns: repeat(6, 32px);
-  gap: 8px;
+  gap: 6px;
 }
 
 .store-ach-cell-small {
@@ -700,29 +736,150 @@
   text-decoration: underline;
 }
 
-/* ---------- Ajustes de ventana estrecha ---------- */
+/* ---------- Responsive adjustments ---------- */
 
-@media (max-width: 1080px) {
+@media (max-width: 1199px) {
   .store-body {
-    flex-direction: column;
+    grid-template-columns: minmax(0, 3.5fr) minmax(260px, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .store-body {
+    grid-template-columns: minmax(0, 3.8fr) minmax(240px, 1fr);
+  }
+}
+
+@media (max-width: 880px) {
+  .store-body {
+    grid-template-columns: 1fr;
   }
 
   .store-side {
-    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .store-panel {
+    flex: 1 1 300px;
   }
 }
 
 @media (max-width: 720px) {
   .store-banner {
-    height: 220px;
+    height: 280px;
   }
 
   .store-actionbar {
+    height: auto;
     flex-wrap: wrap;
+    padding: 16px 20px;
     gap: 16px;
   }
 
+  .store-play-group {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
   .store-stats {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .store-stat {
+    min-width: 140px;
+    padding: 0 15px;
+  }
+
+  .store-icon-actions {
+    margin-right: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .store-tabs {
+    height: auto;
+    padding: 12px 0 12px 20px;
+  }
+
+  .store-tab {
+    padding: 0 20px;
+  }
+
+  .store-recommendation {
+    height: auto;
+    padding: 16px 20px;
     flex-wrap: wrap;
+  }
+
+  .store-body {
+    padding: 0 20px 30px;
+    gap: 24px;
+  }
+
+  .store-main {
+    gap: 20px;
+  }
+
+  .store-side {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .store-panel {
+    flex: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .store-banner {
+    height: 220px;
+  }
+
+  .store-banner-logo {
+    padding: 0 20px 20px;
+  }
+
+  .store-play-btn {
+    width: 180px;
+    height: 52px;
+    font-size: 14px;
+  }
+
+  .store-play-dropdown {
+    width: 52px;
+    height: 52px;
+  }
+
+  .store-stat {
+    min-width: 120px;
+    padding: 0 10px;
+  }
+
+  .store-stat-value {
+    font-size: 13px;
+  }
+
+  .store-stat-bar {
+    width: 100px;
+  }
+
+  .store-tab {
+    padding: 0 16px;
+    font-size: 12px;
+  }
+
+  .store-recommendation {
+    gap: 16px;
+  }
+
+  .store-recommend-btn-text {
+    display: none;
+  }
+
+  .store-body {
+    padding: 0 16px 24px;
   }
 }

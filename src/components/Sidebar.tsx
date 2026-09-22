@@ -19,7 +19,7 @@ type SidebarView = 'list' | 'grid';
 
 const CATEGORY_SECTIONS: CategorySection[] = [
   { key: 'portfolio', label: 'Portfolios' },
-  { key: 'otro', label: 'Otros proyectos' },
+  { key: 'juego', label: 'Juegos' },
 ];
 
 const renderListItems = (
@@ -87,7 +87,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ selectedProject, onSelectProje
   const [view, setView] = useState<SidebarView>('list');
   const [collapsedSections, setCollapsedSections] = useState<Record<ProjectCategory, boolean>>({
     portfolio: false,
-    otro: false,
+    juego: false,
   });
 
   const normalized = query.trim().toLowerCase();

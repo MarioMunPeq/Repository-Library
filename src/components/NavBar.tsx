@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   BellIcon,
-  ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   CloseIcon,
@@ -101,7 +100,6 @@ export const NavBar: React.FC<NavBarProps> = ({
           {initials}
         </span>
         <span className="nav-username">{username}</span>
-        <ChevronDownIcon className="nav-user-caret" />
       </button>
 
       <div className="nav-right">

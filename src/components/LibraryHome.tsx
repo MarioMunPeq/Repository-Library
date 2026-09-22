@@ -1,22 +1,13 @@
 import { useMemo, useState } from 'react';
 import { projects } from '../data/projects.tsx';
-import type { Project, ProjectUpdate } from '../data/projects.tsx';
+import type { Project } from '../data/projects.tsx';
 import { SmartImage } from './SmartImage';
 import {
   ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  GearIcon,
 } from './Icons';
 import './LibraryHome.css';
 
-interface FeedEntry {
-  project: Project;
-  update: ProjectUpdate;
-  daysAgo: number;
-}
-
-const MONTH_ABBREVIATIONS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+type SortOption = 'name' | 'devTime' | 'lastUpdate';
 
 function daysAgo(date: string, now: Date = new Date()): number {
   try {
@@ -41,7 +32,7 @@ function daysAgo(date: string, now: Date = new Date()): number {
     if (absolute) {
       const day = Number(absolute[1]);
       const monthName = absolute[2];
-      const monthIndex = MONTH_ABBREVIATIONS.findIndex(
+      const monthIndex = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'].findIndex(
         (month) => month.startsWith(monthName) || monthName.startsWith(month),
       );
       if (monthIndex >= 0) {
@@ -61,17 +52,6 @@ function daysAgo(date: string, now: Date = new Date()): number {
   }
 }
 
-function getRelativeLabel(days: number): string {
-  if (days === 0) return 'Hoy';
-  if (days === 1) return 'Ayer';
-  if (days < 7) return 'Esta semana';
-  if (days < 30) return `Hace ${days} días`;
-  if (days < 365) return `Hace ${Math.floor(days / 30)} meses`;
-  return `Hace ${Math.floor(days / 365)} años`;
-}
-
-type SortOption = 'name' | 'devTime' | 'lastUpdate';
-
 interface LibraryHomeProps {
   onSelectProject: (project: Project) => void;
 }
@@ -79,27 +59,13 @@ interface LibraryHomeProps {
 export const LibraryHome: React.FC<LibraryHomeProps> = ({ onSelectProject }) => {
   const [sortOption, setSortOption] = useState<SortOption>('name');
 
-  const feed = useMemo((): FeedEntry[] => {
-    const entries: FeedEntry[] = [];
-    for (const project of projects) {
-      if (project.status === 'proximamente') continue;
-      for (const update of project.updates) {
-        const days = daysAgo(update.date);
-        if (days !== Number.MAX_SAFE_INTEGER) {
-          entries.push({ project, update, daysAgo: days });
-        }
-      }
-    }
-    return entries.sort((a, b) => a.daysAgo - b.daysAgo);
-  }, []);
-
   const portfolioProjects = useMemo(
     () => projects.filter((p) => p.category === 'portfolio'),
     [],
   );
 
-  const otherProjects = useMemo(
-    () => projects.filter((p) => p.category === 'otro'),
+  const juegoProjects = useMemo(
+    () => projects.filter((p) => p.category === 'juego'),
     [],
   );
 
@@ -123,83 +89,14 @@ export const LibraryHome: React.FC<LibraryHomeProps> = ({ onSelectProject }) => 
   };
 
   const sortedPortfolio = sortProjects(portfolioProjects, sortOption);
-  const sortedOther = sortProjects(otherProjects, sortOption);
+  const sortedJuegos = sortProjects(juegoProjects, sortOption);
 
   return (
     <main className="library-home" role="main" aria-label="Página principal de la biblioteca">
-      <section className="library-section news-section" aria-labelledby="news-heading">
-        <header className="section-header">
-          <div className="section-title-group">
-            <h2 id="news-heading" className="section-title">Novedades</h2>
-            <button className="section-gear" type="button" aria-label="Ajustes de novedades">
-              <GearIcon className="section-gear-icon" />
-            </button>
-          </div>
-          <div className="section-nav">
-            <button className="nav-arrow left" type="button" aria-label="Anterior">
-              <ChevronLeftIcon className="nav-arrow-icon" />
-            </button>
-            <button className="nav-arrow right" type="button" aria-label="Siguiente">
-              <ChevronRightIcon className="nav-arrow-icon" />
-            </button>
-          </div>
-        </header>
-        <div className="news-carousel" role="list" aria-label="Tarjetas de novedades">
-          {feed.length > 0 ? (
-            feed.map((entry) => {
-              const project = entry.project;
-              if (!project) return null;
-              return (
-                <article
-                  key={`${project.slug}-${entry.update.date}-${entry.update.title}`}
-                  className="news-card"
-                  role="listitem"
-                >
-                  <div
-                    className="news-card-image"
-                    style={{
-                      background: project.fallbackGradient ?? '#1b2838',
-                    }}
-                  >
-                    <SmartImage
-                      basePath={project.heroPath || project.headerPath}
-                      kind={project.heroPath ? 'hero' : 'header'}
-                      className="news-card-img"
-                      alt=""
-                      fallback={<span className="gradient-fallback" />}
-                    />
-                    <span className="news-card-badge">{getRelativeLabel(entry.daysAgo)}</span>
-                  </div>
-                  <div className="news-card-content">
-                    <h3 className="news-card-title">{entry.update.title}</h3>
-                    <div className="news-card-meta">
-                      <span className="news-card-project-icon" style={{ background: project.fallbackGradient ?? '#1b2838' }} aria-hidden="true">
-                        <SmartImage
-                          basePath={project.iconPath}
-                          kind="icon"
-                          className="news-project-img"
-                          alt=""
-                          fallback={<span className="gradient-fallback" />}
-                        />
-                      </span>
-                      <span className="news-card-project-name">{project.name}</span>
-                    </div>
-                  </div>
-                </article>
-              );
-            })
-          ) : (
-            <div className="news-empty" role="status">
-              <p>No hay novedades recientes</p>
-            </div>
-          )}
-        </div>
-      </section>
-
       <section className="library-section projects-section" aria-labelledby="portfolio-heading">
         <header className="section-header">
           <div className="section-title-group">
-            <h2 id="portfolio-heading" className="section-title-secondary">Mis Proyectos ({portfolioProjects.length})</h2>
+            <h2 id="portfolio-heading" className="section-title-secondary">Portfolios ({portfolioProjects.length})</h2>
             <button className="section-chevron" type="button" aria-label="Expandir sección">
               <ChevronDownIcon className="section-chevron-icon" />
             </button>
@@ -256,17 +153,17 @@ export const LibraryHome: React.FC<LibraryHomeProps> = ({ onSelectProject }) => 
         </div>
       </section>
 
-      <section className="library-section projects-section" aria-labelledby="other-heading">
+      <section className="library-section projects-section" aria-labelledby="juegos-heading">
         <header className="section-header">
           <div className="section-title-group">
-            <h2 id="other-heading" className="section-title-secondary">Otros Proyectos ({otherProjects.length})</h2>
+            <h2 id="juegos-heading" className="section-title-secondary">Juegos ({juegoProjects.length})</h2>
             <button className="section-chevron" type="button" aria-label="Expandir sección">
               <ChevronDownIcon className="section-chevron-icon" />
             </button>
           </div>
         </header>
-        <div className="projects-grid" role="list" aria-label="Otros proyectos">
-          {sortedOther.map((project) => {
+        <div className="projects-grid" role="list" aria-label="Juegos">
+          {sortedJuegos.map((project) => {
             if (!project) return null;
             return (
               <button

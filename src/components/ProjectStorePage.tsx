@@ -59,12 +59,12 @@ const EmptyState: React.FC = () => (
 );
 
 export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) => {
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [viewerIndex, setViewerIndex] = useState(0);
+
   if (!project) {
     return <EmptyState />;
   }
-
-  const [viewerOpen, setViewerOpen] = useState(false);
-  const [viewerIndex, setViewerIndex] = useState(0);
 
   const achievementsPercent =
     project.totalTech === 0 ? 0 : Math.round((project.unlockedTech / project.totalTech) * 100);
@@ -134,6 +134,7 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
                 <span className="store-stat-value">{project.devTime}</span>
               </div>
             </div>
+            <div className="store-stat-separator" aria-hidden="true" />
             <div className="store-stat">
               <CalendarIcon className="store-stat-icon" />
               <div className="store-stat-info">
@@ -141,6 +142,7 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
                 <span className="store-stat-value">{project.lastUpdate}</span>
               </div>
             </div>
+            <div className="store-stat-separator" aria-hidden="true" />
             <div className="store-stat">
               <TrophyIcon className="store-stat-icon" />
               <div className="store-stat-info">
@@ -182,13 +184,34 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
 
         <section className="store-recommendation" aria-label="Recomendación">
           <div className="store-recommendation-left">
-            <span className="store-recommendation-time">Has invertido {project.devTime} en este proyecto</span>
-            <span className="store-recommendation-question">¿Recomendarías este proyecto a otros desarrolladores?</span>
+            <span className="store-recommendation-time">has jugado durante {project.devTime} horas</span>
+            <span className="store-recommendation-question">
+              {project.recommendation === 'juego'
+                ? 'Juego'
+                : '¿Recomendarías este proyecto a otros desarrolladores?'}
+            </span>
           </div>
           <div className="store-recommendation-buttons">
-            <button className="store-recommend-btn" type="button">👍 Sí</button>
-            <button className="store-recommend-btn" type="button">👎 No</button>
-            <button className="store-recommend-btn" type="button">Quizás más tarde</button>
+            {project.recommendation === 'juego' ? (
+              <>
+                <button className="store-recommend-btn" type="button">Sí</button>
+                <button className="store-recommend-btn" type="button">No</button>
+              </>
+            ) : (
+              <>
+                <button className="store-recommend-btn store-recommend-btn-icon" type="button" aria-label="Sí, lo recomiendo">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#66C1F5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"/>
+                  </svg>
+                </button>
+                <button className="store-recommend-btn store-recommend-btn-icon" type="button" aria-label="No, no lo recomiendo">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#66C1F5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v1.91l.01.01L1 14c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.58-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
+                  </svg>
+                </button>
+                <button className="store-recommend-btn store-recommend-btn-text" type="button">Quizás más tarde</button>
+              </>
+            )}
           </div>
         </section>
 

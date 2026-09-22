@@ -2,7 +2,9 @@ export const username = 'MarioMunPeq';
 
 export type CloudStatus = 'ok' | 'syncing';
 
-export type ProjectCategory = 'portfolio' | 'otro';
+export type ProjectCategory = 'portfolio' | 'juego';
+
+export type ProjectRecommendation = 'desarrolladores' | 'juego';
 
 export type ProjectStatus = 'completado' | 'en desarrollo' | 'proximamente';
 
@@ -38,6 +40,7 @@ export interface Project {
   slug: string;
   name: string;
   category: ProjectCategory;
+  recommendation: ProjectRecommendation;
   githubUrl: string | null;
   status: ProjectStatus;
   /** Rutas derivadas del slug SIN extensión (assets de Steam, todos opcionales).
@@ -81,6 +84,7 @@ type ProjectInput = Omit<Project, 'iconPath' | 'capsulePath' | 'headerPath' | 'h
  */
 const defineProject = (input: ProjectInput): Project => ({
   ...input,
+  recommendation: input.recommendation ?? 'desarrolladores',
   iconPath: `/projects/${input.slug}/icon`,
   capsulePath: `/projects/${input.slug}/capsule`,
   headerPath: `/projects/${input.slug}/header`,
@@ -101,6 +105,7 @@ export const projects: Project[] = [
     slug: 'persona5',
     name: 'Persona 5 Royal',
     category: 'portfolio',
+    recommendation: 'desarrolladores',
     githubUrl: 'http://mariomunpeq.is-a.dev/',
     status: 'completado',
     screenshots: ['1', '2', '3', '4', '5', '6'],
@@ -122,6 +127,7 @@ export const projects: Project[] = [
     slug: 'vault-archive',
     name: 'Fallout: New Vegas',
     category: 'portfolio',
+    recommendation: 'desarrolladores',
     githubUrl: 'https://mariomunpeq.github.io/Vault-Archive/',
     status: 'en desarrollo',
     screenshots: [],
@@ -143,6 +149,7 @@ export const projects: Project[] = [
     slug: 'minecraft',
     name: 'Minecraft Portfolio',
     category: 'portfolio',
+    recommendation: 'desarrolladores',
     githubUrl: null,
     status: 'proximamente',
     screenshots: [],
@@ -163,7 +170,8 @@ export const projects: Project[] = [
   defineProject({
     slug: 'news-tower',
     name: 'News Tower',
-    category: 'otro',
+    category: 'juego',
+    recommendation: 'desarrolladores',
     githubUrl: 'https://mariomunpeq.github.io/News-Tower/',
     status: 'completado',
     screenshots: ['1'],
@@ -184,7 +192,8 @@ export const projects: Project[] = [
   defineProject({
     slug: 'baldurs-gate-3',
     name: 'Baldur\'s Gate 3',
-    category: 'otro',
+    category: 'juego',
+    recommendation: 'desarrolladores',
     githubUrl: 'https://mariomunpeq.github.io/Baldurs-Gate-3/',
     status: 'completado',
     screenshots: ['1', '2', '3', '4', '5'],
@@ -192,6 +201,28 @@ export const projects: Project[] = [
     description:
       'Portfolio temático inspirado en Baldur\'s Gate 3: compendio interactivo, gestión de personaje, diario de aventura y mecánicas de D&D 5e adaptadas a la web como PWA.',
     tags: ['Portfolio', 'React', 'TypeScript', 'D&D 5e'],
+    devTime: '—',
+    lastUpdate: '—',
+    unlockedTech: 0,
+    totalTech: 0,
+    technologies: [],
+    collaborators: [],
+    updates: [],
+    stats: defaultStats(),
+    activity: [],
+  }),
+  defineProject({
+    slug: 'league-of-legends-helper',
+    name: 'League of Legends Helper',
+    category: 'juego',
+    recommendation: 'juego',
+    githubUrl: 'https://github.com/MarioMunPeq/RecomendadorDeCampeones',
+    status: 'completado',
+    screenshots: [],
+    fallbackGradient: 'linear-gradient(90deg, #0a1a0a 0%, #1a3a1a 55%, #2a5a2a 100%)',
+    description:
+      'Herramienta interactiva para League of Legends que recomienda campeones según tu estilo de juego, composición de equipo y meta actual. Incluye contadores, builds óptimas y estadísticas de winrate.',
+    tags: ['League of Legends', 'React', 'TypeScript', 'Juego'],
     devTime: '—',
     lastUpdate: '—',
     unlockedTech: 0,

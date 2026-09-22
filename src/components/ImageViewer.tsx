@@ -27,7 +27,6 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
   const [loadedAttempt, setLoadedAttempt] = useState(-1);
   const viewerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-  const previousActiveElement = useRef<HTMLElement | null>(null);
 
   const goPrevious = useCallback(() => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));

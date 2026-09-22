@@ -260,8 +260,8 @@ export const StorePage: React.FC<StorePageProps> = ({ onOpenProject }) => {
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
               </span>
-              <h3 className="store-category-name">Otros Proyectos</h3>
-              <span className="store-category-count">{projects.filter(p => p.category === 'otro').length} proyectos</span>
+              <h3 className="store-category-name">Juegos</h3>
+              <span className="store-category-count">{projects.filter(p => p.category === 'juego').length} proyectos</span>
             </div>
           </article>
         </div>
