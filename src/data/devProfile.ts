@@ -6,7 +6,7 @@ export interface DevBadge {
 }
 
 export interface DevProfile {
-  avatar: string;
+  avatarBasePath: string;
   username: string;
   realName: string;
   location: string;
@@ -30,7 +30,7 @@ export interface DevProfile {
 }
 
 export const devProfile: DevProfile = {
-  avatar: `${import.meta.env.BASE_URL}logo/logo.svg`,
+  avatarBasePath: '/profile/avatar',
   username: 'MarioMunPeq',
   realName: 'Mario Muñoz Pequeño',
   location: 'Valladolid, España',

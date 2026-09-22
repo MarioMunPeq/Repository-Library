@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { currentUser as defaultCurrentUser, friends as defaultFriends } from '../data/friends';
+import { devProfile } from '../data/devProfile';
 import type { CurrentUser, Friend, FriendStatus } from '../data/friends';
 import { SmartImage } from './SmartImage';
 import {
@@ -137,14 +138,15 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
           style={{ width: 32, height: 32 }}
           aria-hidden="true"
         >
-          {friend.avatarInitial}
-          {friend.slug && (
+          {friend.slug ? (
             <SmartImage
               basePath={`/friends/${friend.slug}/avatar`}
               kind="avatar"
               className="fp-avatar-img"
               alt=""
             />
+          ) : (
+            friend.avatarInitial
           )}
         </span>
         <span className="fp-row-info">
@@ -188,7 +190,12 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
             style={{ width: 44, height: 44 }}
             aria-hidden="true"
           >
-            {currentUser.avatarInitial}
+            <SmartImage
+              basePath={devProfile.avatarBasePath}
+              kind="avatar"
+              className="fp-avatar-img"
+              alt=""
+            />
           </span>
           <div className="fp-header-user">
             <span className="fp-header-name">
@@ -219,14 +226,15 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
                   style={{ background: avatarColor(friend.name) }}
                   aria-hidden="true"
                 >
-                  {friend.avatarInitial}
-                  {friend.slug && (
+                  {friend.slug ? (
                     <SmartImage
                       basePath={`/friends/${friend.slug}/avatar`}
                       kind="avatar"
                       className="fp-fav-avatar-img"
                       alt=""
                     />
+                  ) : (
+                    friend.avatarInitial
                   )}
                 </span>
                 <span

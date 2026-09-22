@@ -27,20 +27,25 @@ export const ProfilePage: React.FC = () => {
     { label: 'Logros', value: String(favAchievements.unlocked), icon: TrophyIcon },
   ];
 
-  const statRows = [
-    { label: 'Proyectos', value: String(projects.length) },
-    { label: 'Capturas', value: String(totalScreenshots) },
-    { label: 'Vídeos', value: String(devProfile.stats.videos) },
-    { label: 'Artículos', value: String(devProfile.stats.articles) },
-  ];
-
   return (
     <main className="profile-page" role="main" aria-label={`Perfil de ${devProfile.username}`}>
       <header className="profile-header">
         <div className="profile-header-left">
           <div className="profile-avatar-wrap">
             <div className="profile-avatar-inner">
-              <img className="profile-avatar-img" src={devProfile.avatar} alt={`Avatar de ${devProfile.username}`} />
+              <SmartImage
+                basePath={devProfile.avatarBasePath}
+                kind="avatar"
+                className="profile-avatar-img"
+                alt={`Avatar de ${devProfile.username}`}
+                fallback={
+                  <img
+                    src={`${import.meta.env.BASE_URL}logo/logo.svg`}
+                    alt={`Avatar de ${devProfile.username}`}
+                    className="profile-avatar-img"
+                  />
+                }
+              />
             </div>
           </div>
 
@@ -100,146 +105,108 @@ export const ProfilePage: React.FC = () => {
       </header>
 
       <div className="profile-body">
-        <div className="profile-main">
-          <section className="profile-panel">
-            <h2 className="profile-panel-title">Proyecto favorito</h2>
-            <div className="profile-fav-row">
-              <span className="profile-fav-thumb" style={{ background: favorite.fallbackGradient }} aria-hidden="true">
+        <section className="profile-panel">
+          <h2 className="profile-panel-title">Proyecto favorito</h2>
+          <div className="profile-fav-row">
+            <span className="profile-fav-thumb" style={{ background: favorite.fallbackGradient }} aria-hidden="true">
+              <SmartImage
+                basePath={favorite.headerPath}
+                kind="header"
+                className="profile-fav-thumb-img"
+                alt=""
+                fallback={<span className="gradient-fallback" />}
+              />
+            </span>
+            <span className="profile-fav-name">{favorite.name}</span>
+          </div>
+
+          <div className="profile-fav-stats" role="list" aria-label="Estadísticas del proyecto favorito">
+            {favStats.map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <div key={stat.label} className="profile-fav-stat" role="listitem">
+                  <div className="profile-fav-stat-head">
+                    <Icon className="profile-fav-stat-icon" />
+                    <span className="profile-fav-stat-label">{stat.label}</span>
+                  </div>
+                  <span className="profile-fav-stat-value">{stat.value}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="profile-ach-block">
+            <div className="profile-ach-head">
+              <span className="profile-ach-text">
+                {favAchievements.unlocked} de {favAchievements.total}
+              </span>
+              <div className="profile-ach-bar" aria-hidden="true">
+                <div className="profile-ach-bar-fill" style={{ width: `${achievementsPercent}%` }} />
+              </div>
+            </div>
+            <div className="profile-ach-badges">
+              {favorite.technologies.slice(0, shownCells).map((tech) => (
+                <span key={tech} className="profile-ach-badge" title={tech} aria-hidden="true">
+                  <CodeIcon className="profile-ach-badge-icon" />
+                </span>
+              ))}
+              {overflowTech > 0 && (
+                <span className="profile-ach-badge more" title={`${overflowTech} más`} aria-hidden="true">
+                  +{overflowTech}
+                </span>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section className="profile-panel">
+          <h2 className="profile-panel-title">Expositor de capturas</h2>
+          <div className="profile-shots">
+            <span
+              className={`profile-shot-big ${stackedShots.length === 0 ? 'only' : ''}`}
+              style={{ background: favorite.fallbackGradient }}
+              title={bigShot ?? 'Sin capturas'}
+              aria-hidden="true"
+            >
+              {bigShot && (
                 <SmartImage
-                  basePath={favorite.headerPath}
-                  kind="header"
-                  className="profile-fav-thumb-img"
+                  basePath={`/projects/${favorite.slug}/screenshots/${bigShot}`}
+                  kind="screenshots"
+                  className="profile-shot-img"
                   alt=""
                   fallback={<span className="gradient-fallback" />}
                 />
-              </span>
-              <span className="profile-fav-name">{favorite.name}</span>
-            </div>
-
-            <div className="profile-fav-stats" role="list" aria-label="Estadísticas del proyecto favorito">
-              {favStats.map((stat) => {
-                const Icon = stat.icon;
-                return (
-                  <div key={stat.label} className="profile-fav-stat" role="listitem">
-                    <div className="profile-fav-stat-head">
-                      <Icon className="profile-fav-stat-icon" />
-                      <span className="profile-fav-stat-label">{stat.label}</span>
-                    </div>
-                    <span className="profile-fav-stat-value">{stat.value}</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="profile-ach-block">
-              <div className="profile-ach-head">
-                <span className="profile-ach-text">
-                  {favAchievements.unlocked} de {favAchievements.total}
-                </span>
-                <div className="profile-ach-bar" aria-hidden="true">
-                  <div className="profile-ach-bar-fill" style={{ width: `${achievementsPercent}%` }} />
-                </div>
-              </div>
-              <div className="profile-ach-badges">
-                {favorite.technologies.slice(0, shownCells).map((tech) => (
-                  <span key={tech} className="profile-ach-badge" title={tech} aria-hidden="true">
-                    <CodeIcon className="profile-ach-badge-icon" />
-                  </span>
-                ))}
-                {overflowTech > 0 && (
-                  <span className="profile-ach-badge more" title={`${overflowTech} más`} aria-hidden="true">
-                    +{overflowTech}
-                  </span>
-                )}
-              </div>
-            </div>
-          </section>
-
-          <section className="profile-panel">
-            <h2 className="profile-panel-title">Expositor de capturas</h2>
-            <div className="profile-shots">
-              <span
-                className={`profile-shot-big ${stackedShots.length === 0 ? 'only' : ''}`}
-                style={{ background: favorite.fallbackGradient }}
-                title={bigShot ?? 'Sin capturas'}
-                aria-hidden="true"
-              >
-                {bigShot && (
-                  <SmartImage
-                    basePath={`/projects/${favorite.slug}/screenshots/${bigShot}`}
-                    kind="screenshots"
-                    className="profile-shot-img"
-                    alt=""
-                    fallback={<span className="gradient-fallback" />}
-                  />
-                )}
-              </span>
-              {stackedShots.length > 0 && (
-                <div className="profile-shot-stack">
-                  {stackedShots.map((file, index) => {
-                    const isLast = index === stackedShots.length - 1;
-                    return (
-                      <span
-                        key={file}
-                        className="profile-shot-small"
-                        style={{ background: favorite.fallbackGradient }}
-                        title={file}
-                        aria-hidden="true"
-                      >
-                        <SmartImage
-                          basePath={`/projects/${favorite.slug}/screenshots/${file}`}
-                          kind="screenshots"
-                          className="profile-shot-img"
-                          alt=""
-                          fallback={<span className="gradient-fallback" />}
-                        />
-                        {isLast && remainingShots > 0 && (
-                          <span className="profile-shot-overlay">+{remainingShots}</span>
-                        )}
-                      </span>
-                    );
-                  })}
-                </div>
               )}
-            </div>
-          </section>
-        </div>
-
-        <aside className="profile-side">
-          <section className="profile-panel profile-status-panel">
-            <span className="profile-status-label">Última actividad</span>
-            <span className="profile-status-value">{devProfile.lastActivity}</span>
-          </section>
-
-          <section className="profile-panel">
-            <h2 className="profile-panel-title">Insignias</h2>
-            <div className="profile-badges-grid">
-              {devProfile.badges.map((badge) => (
-                <span
-                  key={badge.id}
-                  className="profile-badge"
-                  style={{ background: badge.color }}
-                  title={badge.label}
-                  aria-hidden="true"
-                >
-                  {badge.short}
-                </span>
-              ))}
-            </div>
-          </section>
-
-          <section className="profile-panel">
-            <h2 className="profile-panel-title">Estadísticas</h2>
-            <ul className="profile-stats-list">
-              {statRows.map((row) => (
-                <li key={row.label} className="profile-stat-row">
-                  <span className="profile-stat-label">{row.label}</span>
-                  <span className="profile-stat-value">{row.value}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </aside>
+            </span>
+            {stackedShots.length > 0 && (
+              <div className="profile-shot-stack">
+                {stackedShots.map((file, index) => {
+                  const isLast = index === stackedShots.length - 1;
+                  return (
+                    <span
+                      key={file}
+                      className="profile-shot-small"
+                      style={{ background: favorite.fallbackGradient }}
+                      title={file}
+                      aria-hidden="true"
+                    >
+                      <SmartImage
+                        basePath={`/projects/${favorite.slug}/screenshots/${file}`}
+                        kind="screenshots"
+                        className="profile-shot-img"
+                        alt=""
+                        fallback={<span className="gradient-fallback" />}
+                      />
+                      {isLast && remainingShots > 0 && (
+                        <span className="profile-shot-overlay">+{remainingShots}</span>
+                      )}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </section>
       </div>
     </main>
   );

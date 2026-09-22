@@ -1,6 +1,7 @@
 import { friends as allFriends } from '../data/friends';
 import type { Friend } from '../data/friends';
 import type { Project } from '../data/projects.tsx';
+import { useState } from 'react';
 import { ProjectLogo } from './ProjectLogo';
 import { SmartImage } from './SmartImage';
 import {
@@ -16,6 +17,7 @@ import {
   PlayIcon,
   TrophyIcon,
 } from './Icons';
+import { ImageViewer } from './ImageViewer';
 import './ProjectStorePage.css';
 
 interface ProjectStorePageProps {
@@ -60,6 +62,9 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
   if (!project) {
     return <EmptyState />;
   }
+
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [viewerIndex, setViewerIndex] = useState(0);
 
   const achievementsPercent =
     project.totalTech === 0 ? 0 : Math.round((project.unlockedTech / project.totalTech) * 100);
@@ -202,21 +207,25 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
                 </button>
                 <div className="store-shots-strip">
                   {shotFiles.map((file, index) => (
-                    <span
+                    <button
                       key={file ?? `placeholder-${index}`}
                       className="store-shot"
                       style={{ background: project.fallbackGradient }}
+                      onClick={() => file && (setViewerIndex(index), setViewerOpen(true))}
+                      aria-label={file ? `Ver captura ${index + 1} de ${project.screenshots.length}` : ''}
+                      type="button"
+                      disabled={!file}
                     >
                       {file && (
                         <SmartImage
                           basePath={`/projects/${project.slug}/screenshots/${file}`}
                           kind="screenshots"
                           className="store-shot-img"
-                          alt=""
+                          alt={`Captura ${index + 1}`}
                           fallback={<span className="gradient-fallback" />}
                         />
                       )}
-                    </span>
+                    </button>
                   ))}
                 </div>
                 <button className="store-shot-arrow right" type="button" aria-label="Siguiente">
@@ -369,6 +378,16 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
           </aside>
         </div>
       </div>
+
+      <ImageViewer
+        isOpen={viewerOpen}
+        onClose={() => setViewerOpen(false)}
+        images={project.screenshots}
+        initialIndex={viewerIndex}
+        projectSlug={project.slug}
+        projectFallbackGradient={project.fallbackGradient}
+        altTexts={project.screenshots.map((_, i) => `Captura ${i + 1} de ${project.screenshots.length} - ${project.name}`)}
+      />
     </main>
   );
 };
