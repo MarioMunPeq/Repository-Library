@@ -608,6 +608,7 @@
 }
 
 .sidebar-item-icon {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -900,6 +901,7 @@
 }
 
 .add-modal-item-icon {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1238,6 +1240,7 @@
 }
 
 .screenshot-thumb {
+  position: relative;
   width: 320px;
   aspect-ratio: 16 / 9;
   flex-shrink: 0;

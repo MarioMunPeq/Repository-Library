@@ -23,8 +23,9 @@ function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isProfile = location.pathname === '/perfil';
-  const isStore = location.pathname === '/tienda';
+  const hashPath = location.hash.startsWith('#') ? location.hash.slice(1) : location.hash;
+  const isProfile = hashPath === '/perfil';
+  const isStore = hashPath === '/tienda';
   const activeSection: SectionId = isProfile ? 'profile' : isStore ? 'store' : librarySection;
 
   const handleSelectSection = (section: SectionId) => {

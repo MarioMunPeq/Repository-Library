@@ -10,7 +10,6 @@
 
 .store-page {
   width: 100%;
-  min-height: 100%;
   background: #242830;
   contain: layout style;
 }
