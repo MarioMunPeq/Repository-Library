@@ -29,6 +29,14 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
   const imgRef = useRef<HTMLImageElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
+  const goPrevious = useCallback(() => {
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  }, [images.length]);
+
+  const goNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  }, [images.length]);
+
   // Reset attempt when image changes
   useEffect(() => {
     setAttempt(0);
@@ -70,7 +78,7 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose, goPrevious, goNext]);
+  }, [isOpen, onClose, goPrevious, goNext, images.length]);
 
   if (!isOpen || images.length === 0) return null;
 
