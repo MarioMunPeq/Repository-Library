@@ -1,13 +1,29 @@
 import { useState, useEffect } from 'react';
-import { SteamLogo, SearchIcon, MenuIcon, LibraryIcon, StoreIcon, ProfileIcon, CloseIcon, MinimizeIcon, MaximizeIcon } from './Icons';
+import { SteamLogo, MenuIcon, BellIcon, FriendsIcon, ChevronDownIcon, CloseIcon, MinimizeIcon, MaximizeIcon } from './Icons';
+
+type SectionId = 'store' | 'library' | 'community' | 'profile';
 
 interface TopBarProps {
+  username: string;
+  activeSection: SectionId;
   onMenuClick: () => void;
   isSidebarOpen: boolean;
+  onSelectSection?: (section: SectionId) => void;
 }
 
-export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, isSidebarOpen }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+const NAV_LABELS: { id: SectionId; label: string }[] = [
+  { id: 'store', label: 'TIENDA' },
+  { id: 'library', label: 'BIBLIOTECA' },
+  { id: 'community', label: 'COMUNIDAD' },
+];
+
+export const TopBar: React.FC<TopBarProps> = ({
+  username,
+  activeSection,
+  onMenuClick,
+  isSidebarOpen,
+  onSelectSection,
+}) => {
   const [customLogo, setCustomLogo] = useState<string | null>(null);
 
   useEffect(() => {
@@ -18,23 +34,13 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, isSidebarOpen }) =>
           setCustomLogo('/logo/logo.svg');
         }
       } catch {
-        // Logo not found, use default
+        // Logo not found, keep the default Steam mark
       }
     };
     checkLogo();
   }, []);
 
-  const navItems = [
-    { id: 'store', label: 'TIENDA', icon: StoreIcon, active: false },
-    { id: 'library', label: 'BIBLIOTECA', icon: LibraryIcon, active: true },
-    { id: 'profile', label: 'PERFIL', icon: ProfileIcon, active: false },
-  ];
-
-  const LogoComponent = customLogo ? (
-    <img src={customLogo} alt="Logo" className="custom-logo" />
-  ) : (
-    <SteamLogo className="steam-logo" />
-  );
+  const initials = username.slice(0, 2).toUpperCase();
 
   return (
     <header className="top-bar">
@@ -42,35 +48,48 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, isSidebarOpen }) =>
         <button className="menu-toggle" onClick={onMenuClick} aria-label={isSidebarOpen ? 'Cerrar menú' : 'Abrir menú'}>
           <MenuIcon className="menu-icon" />
         </button>
-        {LogoComponent}
-        <span className="app-title">PORTFOLIO LIBRARY</span>
+
+        <div className="top-bar-brand">
+          {customLogo ? (
+            <img src={customLogo} alt={`${username} — Portfolio Library`} className="custom-logo" />
+          ) : (
+            <SteamLogo className="steam-logo" />
+          )}
+          <span className="brand-name">PORTFOLIO</span>
+        </div>
+
+        <nav className="top-bar-nav" role="navigation" aria-label="Navegación principal">
+          {NAV_LABELS.map((item) => (
+            <button
+              key={item.id}
+              className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
+              onClick={() => onSelectSection?.(item.id)}
+              aria-current={activeSection === item.id ? 'page' : undefined}
+            >
+              {item.label}
+            </button>
+          ))}
+          <button
+            className={`nav-item nav-user ${activeSection === 'profile' ? 'active' : ''}`}
+            onClick={() => onSelectSection?.('profile')}
+            aria-current={activeSection === 'profile' ? 'page' : undefined}
+          >
+            <span className="nav-avatar" aria-hidden="true">{initials}</span>
+            <span className="nav-username">{username}</span>
+            <ChevronDownIcon className="nav-chevron" />
+          </button>
+        </nav>
       </div>
 
-      <nav className="top-bar-nav" role="navigation" aria-label="Navegación principal">
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            className={`nav-item ${item.active ? 'active' : ''}`}
-            disabled={item.id !== 'library'}
-            aria-current={item.active ? 'page' : undefined}
-          >
-            <item.icon className="nav-icon" />
-            <span>{item.label}</span>
-          </button>
-        ))}
-      </nav>
-
       <div className="top-bar-right">
-        <div className="search-container">
-          <SearchIcon className="search-icon" />
-          <input
-            type="search"
-            placeholder="Buscar en la biblioteca..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-input"
-            aria-label="Buscar proyectos"
-          />
+        <div className="top-bar-actions">
+          <button className="icon-button" aria-label="Amigos">
+            <FriendsIcon className="icon-button-svg" />
+          </button>
+          <button className="icon-button" aria-label="Notificaciones">
+            <BellIcon className="icon-button-svg" />
+            <span className="notification-dot" aria-hidden="true" />
+          </button>
         </div>
 
         <div className="window-controls">

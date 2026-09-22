@@ -1,58 +1,72 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { projects, username } from './data/projects.tsx';
 import type { Project } from './data/projects.tsx';
-import { TopBar } from './components/TopBar';
+import { MenuBar } from './components/MenuBar';
+import { NavBar } from './components/NavBar';
+import type { SectionId } from './components/NavBar';
 import { Sidebar } from './components/Sidebar';
-import { MainPanel } from './components/MainPanel';
+import { ProjectStorePage } from './components/ProjectStorePage';
+import { ProfilePage } from './components/ProfilePage';
+import { Footer } from './components/Footer';
+import { FriendsPanel } from './components/FriendsPanel';
 import './App.css';
 
-function App() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth < 1024;
+function AppContent() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(projects[0] ?? null);
+  const [librarySection, setLibrarySection] = useState<SectionId>('library');
+  const [friendsOpen, setFriendsOpen] = useState(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isProfile = location.pathname === '/perfil';
+  const activeSection = isProfile ? 'profile' : librarySection;
+
+  const handleSelectSection = (section: SectionId) => {
+    if (section === 'profile') {
+      navigate('/perfil');
+    } else {
+      setLibrarySection(section);
+      navigate('/');
     }
-    return false;
-  });
-
-  const handleResize = () => {
-    const mobile = window.innerWidth < 1024;
-    setIsMobile(mobile);
-    if (!mobile) setIsSidebarOpen(false);
   };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
-  const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
     <div className="app">
-      <TopBar onMenuClick={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+      <MenuBar />
 
-      <div className="app-layout">
-        <Sidebar
-          selectedProject={selectedProject}
-          onSelectProject={(project) => {
-            setSelectedProject(project);
-            if (isMobile) closeSidebar();
-          }}
-          isOpen={!isMobile || isSidebarOpen}
-          onClose={closeSidebar}
-        />
+      <NavBar
+        username={username}
+        activeSection={activeSection}
+        onSelectSection={handleSelectSection}
+      />
 
-        <div className="main-wrapper">
-          <MainPanel project={selectedProject} />
+      <div className="app-body">
+        {!isProfile && (
+          <Sidebar selectedProject={selectedProject} onSelectProject={setSelectedProject} />
+        )}
+        <div className="main-content">
+          <Routes>
+            <Route path="/perfil" element={<ProfilePage />} />
+            <Route path="/" element={<ProjectStorePage project={selectedProject} />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </div>
       </div>
 
-      {isMobile && isSidebarOpen && (
-        <div className="sidebar-overlay" onClick={closeSidebar} aria-hidden="true" />
-      )}
+      <Footer friendsOpen={friendsOpen} onToggleFriends={() => setFriendsOpen((v) => !v)} />
+
+      <FriendsPanel open={friendsOpen} onOpenChange={setFriendsOpen} />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <HashRouter>
+      <AppContent />
+    </HashRouter>
   );
 }
 

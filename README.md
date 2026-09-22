@@ -1,17 +1,20 @@
 # Portfolio Library
 
-Un hub tipo "Steam Library" que reúne y da acceso a varios portfolios personales temáticos de videojuegos.
+Un hub tipo "Steam client" que reúne y da acceso a varios portfolios personales temáticos de videojuegos. Replica la distribución del cliente de escritorio de Steam, no la web.
 
 ## Características
 
-- **Sidebar izquierda ("BIBLIOTECA")** con lista de proyectos, iconos, nombres e indicadores de estado
-- **Panel principal estilo Steam Store** con banner, descripción, tecnologías y botón de acceso
-- **Barra superior estilo Steam** con logo, navegación y buscador
-- **Estética 100% Steam**: fondo azul oscuro, acentos azul claro y verde, tipografía sans-serif
-- **Datos tipados** en archivo separado, fácil de ampliar
+- **Shell calcado del cliente de escritorio de Steam** con medidas exactas:
+  - Barra de menú superior (26px): Steam ▾ / Ver / Amigos ▾ / Productos ▾ / Ayuda ▾
+  - Barra de navegación principal (50px): flechas atrás/adelante, tabs TIENDA / BIBLIOTECA (activo con borde inferior azul) / COMUNIDAD, avatar + usuario, iconos de amigos/notificaciones/pantalla y controles de ventana (46×50 hover `#2a3f52`, cerrar rojo `#e81123`)
+  - Sidebar izquierda (340px fija): "Página principal", "Mis Proyectos", buscador con lupa y filtro, lista plana de proyectos (icono 24px + nombre, seleccionado `#3E4F69`), y fila "Herramientas"
+  - Área de contenido principal (flexible, `#242830`, scrollable)
+  - Barra inferior (40px): "Añadir un producto", estado de descargas y botón "Amigos y chat" que abre el panel de amigos como overlay
+- **Componente `<ProjectStorePage />`** montado en el área de contenido (banner + JUGAR + stats + tabs + capturas + actividad) — construido por separado
+- **`<FriendsPanel />`** como overlay fijo en la esquina inferior derecha, abierto/cerrado desde el footer
+- **Tipografía**: "Motiva Sans" con fallback a Arial — todo texto de interfaz sans-serif
+- **Datos tipados** en `src/data/projects.tsx`, fácil de ampliar
 - **Iconografía SVG inline** sin librerías externas
-- **Responsive**: sidebar colapsable en móvil
-- **Despliegue**: GitHub Pages vía GitHub Actions
 
 ## Stack
 
@@ -25,23 +28,27 @@ Un hub tipo "Steam Library" que reúne y da acceso a varios portfolios personale
 ```
 src/
 ├── components/
-│   ├── Icons.tsx        # Iconos SVG inline
-│   ├── MainPanel.tsx    # Panel principal (página de tienda)
-│   ├── Sidebar.tsx      # Sidebar izquierda (Biblioteca)
-│   └── TopBar.tsx       # Barra superior estilo Steam
+│   ├── ActivityFeed.tsx      # Sección "Actividad"
+│   ├── Footer.tsx            # Barra inferior / footer (40px)
+│   ├── FriendsPanel.tsx      # Panel de amigos (overlay, WIP)
+│   ├── Icons.tsx             # Iconos SVG inline
+│   ├── MenuBar.tsx           # Barra de menú superior (26px)
+│   ├── NavBar.tsx            # Barra de navegación principal (50px)
+│   ├── ProjectHeader.tsx     # Banner grande + título + botón JUGAR
+│   ├── ProjectStats.tsx      # Fila de stats (cloud, sesión, tiempo, logros)
+│   ├── ProjectStorePage.tsx  # Contenido del área principal (store page)
+│   ├── ProjectTabs.tsx       # Pestañas de la store page
+│   ├── ScreenshotsRow.tsx    # Capturas scrolleables
+│   └── Sidebar.tsx           # Sidebar izquierda (340px, lista plana)
 ├── data/
-│   └── projects.tsx     # Datos de proyectos (tipados)
-├── App.tsx              # Componente principal
-├── App.css              # Estilos Steam-inspired
-└── main.tsx             # Entry point
+│   ├── projects.tsx          # Datos de proyectos (tipados)
+│   ├── friends.ts            # Datos de amigos (WIP)
+│   └── portfolioStore.ts     # Índice de portfolios (WIP)
+├── App.tsx                   # Compone el shell completo
+├── App.css                   # Estilos del shell y la store page
+├── index.css                 # Tokens, reset y medidas del shell
+└── main.tsx                  # Entry point
 ```
-
-## Estados de proyecto
-
-- `completed` - Completado (verde)
-- `in-development` - En desarrollo (azul)
-- `paused` - Pausado (amarillo)
-- `coming-soon` - Próximamente (gris)
 
 ## Comandos
 
@@ -71,10 +78,7 @@ Edita `src/data/projects.tsx` y añade un nuevo objeto al array `projects`:
   id: 'nuevo-proyecto',
   name: 'Nombre del Proyecto',
   description: 'Descripción larga...',
-  shortDescription: 'Descripción corta',
-  status: 'in-development',
   tags: ['Tag1', 'Tag2'],
-  technologies: ['Tech1', 'Tech2'],
   url: 'https://tu-url.com',
   bannerColor: '#1a2a3a',
   icon: (
@@ -82,13 +86,26 @@ Edita `src/data/projects.tsx` y añade un nuevo objeto al array `projects`:
       {/* Tu SVG aquí */}
     </svg>
   ),
+  stats: {
+    cloudStatus: 'ok',
+    cloudLabel: 'OK',
+    lastSession: 'hace 2 d',
+    playtime: '38,2 h',
+    achievements: { unlocked: 34, total: 50 },
+  },
+  screenshots: [
+    { id: 'ss1', title: 'Gameplay', gradient: 'linear-gradient(...)' },
+    // ...o usa `src` para una imagen real
+  ],
+  activity: [
+    { id: 'a1', kind: 'achievement', text: 'desbloqueó el logro «...»', date: 'hace 2 d' },
+    { id: 'a2', kind: 'play', text: 'jugó a Title — 25 min', date: 'hace 2 d' },
+  ],
 }
 ```
 
 ## Despliegue
 
-El proyecto está configurado para GitHub Pages en `MarioMunPeq/Portfolio`.
+El proyecto está configurado para GitHub Pages en `MarioMunPeq/Repository-Library`.
 
 El workflow de GitHub Actions (`.github/workflows/deploy.yml`) hace deploy automático al hacer push a `main`.
-
-URL de producción: `https://mariomunpeq.github.io/Portfolio/`

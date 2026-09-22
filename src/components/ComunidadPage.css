@@ -1,0 +1,136 @@
+/* ==========================================================================
+   ComunidadPage — Feed de actividad + panel "Sobre mí"
+   ========================================================================== */
+
+.community-page {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 28px;
+  background: #242830;
+}
+
+.community-side {
+  flex-shrink: 0;
+  width: 300px;
+}
+
+.community-panel {
+  padding: 16px;
+  border-radius: 2px;
+  background: #1b2838;
+}
+
+.community-panel-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8f98a0;
+  margin-bottom: 14px;
+}
+
+.community-social-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  border-radius: 3px;
+  font-size: 14px;
+  color: #c6d4df;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.community-social-row:hover {
+  background: rgba(102, 192, 244, 0.08);
+  color: #ffffff;
+}
+
+.community-social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+.community-social-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.community-social-icon.github {
+  background: #242830;
+}
+
+.community-social-icon.linkedin {
+  background: #0a66c2;
+}
+
+.community-social-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Feed de actividad ---------- */
+
+.community-feed {
+  flex: 1;
+  min-width: 0;
+  max-width: 720px;
+}
+
+.community-feed-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #66c0f4;
+  margin-bottom: 12px;
+}
+
+.community-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.community-update-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.community-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 2px;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 900px) {
+  .community-page {
+    flex-direction: column;
+  }
+
+  .community-side {
+    width: 100%;
+  }
+}
