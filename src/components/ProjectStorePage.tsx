@@ -101,86 +101,74 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
           <div className="store-banner-logo">
             <ProjectLogo project={project} />
           </div>
-        </header>
 
-        <div className="store-actionbar">
-          <div className="store-play-group">
-            {project.githubUrl ? (
-              <a className="store-play-btn" href={project.githubUrl} target="_blank" rel="noreferrer">
-                <PlayIcon className="store-play-icon" />
-                Jugar
-              </a>
-            ) : (
-              <button className="store-play-btn" type="button" disabled>
-                <PlayIcon className="store-play-icon" />
-                Jugar
+          <div className="store-actionbar">
+            <div className="store-play-group">
+              {project.githubUrl ? (
+                <a className="store-play-btn" href={project.githubUrl} target="_blank" rel="noreferrer">
+                  <PlayIcon className="store-play-icon" />
+                  Jugar
+                </a>
+              ) : (
+                <button className="store-play-btn" type="button" disabled>
+                  <PlayIcon className="store-play-icon" />
+                  Jugar
+                </button>
+              )}
+              <button
+                className="store-play-dropdown"
+                type="button"
+                aria-label="Opciones de jugar"
+                disabled={!project.githubUrl}
+              >
+                <ChevronDownIcon className="store-play-chevron" />
               </button>
-            )}
-            <button
-              className="store-play-dropdown"
-              type="button"
-              aria-label="Opciones de jugar"
-              disabled={!project.githubUrl}
-            >
-              <ChevronDownIcon className="store-play-chevron" />
-            </button>
-          </div>
-
-          <div className="store-stats">
-            <div className="store-stat">
-              <ClockIcon className="store-stat-icon" />
-              <div className="store-stat-info">
-                <span className="store-stat-label">Tiempo de juego</span>
-                <span className="store-stat-value">{project.devTime}</span>
-              </div>
             </div>
-            <div className="store-stat-separator" aria-hidden="true" />
-            <div className="store-stat">
-              <CalendarIcon className="store-stat-icon" />
-              <div className="store-stat-info">
-                <span className="store-stat-label">Última sesión</span>
-                <span className="store-stat-value">{project.lastUpdate}</span>
+  
+            <div className="store-stats">
+              <div className="store-stat">
+                <ClockIcon className="store-stat-icon" />
+                <div className="store-stat-info">
+                  <span className="store-stat-label">Tiempo de juego</span>
+                  <span className="store-stat-value">{project.devTime}</span>
+                </div>
               </div>
-            </div>
-            <div className="store-stat-separator" aria-hidden="true" />
-            <div className="store-stat">
-              <TrophyIcon className="store-stat-icon" />
-              <div className="store-stat-info">
-                <span className="store-stat-label">Logros</span>
-                <span className="store-stat-value">
-                  {project.unlockedTech}/{project.totalTech}
-                </span>
-                <div className="store-stat-bar" aria-hidden="true">
-                  <div className="store-stat-bar-fill" style={{ width: `${achievementsPercent}%` }} />
+              <div className="store-stat-separator" aria-hidden="true" />
+              <div className="store-stat">
+                <CalendarIcon className="store-stat-icon" />
+                <div className="store-stat-info">
+                  <span className="store-stat-label">Última sesión</span>
+                  <span className="store-stat-value">{project.lastUpdate}</span>
+                </div>
+              </div>
+              <div className="store-stat-separator" aria-hidden="true" />
+              <div className="store-stat">
+                <TrophyIcon className="store-stat-icon" />
+                <div className="store-stat-info">
+                  <span className="store-stat-label">Logros</span>
+                  <span className="store-stat-value">
+                    {project.unlockedTech}/{project.totalTech}
+                  </span>
+                  <div className="store-stat-bar" aria-hidden="true">
+                    <div className="store-stat-bar-fill" style={{ width: `${achievementsPercent}%` }} />
+                  </div>
                 </div>
               </div>
             </div>
+  
+            <div className="store-icon-actions">
+              <button className="store-icon-btn" type="button" aria-label="Ajustes">
+                <GearIcon className="store-icon-btn-svg" />
+              </button>
+              <button className="store-icon-btn" type="button" aria-label="Información">
+                <InfoIcon className="store-icon-btn-svg" />
+              </button>
+              <button className="store-icon-btn" type="button" aria-label="Me gusta">
+                <HeartIcon className="store-icon-btn-svg" />
+              </button>
+            </div>
           </div>
-
-          <div className="store-icon-actions">
-            <button className="store-icon-btn" type="button" aria-label="Ajustes">
-              <GearIcon className="store-icon-btn-svg" />
-            </button>
-            <button className="store-icon-btn" type="button" aria-label="Información">
-              <InfoIcon className="store-icon-btn-svg" />
-            </button>
-            <button className="store-icon-btn" type="button" aria-label="Me gusta">
-              <HeartIcon className="store-icon-btn-svg" />
-            </button>
-          </div>
-        </div>
-
-        <nav className="store-tabs" role="tablist" aria-label="Secciones del proyecto">
-          <button className="store-tab active" type="button">
-            Página del proyecto
-          </button>
-          <button className="store-tab" type="button">
-            Registro de cambios
-          </button>
-          <button className="store-tab" type="button">
-            Documentación
-          </button>
-        </nav>
+        </header>
 
         <section className="store-recommendation" aria-label="Recomendación">
           <div className="store-recommendation-left">
@@ -188,7 +176,7 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
             <span className="store-recommendation-question">
               {project.recommendation === 'juego'
                 ? 'Juego'
-                : '¿Recomendarías este proyecto a otros desarrolladores?'}
+                : '¿Recomendarías este juego a otros jugadores?'}
             </span>
           </div>
           <div className="store-recommendation-buttons">
@@ -218,7 +206,7 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
         <div className="store-body">
           <section className="store-main">
             <section className="store-section">
-              <h2 className="store-section-title">Acerca de este proyecto</h2>
+              <h2 className="store-section-title">Acerca de este juego</h2>
               <p className="store-about">{project.description}</p>
             </section>
 

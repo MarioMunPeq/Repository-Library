@@ -34,12 +34,12 @@ export const devProfile: DevProfile = {
   username: 'MarioMunPeq',
   realName: 'Mario Muñoz Pequeño',
   location: 'Valladolid, España',
-  level: 12,
-  yearsExperience: 3,
+  level: 24,
+  yearsExperience: 2,
   lastActivity: 'hace 3 días',
   favoriteProject: {
     id: 'persona5',
-    hours: 286,
+    hours: 120,
     achievements: {
       unlocked: 41,
       total: 54,

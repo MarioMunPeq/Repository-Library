@@ -17,6 +17,7 @@
 .store-shell {
   display: flex;
   flex-direction: column;
+  gap: 0;
 }
 
 /* ---------- HERO (435px, full width, cinematic banner) ---------- */
@@ -40,28 +41,34 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(36, 40, 48, 0) 0%, rgba(36, 40, 48, 0.95) 100%);
+  background: linear-gradient(rgba(36, 40, 48, 0) 30%, rgba(36, 40, 48, 0.55) 60%, rgba(23, 26, 33, 0.9) 100%);
   pointer-events: none;
 }
 
 .store-banner-logo {
   position: absolute;
-  bottom: 0;
+  bottom: 56px;
   left: 0;
-  padding: 0 35px 35px;
+  padding: 0 35px 16px;
   z-index: 1;
 }
 
-/* ---------- PLAYBAR (stats row: 18px vertical padding, stat blocks <=70px) ---------- */
+/* ---------- PLAYBAR (overlay sobre el hero: semitransparente, max 56px) ---------- */
 
 .store-actionbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: auto;
-  background: #1b2838;
-  border-bottom: 1px solid #000000;
-  padding: 18px 0;
+  height: 56px;
+  padding: 0;
+  background: rgba(23, 26, 33, 0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
 .store-play-group {
@@ -85,7 +92,6 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-decoration: none;
-  line-height: 28px;
   cursor: pointer;
   transition: filter var(--transition-fast);
 }
@@ -160,14 +166,14 @@
 
 .store-stat-separator {
   width: 1px;
-  height: 60px;
+  height: 40px;
   background: #2a3f52;
   margin: 0 10px;
 }
 
 .store-stat-icon {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
   color: #66c0f4;
   margin-bottom: 2px;
@@ -223,8 +229,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 28px;
+  height: 28px;
   border-radius: 2px;
   background: #2a3f5a;
   color: #8f98a0;
@@ -237,43 +243,8 @@
 }
 
 .store-icon-btn-svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* ---------- TABS (80px, full width, Steam client nav style) ---------- */
-
-.store-tabs {
-  display: flex;
-  align-items: center;
-  height: 80px;
-  background: #171a21;
-  border-top: 1px solid #000000;
-  border-bottom: 1px solid #000000;
-  padding: 0 0 0 35px;
-}
-
-.store-tab {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding: 0 28px;
-  font-size: var(--store-tab-font-size);
-  font-weight: 500;
-  color: #8f98a0;
-  border-bottom: 3px solid transparent;
-  transition: color var(--transition-fast), border-color var(--transition-fast);
-  background: transparent;
-}
-
-.store-tab:hover {
-  color: #c6d4df;
-}
-
-.store-tab.active {
-  color: #ffffff;
-  font-weight: 700;
-  border-bottom-color: #1a9fff;
+  width: 16px;
+  height: 16px;
 }
 
 /* ---------- Recommendation Box (105px, full width, Steam-style bar) ---------- */
@@ -284,7 +255,7 @@
   justify-content: space-between;
   gap: 24px;
   height: 105px;
-  margin: 24px 0 0 0;
+  margin: 0;
   background: #1b2838;
   border-top: 1px solid #2a3f52;
   border-bottom: 1px solid #000000;
@@ -772,6 +743,12 @@
     height: 280px;
   }
 
+  .store-banner-logo {
+    top: 24px;
+    bottom: auto;
+    padding: 0 20px;
+  }
+
   .store-actionbar {
     height: auto;
     flex-wrap: wrap;
@@ -799,15 +776,6 @@
     margin-right: 0;
     width: 100%;
     justify-content: center;
-  }
-
-  .store-tabs {
-    height: auto;
-    padding: 12px 0 12px 20px;
-  }
-
-  .store-tab {
-    padding: 0 20px;
   }
 
   .store-recommendation {
@@ -841,12 +809,11 @@
   }
 
   .store-banner-logo {
-    padding: 0 20px 20px;
+    padding: 0 16px;
   }
 
   .store-play-btn {
-    font-size: var(--store-play-font-size);
-    padding: 11px 26px;
+    padding: 10px 24px;
   }
 
   .store-play-dropdown {
@@ -864,11 +831,6 @@
 
   .store-stat-bar {
     width: 100px;
-  }
-
-  .store-tab {
-    padding: 0 16px;
-    font-size: 12px;
   }
 
   .store-recommendation {

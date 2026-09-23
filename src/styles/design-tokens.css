@@ -34,11 +34,11 @@
   --sidebar-item-icon-size: 24px;
 
   /* ---------- Página de proyecto (Store page) ---------- */
-  --store-play-font-size: 15px;
-  --store-play-padding: 13px 34px;
+  --store-play-font-size: 13px;
+  --store-play-padding: 10px 24px;
   --store-play-dropdown-width: 44px;
-  --store-stat-label-font-size: 11px;
-  --store-stat-value-font-size: 20px;
+  --store-stat-label-font-size: 9px;
+  --store-stat-value-font-size: 15px;
   --store-stat-value-font-weight: 700;
   --store-tab-font-size: 13px;
   --store-section-title-font-size: 13px;

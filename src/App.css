@@ -977,12 +977,6 @@
   height: 72px;
 }
 
-.store-shell {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
 .game-header {
   position: relative;
   min-height: 360px;

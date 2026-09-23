@@ -107,7 +107,7 @@ export const StorePage: React.FC<StorePageProps> = ({ onOpenProject }) => {
 
       <section className="store-projects" aria-labelledby="store-projects-title">
         <h2 id="store-projects-title" className="store-projects-title">
-          Todos los proyectos ({projects.length})
+          Todos los juegos ({projects.length})
         </h2>
         <div className="store-projects-grid" role="list" aria-label="Todos los proyectos">
           {projects.map((project) => (

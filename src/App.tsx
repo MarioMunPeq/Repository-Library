@@ -67,7 +67,7 @@ function AppContent() {
       />
 
       <div className="app-body">
-        {!isProfile && (
+        {!isProfile && !isStore && (
           <Sidebar
             selectedProject={selectedProject}
             onSelectProject={handleOpenProject}
