@@ -133,7 +133,6 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
                   <span className="store-stat-value">{project.devTime}</span>
                 </div>
               </div>
-              <div className="store-stat-separator" aria-hidden="true" />
               <div className="store-stat">
                 <CalendarIcon className="store-stat-icon" />
                 <div className="store-stat-info">
@@ -141,7 +140,6 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
                   <span className="store-stat-value">{project.lastUpdate}</span>
                 </div>
               </div>
-              <div className="store-stat-separator" aria-hidden="true" />
               <div className="store-stat">
                 <TrophyIcon className="store-stat-icon" />
                 <div className="store-stat-info">
@@ -172,10 +170,10 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
 
         <section className="store-recommendation" aria-label="Recomendación">
           <div className="store-recommendation-left">
-            <span className="store-recommendation-time">has jugado durante {project.devTime} horas</span>
+            <span className="store-recommendation-time">Has jugado durante {project.devTime} horas</span>
             <span className="store-recommendation-question">
               {project.recommendation === 'juego'
-                ? 'Juego'
+                ? '¿Recomendarías este juego a otros jugadores?'
                 : '¿Recomendarías este juego a otros jugadores?'}
             </span>
           </div>

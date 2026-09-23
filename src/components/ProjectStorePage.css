@@ -12,12 +12,17 @@
   width: 100%;
   background: #242830;
   contain: layout style;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .store-shell {
   display: flex;
   flex-direction: column;
   gap: 0;
+  min-height: 100%;
 }
 
 /* ---------- HERO (340px fijo, full width, cinematic banner) ---------- */
@@ -76,9 +81,9 @@
   justify-content: space-between;
   height: 64px;
   padding: 0;
-  background: rgba(15, 18, 24, 0.90);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: rgba(20, 22, 28, 0.55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
 
 .store-play-group {
@@ -158,7 +163,7 @@
   align-items: center;
   flex: 1;
   justify-content: center;
-  gap: 0;
+  gap: 32px;
   height: auto;
 }
 
@@ -169,27 +174,14 @@
   justify-content: center;
   min-width: 170px;
   height: auto;
-  padding: 0 20px;
-  border-left: 1px solid #2a3f52;
-}
-
-.store-stat:first-child {
-  border-left: none;
-  padding-left: 20px;
-}
-
-.store-stat-separator {
-  width: 1px;
-  height: 40px;
-  background: #2a3f52;
-  margin: 0 10px;
+  padding: 0;
 }
 
 .store-stat-icon {
   width: 16px;
   height: 16px;
   flex-shrink: 0;
-  color: #66c0f4;
+  color: rgba(255, 255, 255, 0.7);
   margin-bottom: 2px;
 }
 
@@ -203,18 +195,18 @@
 }
 
 .store-stat-label {
-  font-size: var(--store-stat-label-font-size);
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 400;
   line-height: 1.1;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #8f98a0;
+  color: rgba(255, 255, 255, 0.6);
   white-space: nowrap;
 }
 
 .store-stat-value {
-  font-size: var(--store-stat-value-font-size);
-  font-weight: var(--store-stat-value-font-weight);
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1.15;
   color: #ffffff;
   white-space: nowrap;
@@ -246,13 +238,13 @@
   width: 32px;
   height: 32px;
   border-radius: 2px;
-  background: #2a3f5a;
-  color: #8f98a0;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .store-icon-btn:hover {
-  background: #3a5570;
+  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
 
@@ -386,6 +378,8 @@
   gap: 30px;
   padding: 0 35px 40px;
   background: #242830;
+  flex: 1;
+  min-height: 0;
 }
 
 .store-main {
@@ -779,11 +773,12 @@
   .store-stats {
     width: 100%;
     justify-content: center;
+    gap: 24px;
   }
 
   .store-stat {
     min-width: 140px;
-    padding: 0 15px;
+    padding: 0;
   }
 
   .store-icon-actions {
@@ -836,11 +831,15 @@
 
   .store-stat {
     min-width: 120px;
-    padding: 0 10px;
+    padding: 0;
   }
 
   .store-stat-value {
     font-size: 13px;
+  }
+
+  .store-stats {
+    gap: 16px;
   }
 
   .store-stat-bar {

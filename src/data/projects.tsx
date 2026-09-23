@@ -72,7 +72,13 @@ export interface Project {
   activity: ActivityItem[];
 }
 
-type ProjectInput = Omit<Project, 'iconPath' | 'capsulePath' | 'headerPath' | 'heroPath' | 'logoPath'>;
+type ProjectInput = Omit<Project, 'iconPath' | 'capsulePath' | 'headerPath' | 'heroPath' | 'logoPath'> & {
+  iconPath?: string;
+  capsulePath?: string;
+  headerPath?: string;
+  heroPath?: string;
+  logoPath?: string;
+};
 
 /**
  * Define un proyecto resolviendo automáticamente sus rutas de imagen
@@ -85,11 +91,11 @@ type ProjectInput = Omit<Project, 'iconPath' | 'capsulePath' | 'headerPath' | 'h
 const defineProject = (input: ProjectInput): Project => ({
   ...input,
   recommendation: input.recommendation ?? 'desarrolladores',
-  iconPath: `/projects/${input.slug}/icon`,
-  capsulePath: `/projects/${input.slug}/capsule`,
-  headerPath: `/projects/${input.slug}/header`,
-  heroPath: `/projects/${input.slug}/hero`,
-  logoPath: `/projects/${input.slug}/logo`,
+  iconPath: input.iconPath ?? `/projects/${input.slug}/icon`,
+  capsulePath: input.capsulePath ?? `/projects/${input.slug}/capsule`,
+  headerPath: input.headerPath ?? `/projects/${input.slug}/header`,
+  heroPath: input.heroPath ?? `/projects/${input.slug}/hero`,
+  logoPath: input.logoPath ?? `/projects/${input.slug}/logo`,
 });
 
 const defaultStats = (): ProjectStats => ({
@@ -166,6 +172,7 @@ export const projects: Project[] = [
     updates: [],
     stats: defaultStats(),
     activity: [],
+    headerPath: '/projects/minecraft/hero',
   }),
   defineProject({
     slug: 'news-tower',
@@ -218,7 +225,7 @@ export const projects: Project[] = [
     recommendation: 'juego',
     githubUrl: 'https://github.com/MarioMunPeq/RecomendadorDeCampeones',
     status: 'completado',
-    screenshots: [],
+    screenshots: ['1', '2', '3'],
     fallbackGradient: 'linear-gradient(90deg, #0a1a0a 0%, #1a3a1a 55%, #2a5a2a 100%)',
     description:
       'Herramienta interactiva para League of Legends que recomienda campeones según tu estilo de juego, composición de equipo y meta actual. Incluye contadores, builds óptimas y estadísticas de winrate.',
@@ -232,5 +239,6 @@ export const projects: Project[] = [
     updates: [],
     stats: defaultStats(),
     activity: [],
+    headerPath: '/projects/league-of-legends-helper/hero',
   }),
 ];

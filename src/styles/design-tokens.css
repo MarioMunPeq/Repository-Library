@@ -25,21 +25,21 @@
 
   /* ---------- Sidebar (175px) ---------- */
   --sidebar-width: 175px;
-  --sidebar-home-font-size: 12px;
-  --sidebar-home-height: 14px;
-  --sidebar-home-icon-size: 7px;
-  --sidebar-projects-font-size: 11px;
-  --sidebar-projects-height: 13px;
-  --sidebar-projects-icon-size: 7px;
-  --sidebar-search-font-size: 6.5px;
-  --sidebar-search-height: 13px;
-  --sidebar-search-padding-x: 5px;
-  --sidebar-category-font-size: 10px;
+  --sidebar-home-font-size: 15px;
+  --sidebar-home-height: 44px;
+  --sidebar-home-icon-size: 18px;
+  --sidebar-home-padding-x: 14px;
+  --sidebar-category-font-size: 11px;
   --sidebar-category-font-weight: 400;
-  --sidebar-category-height: 11px;
-  --sidebar-item-font-size: 10px;
-  --sidebar-item-height: 14px;
-  --sidebar-item-icon-size: 12px;
+  --sidebar-category-height: 26px;
+  --sidebar-category-padding-x: 14px;
+  --sidebar-category-letter-spacing: 0.5px;
+  --sidebar-item-font-size: 12px;
+  --sidebar-item-height: 32px;
+  --sidebar-item-icon-size: 24px;
+  --sidebar-item-padding-x: 14px;
+  --sidebar-item-gap: 10px;
+  --sidebar-block-gap: 4px;
 
   /* ---------- Página de proyecto (Store page) ---------- */
   --store-play-font-size: 14px;

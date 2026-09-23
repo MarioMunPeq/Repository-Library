@@ -2,8 +2,7 @@ import { useMemo, useState } from 'react';
 import { projects } from '../data/projects.tsx';
 import type { Project, ProjectCategory } from '../data/projects.tsx';
 import { SmartImage } from './SmartImage';
-import { ProjectCapsule } from './ProjectCapsule';
-import { ChevronDownIcon, ClockIcon, DiceIcon, FilterIcon, GridIcon, SearchIcon } from './Icons';
+import { ChevronDownIcon, GridIcon } from './Icons';
 
 interface SidebarProps {
   selectedProject: Project | null;
@@ -16,11 +15,9 @@ interface CategorySection {
   label: string;
 }
 
-type SidebarView = 'list' | 'grid';
-
 const CATEGORY_SECTIONS: CategorySection[] = [
-  { key: 'portfolio', label: 'Portfolios' },
-  { key: 'juego', label: 'Juegos' },
+  { key: 'portfolio', label: 'PORTFOLIOS' },
+  { key: 'juego', label: 'JUEGOS' },
 ];
 
 const renderListItems = (
@@ -51,112 +48,49 @@ const renderListItems = (
     );
   });
 
-const renderGridItems = (
-  sectionProjects: Project[],
-  selectedProject: Project | null,
-  onSelectProject: (project: Project) => void,
-) => (
-  <div className="sidebar-grid">
-    {sectionProjects.map((project) => (
-      <ProjectCapsule
-        key={project.slug}
-        project={project}
-        onClick={() => onSelectProject(project)}
-        selected={selectedProject?.slug === project.slug}
-        label={project.name}
-      />
-    ))}
-  </div>
-);
-
 export const Sidebar: React.FC<SidebarProps> = ({ selectedProject, onSelectProject, onDeselectProject }) => {
-  const [query, setQuery] = useState('');
-  const [collapsed, setCollapsed] = useState(false);
-  const [view, setView] = useState<SidebarView>('list');
   const [collapsedSections, setCollapsedSections] = useState<Record<ProjectCategory, boolean>>({
     portfolio: false,
     juego: false,
   });
 
-  const normalized = query.trim().toLowerCase();
-  const filteredProjects = useMemo(() => {
-    return normalized ? projects.filter((p) => p.name.toLowerCase().includes(normalized)) : projects;
-  }, [normalized]);
+  const filteredProjects = useMemo(() => projects, []);
 
   const toggleSection = (key: ProjectCategory) => {
     setCollapsedSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const gridView = view === 'grid';
-
   return (
     <aside className="sidebar" role="complementary" aria-label="Biblioteca">
       <div className="sidebar-home" role="button" tabIndex={0} onClick={onDeselectProject} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onDeselectProject(); } }}>
-        <button
-          className="sidebar-view-toggle"
-          type="button"
-          onClick={(e) => { e.stopPropagation(); setView((prev) => (prev === 'list' ? 'grid' : 'list')); }}
-          aria-pressed={gridView}
-          aria-label="Cambiar vista lista/cuadrícula"
-          title={gridView ? 'Vista cuadrícula' : 'Vista lista'}
-        >
-          <GridIcon className="sidebar-home-icon" />
-        </button>
+        <GridIcon className="sidebar-home-icon" />
         <span className="sidebar-home-label">Página principal</span>
-        <ChevronDownIcon className="sidebar-home-caret" />
       </div>
 
-      <div className="sidebar-projects">
-        <button className="sidebar-projects-toggle" onClick={() => setCollapsed((v) => !v)} aria-expanded={!collapsed}>
-          <span className="sidebar-projects-label">Mis Proyectos</span>
-          <span className="sidebar-projects-icons" aria-hidden="true">
-            <ClockIcon className="sidebar-projects-btn" />
-            <DiceIcon className="sidebar-projects-btn" />
-          </span>
-        </button>
-      </div>
-
-      <div className="sidebar-search">
-        <SearchIcon className="sidebar-search-icon" />
-        <input
-          type="search"
-          className="sidebar-search-input"
-          placeholder="Buscar"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          aria-label="Buscar proyectos"
-        />
-        <FilterIcon className="sidebar-filter-icon" />
-      </div>
-
-      {!collapsed && (
-        <nav className="sidebar-list" role="navigation" aria-label="Proyectos">
-          {CATEGORY_SECTIONS.map((section) => {
-            const sectionProjects = filteredProjects.filter((project) => project.category === section.key);
-            const isCollapsed = collapsedSections[section.key];
-            return (
-              <div className="sidebar-category" key={section.key}>
-                <button
-                  className="sidebar-category-header"
-                  onClick={() => toggleSection(section.key)}
-                  aria-expanded={!isCollapsed}
-                >
-                  <span className="sidebar-category-title">
-                    — {section.label} ({sectionProjects.length})
-                  </span>
-                  <ChevronDownIcon
-                    className={`sidebar-category-chevron ${isCollapsed ? 'collapsed' : ''}`}
-                  />
-                </button>
-                {!isCollapsed &&
-                  (gridView
-                    ? renderGridItems(sectionProjects, selectedProject, onSelectProject)
-                    : renderListItems(sectionProjects, selectedProject, onSelectProject))}
-              </div>
-            );
-          })}
-        </nav>
-      )}
+      <nav className="sidebar-list" role="navigation" aria-label="Proyectos">
+        {CATEGORY_SECTIONS.map((section) => {
+          const sectionProjects = filteredProjects.filter((project) => project.category === section.key);
+          const isCollapsed = collapsedSections[section.key];
+          return (
+            <div className="sidebar-category" key={section.key}>
+              <button
+                className="sidebar-category-header"
+                onClick={() => toggleSection(section.key)}
+                aria-expanded={!isCollapsed}
+              >
+                <span className="sidebar-category-title">
+                  <span className="sidebar-category-name">— {section.label}</span>
+                  <span className="sidebar-category-count">({sectionProjects.length})</span>
+                </span>
+                <ChevronDownIcon
+                  className={`sidebar-category-chevron ${isCollapsed ? 'collapsed' : ''}`}
+                />
+              </button>
+              {!isCollapsed && renderListItems(sectionProjects, selectedProject, onSelectProject)}
+            </div>
+          );
+        })}
+      </nav>
     </aside>
   );
 };

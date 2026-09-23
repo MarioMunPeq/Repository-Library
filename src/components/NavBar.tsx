@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { devProfile } from '../data/devProfile';
+import { SmartImage } from './SmartImage';
 import {
   BellIcon,
   ChevronLeftIcon,
@@ -53,7 +55,6 @@ export const NavBar: React.FC<NavBarProps> = ({
 }) => {
   const [notifOpen, setNotifOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
-  const initials = username.slice(0, 2).toUpperCase();
 
   useEffect(() => {
     if (!notifOpen) return;
@@ -97,7 +98,14 @@ export const NavBar: React.FC<NavBarProps> = ({
         aria-current={activeSection === 'profile' ? 'page' : undefined}
       >
         <span className="nav-avatar" aria-hidden="true">
-          {initials}
+          <SmartImage
+            basePath={devProfile.avatarBasePath}
+            kind="avatar"
+            className="nav-avatar-img"
+            alt=""
+            extensions={['jpg', 'png', 'webp']}
+            fallback={<span className="nav-avatar-fallback">MA</span>}
+          />
         </span>
         <span className="nav-username">{username}</span>
       </button>
