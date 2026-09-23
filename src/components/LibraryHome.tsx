@@ -1,10 +1,8 @@
 import { useMemo, useState } from 'react';
 import { projects } from '../data/projects.tsx';
 import type { Project } from '../data/projects.tsx';
-import { SmartImage } from './SmartImage';
-import {
-  ChevronDownIcon,
-} from './Icons';
+import { ProjectCapsule } from './ProjectCapsule';
+import { ChevronDownIcon } from './Icons';
 import './LibraryHome.css';
 
 type SortOption = 'name' | 'devTime' | 'lastUpdate';
@@ -119,35 +117,12 @@ export const LibraryHome: React.FC<LibraryHomeProps> = ({ onSelectProject }) => 
           {sortedPortfolio.map((project) => {
             if (!project) return null;
             return (
-              <button
+              <ProjectCapsule
                 key={project.slug}
-                className="project-capsule"
+                project={project}
                 onClick={() => onSelectProject(project)}
-                role="listitem"
-                aria-label={project.name}
-              >
-                <div
-                  className="project-capsule-frame"
-                  style={{ background: project.fallbackGradient ?? '#1b2838' }}
-                  aria-hidden="true"
-                >
-                  <SmartImage
-                    basePath={project.capsulePath}
-                    kind="capsule"
-                    className="project-capsule-img"
-                    alt=""
-                    fallback={<span className="gradient-fallback" />}
-                  />
-                </div>
-                <div className="project-capsule-overlay">
-                  <span className="project-capsule-name">{project.name}</span>
-                  {project.devTime !== '—' && project.devTime !== 'próximamente' && project.devTime && (
-                    <span className="project-capsule-badge">
-                      {Math.round(Number(project.devTime.replace(/[^0-9.]/g, '')) || 0)}
-                    </span>
-                  )}
-                </div>
-              </button>
+                label={project.name}
+              />
             );
           })}
         </div>
@@ -166,35 +141,12 @@ export const LibraryHome: React.FC<LibraryHomeProps> = ({ onSelectProject }) => 
           {sortedJuegos.map((project) => {
             if (!project) return null;
             return (
-              <button
+              <ProjectCapsule
                 key={project.slug}
-                className="project-capsule"
+                project={project}
                 onClick={() => onSelectProject(project)}
-                role="listitem"
-                aria-label={project.name}
-              >
-                <div
-                  className="project-capsule-frame"
-                  style={{ background: project.fallbackGradient ?? '#1b2838' }}
-                  aria-hidden="true"
-                >
-                  <SmartImage
-                    basePath={project.capsulePath}
-                    kind="capsule"
-                    className="project-capsule-img"
-                    alt=""
-                    fallback={<span className="gradient-fallback" />}
-                  />
-                </div>
-                <div className="project-capsule-overlay">
-                  <span className="project-capsule-name">{project.name}</span>
-                  {project.devTime !== '—' && project.devTime !== 'próximamente' && project.devTime && (
-                    <span className="project-capsule-badge">
-                      {Math.round(Number(project.devTime.replace(/[^0-9.]/g, '')) || 0)}
-                    </span>
-                  )}
-                </div>
-              </button>
+                label={project.name}
+              />
             );
           })}
         </div>

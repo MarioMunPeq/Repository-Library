@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { projects } from '../data/projects.tsx';
 import type { Project, ProjectCategory } from '../data/projects.tsx';
 import { SmartImage } from './SmartImage';
+import { ProjectCapsule } from './ProjectCapsule';
 import { ChevronDownIcon, ClockIcon, DiceIcon, FilterIcon, GridIcon, SearchIcon } from './Icons';
 
 interface SidebarProps {
@@ -56,28 +57,15 @@ const renderGridItems = (
   onSelectProject: (project: Project) => void,
 ) => (
   <div className="sidebar-grid">
-    {sectionProjects.map((project) => {
-      const selected = selectedProject?.slug === project.slug;
-      return (
-        <button
-          key={project.slug}
-          className={`sidebar-grid-item ${selected ? 'selected' : ''}`}
-          onClick={() => onSelectProject(project)}
-          aria-current={selected ? 'true' : 'false'}
-        >
-          <span className="sidebar-grid-frame" style={{ background: project.fallbackGradient }} aria-hidden="true">
-            <SmartImage
-              basePath={project.capsulePath}
-              kind="capsule"
-              className="sidebar-grid-img"
-              alt=""
-              fallback={<span className="gradient-fallback" />}
-            />
-          </span>
-          <span className="sidebar-grid-name">{project.name}</span>
-        </button>
-      );
-    })}
+    {sectionProjects.map((project) => (
+      <ProjectCapsule
+        key={project.slug}
+        project={project}
+        onClick={() => onSelectProject(project)}
+        selected={selectedProject?.slug === project.slug}
+        label={project.name}
+      />
+    ))}
   </div>
 );
 

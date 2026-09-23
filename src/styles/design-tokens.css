@@ -13,33 +13,41 @@
   /* ---------- Barra de menú superior (26px) ---------- */
   --menubar-height: 26px;
   --menubar-font-size: 12px;
+  --menubar-gap: 16px;
+  --menubar-padding-x: 12px;
 
-  /* ---------- Barra de navegación principal (50px) ---------- */
-  --navbar-height: 50px;
+  /* ---------- Barra de navegación principal (48px) ---------- */
+  --navbar-height: 48px;
   --nav-tab-font-size: 13px;
   --nav-tab-font-weight: 700;
   --nav-username-font-size: 13px;
   --nav-icon-size: 18px;
 
-  /* ---------- Sidebar (340px) ---------- */
-  --sidebar-width: 340px;
-  --sidebar-home-font-size: 13px;
-  --sidebar-projects-font-size: 13px;
-  --sidebar-search-font-size: 13px;
-  --sidebar-search-height: 30px;
-  --sidebar-category-font-size: 11px;
+  /* ---------- Sidebar (175px) ---------- */
+  --sidebar-width: 175px;
+  --sidebar-home-font-size: 12px;
+  --sidebar-home-height: 14px;
+  --sidebar-home-icon-size: 7px;
+  --sidebar-projects-font-size: 11px;
+  --sidebar-projects-height: 13px;
+  --sidebar-projects-icon-size: 7px;
+  --sidebar-search-font-size: 6.5px;
+  --sidebar-search-height: 13px;
+  --sidebar-search-padding-x: 5px;
+  --sidebar-category-font-size: 10px;
   --sidebar-category-font-weight: 400;
-  --sidebar-item-font-size: 13.5px;
-  --sidebar-item-height: 38px;
-  --sidebar-item-icon-size: 24px;
+  --sidebar-category-height: 11px;
+  --sidebar-item-font-size: 10px;
+  --sidebar-item-height: 14px;
+  --sidebar-item-icon-size: 12px;
 
   /* ---------- Página de proyecto (Store page) ---------- */
-  --store-play-font-size: 13px;
-  --store-play-padding: 10px 24px;
+  --store-play-font-size: 14px;
+  --store-play-padding: 0 14px;
   --store-play-dropdown-width: 44px;
-  --store-stat-label-font-size: 9px;
+  --store-stat-label-font-size: 10px;
   --store-stat-value-font-size: 15px;
-  --store-stat-value-font-weight: 700;
+  --store-stat-value-font-weight: 600;
   --store-tab-font-size: 13px;
   --store-section-title-font-size: 13px;
   --store-about-font-size: 14px;
