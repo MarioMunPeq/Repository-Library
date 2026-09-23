@@ -52,21 +52,21 @@
   z-index: 1;
 }
 
-/* ---------- PLAYBAR (115px, full width, Steam-style action bar) ---------- */
+/* ---------- PLAYBAR (stats row: 18px vertical padding, stat blocks <=70px) ---------- */
 
 .store-actionbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 115px;
+  height: auto;
   background: #1b2838;
   border-bottom: 1px solid #000000;
-  padding: 0;
+  padding: 18px 0;
 }
 
 .store-play-group {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   flex-shrink: 0;
   margin-left: 35px;
 }
@@ -76,16 +76,16 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  width: 225px;
-  height: 62px;
+  padding: var(--store-play-padding);
   border-radius: 2px 0 0 2px;
-  background: linear-gradient(135deg, #5fd344 0%, #48bf40 100%);
+  background: linear-gradient(180deg, #5fd344 0%, #48bf40 100%);
   color: #ffffff;
-  font-size: 16px;
+  font-size: var(--store-play-font-size);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-decoration: none;
+  line-height: 28px;
   cursor: pointer;
   transition: filter var(--transition-fast);
 }
@@ -109,10 +109,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 62px;
-  height: 62px;
+  width: var(--store-play-dropdown-width);
   border-radius: 0 2px 2px 0;
-  background: linear-gradient(135deg, #5fd344 0%, #48bf40 100%);
+  background: linear-gradient(180deg, #5fd344 0%, #48bf40 100%);
   color: #ffffff;
   border-left: 1px solid rgba(10, 26, 10, 0.3);
   cursor: pointer;
@@ -140,7 +139,7 @@
   flex: 1;
   justify-content: center;
   gap: 0;
-  height: 100%;
+  height: auto;
 }
 
 .store-stat {
@@ -149,7 +148,7 @@
   align-items: center;
   justify-content: center;
   min-width: 170px;
-  height: 100%;
+  height: auto;
   padding: 0 20px;
   border-left: 1px solid #2a3f52;
 }
@@ -171,20 +170,22 @@
   height: 20px;
   flex-shrink: 0;
   color: #66c0f4;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 .store-stat-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
+  line-height: 1.15;
   text-align: center;
 }
 
 .store-stat-label {
-  font-size: 10px;
+  font-size: var(--store-stat-label-font-size);
   font-weight: 600;
+  line-height: 1.1;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #8f98a0;
@@ -192,8 +193,9 @@
 }
 
 .store-stat-value {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: var(--store-stat-value-font-size);
+  font-weight: var(--store-stat-value-font-weight);
+  line-height: 1.15;
   color: #ffffff;
   white-space: nowrap;
 }
@@ -201,7 +203,7 @@
 .store-stat-bar {
   width: 140px;
   height: 4px;
-  margin-top: 6px;
+  margin-top: 2px;
   background: #0e141b;
 }
 
@@ -256,7 +258,7 @@
   align-items: center;
   height: 100%;
   padding: 0 28px;
-  font-size: 13px;
+  font-size: var(--store-tab-font-size);
   font-weight: 500;
   color: #8f98a0;
   border-bottom: 3px solid transparent;
@@ -418,7 +420,7 @@
 /* ---------- Columna izquierda ---------- */
 
 .store-section-title {
-  font-size: 13px;
+  font-size: var(--store-section-title-font-size);
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -427,8 +429,8 @@
 }
 
 .store-about {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: var(--store-about-font-size);
+  line-height: var(--store-about-line-height);
   color: #c6d4df;
 }
 
@@ -541,7 +543,7 @@
 }
 
 .store-panel-title {
-  font-size: 11px;
+  font-size: var(--store-panel-title-font-size);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -550,11 +552,11 @@
 }
 
 .store-friends-title {
-  font-size: 11px;
+  font-size: var(--store-panel-title-font-size);
 }
 
 .store-friends-count {
-  font-size: 13px;
+  font-size: var(--store-panel-content-font-size);
   color: #c6d4df;
   margin-bottom: 10px;
 }
@@ -604,7 +606,7 @@
 }
 
 .store-ach-text {
-  font-size: 13px;
+  font-size: var(--store-panel-content-font-size);
   color: #ffffff;
   margin-bottom: 8px;
 }
@@ -843,14 +845,12 @@
   }
 
   .store-play-btn {
-    width: 180px;
-    height: 52px;
-    font-size: 14px;
+    font-size: var(--store-play-font-size);
+    padding: 11px 26px;
   }
 
   .store-play-dropdown {
-    width: 52px;
-    height: 52px;
+    width: var(--store-play-dropdown-width);
   }
 
   .store-stat {

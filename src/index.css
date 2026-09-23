@@ -1,3 +1,5 @@
+@import './styles/design-tokens.css';
+
 :root {
   /* Steam palette (desktop client) */
   --steam-bg-top: #1b2838;
@@ -12,8 +14,8 @@
   --steam-accent: #66c0f4;
   --steam-accent-strong: #1a9fff;
   --steam-success: #a4d007;
-  --steam-green-grad: linear-gradient(to right, #75b022 5%, #588a1b 95%);
-  --steam-green-grad-hover: linear-gradient(to right, #8fcf2e 5%, #6cb022 95%);
+  --steam-green-grad: linear-gradient(180deg, #5fd344 0%, #48bf40 100%);
+  --steam-green-grad-hover: linear-gradient(180deg, #71e154 0%, #54c946 100%);
   --steam-border: rgba(73, 108, 138, 0.35);
   --steam-hover: rgba(102, 192, 244, 0.12);
   --steam-scrollbar: #2a475e;
@@ -21,12 +23,6 @@
   --steam-red: #e81123;
 
   --font-sans: 'Motiva Sans', Arial, sans-serif;
-
-  /* Exact shell measures (Steam desktop client) */
-  --menubar-height: 26px;
-  --navbar-height: 50px;
-  --sidebar-width: 340px;
-  --footer-height: 40px;
 
   --transition-fast: 140ms ease;
   --transition-normal: 220ms ease;
@@ -48,8 +44,8 @@ body,
 
 body {
   font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: var(--font-size-root);
+  line-height: var(--font-line-height);
   color: var(--steam-text);
   background-color: #242830;
   -webkit-font-smoothing: antialiased;

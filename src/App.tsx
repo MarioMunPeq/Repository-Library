@@ -23,9 +23,9 @@ function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const hashPath = location.hash.startsWith('#') ? location.hash.slice(1) : location.hash;
-  const isProfile = hashPath === '/perfil';
-  const isStore = hashPath === '/tienda';
+  const pathname = location.pathname;
+  const isProfile = pathname === '/perfil';
+  const isStore = pathname === '/tienda';
   const activeSection: SectionId = isProfile ? 'profile' : isStore ? 'store' : librarySection;
 
   const handleSelectSection = (section: SectionId) => {
@@ -67,7 +67,7 @@ function AppContent() {
       />
 
       <div className="app-body">
-        {!isProfile && !isStore && (
+        {!isProfile && (
           <Sidebar
             selectedProject={selectedProject}
             onSelectProject={handleOpenProject}

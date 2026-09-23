@@ -1,5 +1,6 @@
 /* ==========================================================================
-   StorePage — Tienda del portfolio (carrusel + capsules)
+   StorePage — Tienda del portfolio (carrusel destacado + grid proyectos)
+   Usa los tokens de src/styles/design-tokens.css y patrones de la app.
    ========================================================================== */
 
 .gradient-fallback {
@@ -14,72 +15,59 @@
   contain: layout style;
 }
 
-/* ---------- Carrusel / banner destacado (340px) ---------- */
+/* ---------- Carrusel destacado (340px) ---------- */
 
-.store-featured {
+.store-carousel {
   position: relative;
+  width: 100%;
   height: 340px;
   overflow: hidden;
-  border-bottom: 1px solid #000000;
+  user-select: none;
 }
 
-.store-featured-slide {
+.store-carousel-slide {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: flex-end;
-  padding: 0 80px 30px 28px;
-  text-align: left;
+  z-index: 0;
+  overflow: hidden;
   opacity: 0;
-  transform: scale(1.04);
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  transition: opacity 400ms ease;
+  cursor: pointer;
 }
 
-.store-featured-slide[data-active='true'] {
-  opacity: 1;
-  transform: scale(1);
+.store-carousel-slide.active {
   z-index: 1;
+  opacity: 1;
 }
 
-.store-featured-img {
+.store-carousel-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
-.store-featured-logo {
-  position: absolute;
-  left: 28px;
-  bottom: 30px;
-  z-index: 2;
-  max-width: calc(100% - 120px);
-}
-
-.store-featured-slide::after {
-  content: '';
+.store-carousel-vignette {
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(36, 40, 48, 0) 0%, rgba(36, 40, 48, 0.95) 100%);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 55%);
   pointer-events: none;
 }
 
-.store-featured-tag {
+.store-carousel-logo {
   position: absolute;
-  right: 28px;
-  bottom: 30px;
+  left: 28px;
+  bottom: 52px;
   z-index: 2;
-  padding: 4px 10px;
-  border-radius: 2px;
-  background: rgba(23, 26, 33, 0.6);
-  border: 1px solid rgba(102, 192, 244, 0.35);
-  color: #66c0f4;
-  font-size: 12px;
-  font-weight: 600;
+  max-width: min(400px, calc(100% - 150px));
+  pointer-events: none;
 }
 
-.store-featured-arrow {
+/* ---------- Flechas manuales (36px) ---------- */
+
+.store-carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -87,102 +75,109 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: rgba(8, 13, 19, 0.75);
-  border: 1px solid rgba(102, 192, 244, 0.3);
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
   color: #ffffff;
-  transition: background-color 0.15s ease;
+  cursor: pointer;
+  transition: background-color 150ms ease;
 }
 
-.store-featured-arrow:hover {
-  background: rgba(102, 192, 244, 0.35);
+.store-carousel-arrow:hover {
+  background: rgba(0, 0, 0, 0.65);
 }
 
-.store-featured-arrow-svg {
+.store-carousel-arrow-left {
+  left: 16px;
+}
+
+.store-carousel-arrow-right {
+  right: 16px;
+}
+
+.store-carousel-arrow-svg {
   width: 20px;
   height: 20px;
 }
 
-.store-featured-arrow.left {
-  left: 12px;
-}
+/* ---------- Dots indicadores (8px) ---------- */
 
-.store-featured-arrow.right {
-  right: 12px;
-}
-
-.store-featured-dots {
+.store-carousel-dots {
   position: absolute;
-  bottom: 16px;
-  right: 84px;
+  left: 0;
+  right: 0;
+  bottom: 18px;
   z-index: 3;
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
-.store-featured-dot {
+.store-carousel-dot {
   width: 8px;
   height: 8px;
+  padding: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.35);
-  transition: background-color 0.15s ease;
+  border: none;
+  background: #8f98a0;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 150ms ease;
 }
 
-.store-featured-dot.active {
+.store-carousel-dot.active {
   background: #66c0f4;
+  opacity: 1;
 }
 
-.store-featured-dot:hover {
-  background: #c6d4df;
+.store-carousel-dot:hover {
+  opacity: 1;
 }
 
-/* ---------- Cuadrícula de capsules ---------- */
+/* ---------- Grid de todos los proyectos ---------- */
 
-.store-capsules-section {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 26px 28px 48px;
+.store-projects {
+  padding: 24px;
 }
 
-.store-capsules-title {
-  font-size: 18px;
+.store-projects-title {
+  margin: 0 0 16px;
+  font-size: 16px;
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 16px;
 }
 
-.store-capsules {
+.store-projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 230px);
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
 }
 
-.store-capsule {
+.store-project-card {
   position: relative;
-  width: 230px;
-  height: 110px;
-  border-radius: 3px;
-  overflow: hidden;
+  border: none;
+  padding: 0;
+  background: none;
   text-align: left;
+  cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.store-capsule:hover {
+.store-project-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
-.store-capsule::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.8) 100%);
-  pointer-events: none;
+.store-project-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 3px;
 }
 
-.store-capsule-img {
+.store-project-img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -190,15 +185,52 @@
   object-fit: cover;
 }
 
-.store-capsule-name {
+.store-project-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.85) 100%);
+  pointer-events: none;
+}
+
+.store-project-name {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
-  padding: 8px 10px;
+  z-index: 1;
+  padding: 12px;
   font-size: 14px;
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 720px) {
+  .store-carousel {
+    height: 260px;
+  }
+
+  .store-carousel-logo {
+    left: 18px;
+    bottom: 40px;
+    max-width: calc(100% - 90px);
+  }
+
+  .store-projects {
+    padding: 16px;
+  }
+
+  .store-projects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-carousel-slide {
+    transition: none;
+  }
 }
