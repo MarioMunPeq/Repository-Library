@@ -19,7 +19,7 @@
   align-items: center;
   gap: 18px;
   padding: 0 12px;
-  background: #374351;
+  background: var(--chrome-bg);
   user-select: none;
 }
 
@@ -107,7 +107,7 @@
   align-items: center;
   gap: 24px;
   padding-left: 16px;
-  background: #374351;
+  background: var(--chrome-bg);
   border-bottom: none;
   user-select: none;
 }
@@ -724,7 +724,7 @@
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr auto;
   align-items: center;
-  background: #0e141b;
+  background: var(--chrome-bg);
   border-top: 1px solid #000000;
   user-select: none;
 }

@@ -62,4 +62,7 @@
 
   /* ---------- Shell ---------- */
   --footer-height: 40px;
+
+  /* ---------- Chrome (menú superior, navegación y footer) ---------- */
+  --chrome-bg: #0e141b;
 }

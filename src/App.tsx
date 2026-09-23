@@ -18,7 +18,7 @@ import './App.css';
 function AppContent() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [librarySection, setLibrarySection] = useState<SectionId>('library');
-  const [friendsOpen, setFriendsOpen] = useState(false);
+  const [friendsOpen, setFriendsOpen] = useState(true);
 
   const location = useLocation();
   const navigate = useNavigate();
