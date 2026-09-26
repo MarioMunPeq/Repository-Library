@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
+    "steam:achievements": "node scripts/fetch-steam-achievements.js",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {

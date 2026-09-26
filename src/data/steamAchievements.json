@@ -1,0 +1,173 @@
+{
+  "persona5": {
+    "appId": 1687950,
+    "name": "Persona 5 Royal",
+    "total": 53,
+    "achievements": [
+      {
+        "name": "El fabuloso Ladrón Fantasma",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/3f258c23667e8dc4fa24951ae4829253a1de0a5f.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Castillo de la lujuria: tomado",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/d476c69114062761fb91eda32759271d69e0cbe6.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Museo de la vanidad: recuperado",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/3f4acf1eeacd464483cf6529ca758120e7c623ee.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Banco de la gula: despejado",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/86edec9981f95cb2d8e6a94fad50fe629606b216.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Pirámide de la ira: saqueada",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/22064cb410b8f8721827b016de7a661efe035963.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Puerto espacial de la avaricia: arrasado",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/cad5270e013516eec71b99e1a8a283b5de0ff427.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Casino de la envidia: arruinado",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/a2bdd7966a74191665cbf41b7a9f5b79791cdcde.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Crucero de la soberbia: naufragado",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/4edaadd302a0637f26c34c8517cc41e9b57f7f1a.jpg",
+        "hidden": true
+      },
+      {
+        "name": "El Trickster meticuloso",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/57d43d414458d90133fab9542774c461713c7ac2.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Recupera el futuro",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1687950/7a1ee1b8e6488cd30a59ec506db58963eb347c64.jpg",
+        "hidden": true
+      }
+    ]
+  },
+  "vault-archive": {
+    "appId": 22380,
+    "name": "Fallout: New Vegas",
+    "total": 75,
+    "achievements": [
+      {
+        "name": "Recién llegado",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/57ffeb21c637010758bf87f708a47ff8c62256ef.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Advenedizo",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/3cc42e549932da26fcbb049bd46f35893b98e78c.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Aquí mando yo",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/e2395a7100759c3e1d422bfe98dbe860941329a3.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Viejos amigos",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/5f627959d8b341f1e0e4268e21448bb9b7986132.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Ya estamos todos",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/6ec46779e08726ef3c936a1bde010e66abea7eac.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Mañoso",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/c95a6f2e1601937f6db28cc289dcafcf426bcc94.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Complementos a mí",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/8e958d9c3a8fade5ef218e1c1e94e27427412457.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Caminando por el Mojave",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/dd55cc62189a178f6330a049bbc0af9c81465f0b.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Maestro del Mojave",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/27a0372f85d63dd78880cc70e19f3a10b14dae4a.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Trotamundos",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/22380/40658de141c7c3a10bd8a6278d75b7dfbcb91e55.jpg",
+        "hidden": false
+      }
+    ]
+  },
+  "baldurs-gate-3": {
+    "appId": 1086940,
+    "name": "Baldur's Gate 3",
+    "total": 54,
+    "achievements": [
+      {
+        "name": "Fuga de Averno",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/0cb31fd9ec036550a374aa702a37464a98da3bfa.jpg",
+        "hidden": false
+      },
+      {
+        "name": "La trama se complica",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/628cdbbfd2e731735e4817252ce6633bf3bcd8ed.jpg",
+        "hidden": true
+      },
+      {
+        "name": "La ciudad te espera",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/3c6d05ff648b66925238963a658ee307e31ff870.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Bien está lo que bien acaba",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/ecd435323119579216ebcffebae690ae2e5c13eb.jpg",
+        "hidden": true
+      },
+      {
+        "name": "El poder absoluto corrompe",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/265327d387174ee2160946bcde392352ce635b88.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Adalid de los Reinos Olvidados",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/7648f980938af51c9f1378ec1171673fc8d8d0b4.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Los pecados del padre",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/8a149aacb554742ac673bf2531955ce27f4e234c.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Ceremorfosis",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/25eb31d566013ab216bb033cdbea1851d43db6fb.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Juego de rol",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/9c1231f530788d9aa21e1a858fbb9e85e0cb64f8.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Petates y desayunos",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/1086940/47daa8cf213809978d0f2ba9b514942c864ce452.jpg",
+        "hidden": false
+      }
+    ]
+  }
+}

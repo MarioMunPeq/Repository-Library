@@ -58,6 +58,10 @@ export interface Project {
   recommendation: ProjectRecommendation;
   githubUrl: string | null;
   status: ProjectStatus;
+  /** Appid real en Steam, solo si el proyecto corresponde a un juego publicado
+   *  en la plataforma. Lo usa `npm run steam:achievements` para traer los
+   *  logros (nombre e icono) del `src/data/steamAchievements.json`. */
+  steamAppId?: number;
   /** Rutas derivadas del slug SIN extensión (assets de Steam, todos opcionales).
    *  La extensión real la resuelve `SmartImage` en runtime (`resolveAssetSrc`). */
   /** Cuadrado pequeño ~64x64 — sidebar en vista lista. `/projects/<slug>/icon` */
@@ -130,6 +134,7 @@ export const projects: Project[] = [
     recommendation: 'desarrolladores',
     githubUrl: 'http://mariomunpeq.is-a.dev/',
     status: 'completado',
+    steamAppId: 1687950,
     screenshots: ['1', '2', '3', '4', '5', '6'],
     fallbackGradient: 'linear-gradient(90deg, #14060a 0%, #4a0d16 55%, #8f1420 100%)',
     description:
@@ -159,6 +164,7 @@ export const projects: Project[] = [
     recommendation: 'desarrolladores',
     githubUrl: 'https://mariomunpeq.github.io/Vault-Archive/',
     status: 'en desarrollo',
+    steamAppId: 22380,
     screenshots: [],
     fallbackGradient: 'linear-gradient(90deg, #150d24 0%, #2b1a4a 55%, #3f2a6e 100%)',
     description:
@@ -245,6 +251,7 @@ export const projects: Project[] = [
     recommendation: 'desarrolladores',
     githubUrl: 'https://mariomunpeq.github.io/Dungeon-Archive/',
     status: 'completado',
+    steamAppId: 1086940,
     screenshots: ['1', '2', '3', '4', '5'],
     fallbackGradient: 'linear-gradient(90deg, #1c1208 0%, #3a2412 55%, #5c3a1e 100%)',
     description:

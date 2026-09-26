@@ -1,6 +1,7 @@
 import { friends as allFriends } from '../data/friends';
 import type { Friend } from '../data/friends';
 import type { Project } from '../data/projects.tsx';
+import { getSteamAchievements } from '../data/steamAchievements';
 import { useState } from 'react';
 import { ProjectLogo } from './ProjectLogo';
 import { SmartImage } from './SmartImage';
@@ -28,8 +29,14 @@ interface ProjectStorePageProps {
 /** La rejilla 2x2 de Steam muestra 4 capturas; el resto, vía el enlace de gestion. */
 const GRID_SHOT_COUNT = 4;
 
-const MAX_FEATURED_UNLOCKED = 6;
-const MAX_LOCKED_SHOWN = 8;
+const MAX_FEATURED_UNLOCKED = 7;
+
+/** Logro mostrable: con icono real de Steam o solo con texto (tecnologías). */
+interface AchievementEntry {
+  name: string;
+  icon: string | null;
+  hidden: boolean;
+}
 
 const STORE_TABS = [
   'Página de la tienda',
@@ -77,16 +84,26 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
     return <EmptyState />;
   }
 
-  const achievementsPercent =
-    project.totalTech === 0 ? 0 : Math.round((project.unlockedTech / project.totalTech) * 100);
+  // Logros reales del juego si el proyecto tiene `steamAppId` y se han
+  // descargado con `npm run steam:achievements`; si no, los del propio proyecto.
+  const steam = getSteamAchievements(project.slug);
+  const achievementList: AchievementEntry[] = steam
+    ? steam.achievements
+    : project.technologies.map((tech) => ({ name: tech, icon: null, hidden: false }));
 
-  const unlockedTechs = project.technologies.slice(0, project.unlockedTech);
-  const lockedTechs = project.technologies.slice(project.unlockedTech);
-  const featuredAchievement = unlockedTechs[0] || lockedTechs[0];
-  const otherUnlocked = unlockedTechs.slice(1, MAX_FEATURED_UNLOCKED + 1);
-  const otherUnlockedOverflow = unlockedTechs.length - 1 - MAX_FEATURED_UNLOCKED;
-  const shownLocked = lockedTechs.slice(0, MAX_LOCKED_SHOWN);
-  const lockedOverflow = lockedTechs.length - MAX_LOCKED_SHOWN;
+  const achievementTotal = steam?.total ?? project.totalTech;
+  // El progreso desbloqueado es inventado: Steam no publica el progreso de un
+  // usuario sin su API key, así que solo se muestra si el proyecto lo define.
+  const achievementUnlocked = project.unlockedTech > 0 ? project.unlockedTech : null;
+  const achievementsPercent =
+    achievementUnlocked !== null && achievementTotal > 0
+      ? Math.round((achievementUnlocked / achievementTotal) * 100)
+      : 0;
+
+  const [featuredAchievement, ...otherAchievements] = achievementList;
+  const shownAchievements = otherAchievements.slice(0, MAX_FEATURED_UNLOCKED);
+  const achievementOverflow = Math.max(0, otherAchievements.length - MAX_FEATURED_UNLOCKED);
+
   const playingFriends = friendsPlaying(project.name);
   const friendsCountText =
     playingFriends.length === 1
@@ -350,59 +367,77 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
 
             <section className="store-panel">
               <h2 className="store-panel-title">Logros</h2>
-              <p className="store-ach-text">
-                Has desbloqueado {project.unlockedTech}/{project.totalTech} ({achievementsPercent}%)
-              </p>
-              <div className="store-ach-bar" aria-hidden="true">
-                <div className="store-ach-bar-fill" style={{ width: `${achievementsPercent}%` }} />
-              </div>
+
+              {achievementTotal > 0 ? (
+                <>
+                  <p className="store-ach-text">
+                    {achievementUnlocked !== null ? (
+                      <>
+                        Has desbloqueado {achievementUnlocked}/{achievementTotal} (
+                        {achievementsPercent}%)
+                      </>
+                    ) : (
+                      <>
+                        {achievementTotal} logros en Steam
+                        {steam ? ` · ${steam.name}` : ''}
+                      </>
+                    )}
+                  </p>
+
+                  {achievementUnlocked !== null && (
+                    <div className="store-ach-bar" aria-hidden="true">
+                      <div className="store-ach-bar-fill" style={{ width: `${achievementsPercent}%` }} />
+                    </div>
+                  )}
+                </>
+              ) : (
+                <p className="store-ach-text">Este juego no tiene logros en Steam.</p>
+              )}
 
               {featuredAchievement && (
-                <div className="store-ach-featured" title={featuredAchievement}>
-                  <TrophyIcon className="store-ach-featured-icon" />
+                <div className="store-ach-featured" title={featuredAchievement.name}>
+                  {featuredAchievement.icon ? (
+                    <img
+                      className="store-ach-featured-image"
+                      src={featuredAchievement.icon}
+                      alt=""
+                      loading="lazy"
+                    />
+                  ) : (
+                    <TrophyIcon className="store-ach-featured-icon" />
+                  )}
                   <div className="store-ach-featured-info">
-                    <span className="store-ach-featured-title">{featuredAchievement}</span>
-                    <span className="store-ach-featured-desc">Logro desbloqueado</span>
+                    <span className="store-ach-featured-title">{featuredAchievement.name}</span>
+                    <span className="store-ach-featured-desc">
+                      {featuredAchievement.hidden ? 'Logro secreto' : 'Logro destacado'}
+                    </span>
                   </div>
                 </div>
               )}
 
-              {otherUnlocked.length > 0 && (
-                <div className="store-ach-unlocked-group">
-                  <div className="store-ach-grid">
-                    {otherUnlocked.map((tech, index) => (
-                      <span
-                        key={index}
-                        className="store-ach-cell unlocked"
-                        title={tech}
-                      >
+              {shownAchievements.length > 0 && (
+                <div className="store-ach-grid">
+                  {shownAchievements.map((achievement, index) => (
+                    <span
+                      key={`${achievement.name}-${index}`}
+                      className={`store-ach-cell ${achievement.hidden ? 'hidden' : ''}`}
+                      title={achievement.name}
+                    >
+                      {achievement.icon ? (
+                        <img
+                          className="store-ach-cell-image"
+                          src={achievement.icon}
+                          alt=""
+                          loading="lazy"
+                        />
+                      ) : (
                         <CodeIcon className="store-ach-cell-icon" />
-                      </span>
-                    ))}
-                    {otherUnlockedOverflow > 0 && (
-                      <span className="store-ach-more">+{otherUnlockedOverflow}</span>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {lockedTechs.length > 0 && (
-                <div className="store-ach-locked-group">
-                  <span className="store-ach-locked-title">Logros bloqueados</span>
-                  <div className="store-ach-grid">
-                    {shownLocked.map((tech, index) => (
-                      <span
-                        key={index}
-                        className="store-ach-cell locked"
-                        title={tech}
-                      >
-                        <CodeIcon className="store-ach-cell-icon" />
-                      </span>
-                    ))}
-                    {lockedOverflow > 0 && (
-                      <span className="store-ach-more">+{lockedOverflow}</span>
-                    )}
-                  </div>
+                      )}
+                    </span>
+                  ))}
+                  {achievementOverflow > 0 && (
+                    <span className="store-ach-more">+{achievementOverflow}</span>
+                  )}
                 </div>
               )}
 
