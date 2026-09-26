@@ -15,7 +15,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 28px;
-  background: #242830;
+  background: transparent;
 }
 
 .community-side {
@@ -26,15 +26,15 @@
 .community-panel {
   padding: 16px;
   border-radius: 2px;
-  background: #1b2838;
+  background: #1b1e22;
 }
 
 .community-panel-title {
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #8f98a0;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  color: #c7cdd3;
   margin-bottom: 14px;
 }
 
@@ -45,7 +45,7 @@
   padding: 10px 8px;
   border-radius: 3px;
   font-size: 14px;
-  color: #c6d4df;
+  color: #c7cdd3;
   text-decoration: none;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
@@ -72,7 +72,7 @@
 }
 
 .community-social-icon.github {
-  background: #242830;
+  background: #1b1e22;
 }
 
 .community-social-icon.linkedin {

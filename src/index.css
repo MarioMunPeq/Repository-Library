@@ -1,28 +1,46 @@
 @import './styles/design-tokens.css';
 
+/* Motiva Sans — la tipografía real del cliente de Steam.
+   Solo se dispone del peso Regular, así que se declara como variable
+   (100 900) para que el navegador reparta el peso sin deformar el trazo.
+   La fuente vive en src/assets (no en public) para que Vite la emita con
+   hash y anteponga el `base` de despliegue; si estuviera en public, la ruta
+   /fonts/... no resolvería en GitHub Pages. */
+@font-face {
+  font-family: 'Motiva Sans';
+  src: url('./assets/fonts/MotivaSans-Regular.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  /* Steam palette (desktop client) */
-  --steam-bg-top: #1b2838;
-  --steam-bg-mid: #141d28;
-  --steam-bg-bottom: #0d141c;
-  --steam-panel: rgba(18, 28, 39, 0.55);
-  --steam-panel-solid: #171a21;
-  --steam-text: #c6d4df;
+  /* Paleta neutra del cliente de Steam (nuevo UI).
+     Steam ya no usa el azul #1b2838: el suelo es un gris muy oscuro y frío,
+     y el azul queda reservado para acentos (enlaces, barra de logros, tabs).
+     Todos los valores viven aquí para poder ajustarlos desde un solo sitio. */
+  --steam-bg-top: #1b1e22;
+  --steam-bg-mid: #16191d;
+  --steam-bg-bottom: #101215;
+  --steam-panel: rgba(34, 38, 43, 0.72);
+  --steam-panel-solid: #22262b;
+  --steam-panel-raised: #2a2f35;
+  --steam-text: #c7cdd3;
   --steam-text-bright: #ffffff;
-  --steam-text-dim: #7193a6;
-  --steam-text-faint: #5a6d7d;
+  --steam-text-dim: #8b929a;
+  --steam-text-faint: #6b737c;
   --steam-accent: #66c0f4;
   --steam-accent-strong: #1a9fff;
-  --steam-success: #a4d007;
-  --steam-green-grad: linear-gradient(180deg, #5fd344 0%, #48bf40 100%);
-  --steam-green-grad-hover: linear-gradient(180deg, #71e154 0%, #54c946 100%);
-  --steam-border: rgba(73, 108, 138, 0.35);
-  --steam-hover: rgba(102, 192, 244, 0.12);
-  --steam-scrollbar: #2a475e;
-  --steam-scrollbar-hover: #3a5a7a;
-  --steam-red: #e81123;
+  --steam-success: #1a9fff;
+  --steam-green-grad: linear-gradient(90deg, #589439 0%, #4c7a31 100%);
+  --steam-green-grad-hover: linear-gradient(90deg, #639f42 0%, #568838 100%);
+  --steam-border: rgba(255, 255, 255, 0.07);
+  --steam-hover: rgba(255, 255, 255, 0.06);
+  --steam-scrollbar: #2f353c;
+  --steam-scrollbar-hover: #3d434a;
+  --steam-red: #c74343;
 
-  --font-sans: 'Motiva Sans', Arial, sans-serif;
+  --font-sans: 'Motiva Sans', 'Noto Sans', 'Segoe UI', system-ui, sans-serif;
 
   --transition-fast: 140ms ease;
   --transition-normal: 220ms ease;
@@ -46,8 +64,9 @@ body {
   font-family: var(--font-sans);
   font-size: var(--font-size-root);
   line-height: var(--font-line-height);
+  letter-spacing: 0.1px;
   color: var(--steam-text);
-  background-color: #242830;
+  background-color: #1b1e22;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -82,10 +101,10 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a475e;
+  background: #2f353c;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a5a7a;
+  background: #3d434a;
 }

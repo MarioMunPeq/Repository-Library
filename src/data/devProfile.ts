@@ -5,11 +5,18 @@ export interface DevBadge {
   color: string;
 }
 
+export interface DevGroup {
+  id: string;
+  name: string;
+  members: number;
+}
+
 export interface DevProfile {
   avatarBasePath: string;
   username: string;
   realName: string;
   location: string;
+  countryFlag: string;
   level: number;
   yearsExperience: number;
   lastActivity: string;
@@ -23,6 +30,8 @@ export interface DevProfile {
   };
   featuredBadges: DevBadge[];
   badges: DevBadge[];
+  reviews: number;
+  groups: DevGroup[];
   stats: {
     videos: number;
     articles: number;
@@ -34,6 +43,7 @@ export const devProfile: DevProfile = {
   username: 'MarioMunPeq',
   realName: 'Mario Muñoz Pequeño',
   location: 'Valladolid, España',
+  countryFlag: '🇪🇸',
   level: 24,
   yearsExperience: 2,
   lastActivity: 'hace 3 días',
@@ -61,6 +71,11 @@ export const devProfile: DevProfile = {
     { id: 'webgl', label: 'WebGL', short: 'W', color: '#3a5a3a' },
     { id: 'node', label: 'Node.js', short: 'N', color: '#5a4a2a' },
     { id: 'github', label: 'GitHub', short: 'GH', color: '#2a2a2a' },
+  ],
+  reviews: 1,
+  groups: [
+    { id: 'indie-devs', name: 'Indie Devs España', members: 3420 },
+    { id: 'react-latam', name: 'Front-End España', members: 12870 },
   ],
   stats: {
     videos: 0,

@@ -9,7 +9,7 @@
   border: none;
   border-radius: var(--capsule-radius);
   overflow: hidden;
-  background: #1b2838;
+  background: #1b1e22;
   cursor: pointer;
   text-align: left;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
@@ -62,8 +62,8 @@
   align-items: center;
   justify-content: center;
   height: 34px;
-  background: #1b2838;
-  color: #c6d4df;
+  background: #1b1e22;
+  color: #c7cdd3;
   font-size: 13px;
   font-weight: 400;
   line-height: 1;

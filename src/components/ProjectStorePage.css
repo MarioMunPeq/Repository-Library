@@ -8,29 +8,32 @@
   background: inherit;
 }
 
+/* Sin `contain: layout` a propósito: contenía el desbordamiento y impedía
+   que el contenedor desplazable (.main-content) llegase al contenido que
+   sobresale, dejando las capturas inferiores fuera de alcance.
+   `flex: 0 0 auto` evita que la página encoja y que el scroll la recorte. */
 .store-page {
+  position: relative;
   width: 100%;
-  background: #242830;
-  contain: layout style;
-  flex: 1;
-  min-height: 0;
+  background: var(--content-gradient);
   display: flex;
   flex-direction: column;
+  flex: 0 0 auto;
 }
 
 .store-shell {
   display: flex;
   flex-direction: column;
   gap: 0;
-  min-height: 100%;
+  flex: 0 0 auto;
 }
 
-/* ---------- HERO (340px fijo, full width, cinematic banner) ---------- */
+/* ---------- HERO (353px fijo, full width, cinematic banner) ---------- */
 
 .store-banner {
   position: relative;
   width: 100%;
-  height: 340px;
+  height: 353px;
   overflow: hidden;
 }
 
@@ -43,32 +46,43 @@
   object-position: center;
 }
 
-.store-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(180deg, transparent 60%, rgba(15, 18, 24, 0.6) 100%);
-  pointer-events: none;
-}
-
+/* Un único degradado que funde el hero con la página. Se mantiene suave a
+   propósito: en Steam la ilustración se sigue viendo por detrás del playbar
+   y de las stats, así que aquí no se puede tapar con negro opaco. */
 .store-banner::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(36, 40, 48, 0) 30%, rgba(36, 40, 48, 0.55) 60%, rgba(23, 26, 33, 0.9) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 52%,
+    rgba(12, 14, 16, 0.35) 76%,
+    rgba(16, 18, 21, 0.7) 92%,
+    #16191d 100%
+  );
   pointer-events: none;
 }
 
 .store-banner-logo {
   position: absolute;
-  bottom: 64px;
+  bottom: 88px;
   left: 0;
   padding: 0 35px 16px;
   z-index: 1;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
 }
 
-/* ---------- PLAYBAR (overlay sobre el hero: semitransparente, 64px) ---------- */
+/* Logo bastante más grande que en una tarjeta normal, como en el cliente */
+.store-banner-logo .project-logo-img {
+  max-width: 480px;
+  max-height: 190px;
+}
+
+.store-banner-logo .project-logo-fallback {
+  font-size: 58px;
+}
+
+/* ---------- PLAYBAR (overlay translúcido sobre el hero, 64px) ---------- */
 
 .store-actionbar {
   position: absolute;
@@ -78,20 +92,18 @@
   z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   height: 64px;
   padding: 0;
-  background: rgba(20, 22, 28, 0.55);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 100%);
 }
 
 .store-play-group {
   display: flex;
   align-items: stretch;
   flex-shrink: 0;
-  height: 48px;
-  width: 200px;
+  height: 46px;
+  width: 190px;
   margin-left: 35px;
 }
 
@@ -103,8 +115,8 @@
   flex: 1;
   min-width: 0;
   padding: 0 14px;
-  border-radius: 2px 0 0 2px;
-  background: linear-gradient(180deg, #5fd344 0%, #48bf40 100%);
+  border-radius: 2px;
+  background: linear-gradient(90deg, #589439 0%, #4c7a31 100%);
   color: #ffffff;
   font-size: var(--store-play-font-size);
   font-weight: 700;
@@ -116,12 +128,12 @@
 }
 
 .store-play-btn:not(:disabled):hover {
-  filter: brightness(1.06);
+  filter: brightness(1.12);
 }
 
 .store-play-btn:disabled {
-  background: #3a4552;
-  color: #8a9ab3;
+  background: #2a2f35;
+  color: #8b929a;
   cursor: default;
 }
 
@@ -130,68 +142,35 @@
   height: 18px;
 }
 
-.store-play-dropdown {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--store-play-dropdown-width);
-  border-radius: 0 2px 2px 0;
-  background: linear-gradient(180deg, #5fd344 0%, #48bf40 100%);
-  color: #ffffff;
-  border-left: 1px solid rgba(10, 26, 10, 0.3);
-  cursor: pointer;
-  transition: filter var(--transition-fast);
-}
-
-.store-play-dropdown:not(:disabled):hover {
-  filter: brightness(1.06);
-}
-
-.store-play-dropdown:disabled {
-  background: #3a4552;
-  color: #8a9ab3;
-  cursor: default;
-}
-
-.store-play-chevron {
-  width: 18px;
-  height: 18px;
-}
-
 .store-stats {
   display: flex;
   align-items: center;
-  flex: 1;
-  justify-content: center;
-  gap: 32px;
-  height: auto;
+  gap: 26px;
+  margin-left: 8px;
 }
 
 .store-stat {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  min-width: 170px;
-  height: auto;
-  padding: 0;
+  gap: 9px;
+  flex-shrink: 0;
 }
 
 .store-stat-icon {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 2px;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .store-stat-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 2px;
   line-height: 1.15;
-  text-align: center;
+  text-align: left;
 }
 
 .store-stat-label {
@@ -213,59 +192,141 @@
 }
 
 .store-stat-bar {
-  width: 140px;
+  width: 100px;
   height: 4px;
-  margin-top: 2px;
-  background: #0e141b;
+  margin-top: 3px;
+  background: #101215;
 }
 
 .store-stat-bar-fill {
   height: 100%;
-  background: #a4d007;
+  background: #1a9fff;
+}
+
+/* Estado en cloud: bloque compacto entre el play y el grupo de stats */
+.store-cloud {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 8px;
+  padding: 0 26px 0 0;
+}
+
+.store-cloud-icon {
+  width: 20px;
+  height: 20px;
+  color: #8b929a;
+}
+
+.store-cloud-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.15;
+}
+
+.store-cloud-label {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+}
+
+.store-cloud-value {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: #ffffff;
+  white-space: nowrap;
 }
 
 .store-icon-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-right: 38px;
+  gap: 14px;
+  margin-left: auto;
+  margin-right: 35px;
 }
 
+/* Iconos sueltos, sin caja de fondo (así los pinta el cliente) */
 .store-icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  transition: color var(--transition-fast);
 }
 
 .store-icon-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: transparent;
   color: #ffffff;
 }
 
 .store-icon-btn-svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 
-/* ---------- Recommendation Box (105px, full width, Steam-style bar) ---------- */
+/* ---------- Tab bar del store (bajo el playbar) ---------- */
+
+.store-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  height: 42px;
+  padding: 0 25px;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.store-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.store-tab {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  font-size: 14px;
+  color: #c7cdd3;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.store-tab:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.store-tab.active {
+  color: #ffffff;
+  box-shadow: inset 0 -2px 0 #1a9fff;
+}
+
+/* ---------- Recommendation Box ---------- */
+/* Va dentro de la columna principal (sin márgenes propios): en Steam no es
+   una franja a todo el ancho, sino un panel del lado izquierdo. */
 
 .store-recommendation {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  height: 105px;
   margin: 0;
-  background: #242f3a;
-  border-top: 1px solid #2a3f52;
-  border-bottom: 1px solid #000000;
-  padding: 0 35px;
+  padding: 14px 18px;
+  background: #2a2f35;
+  border: none;
 }
 
 .store-recommendation-left {
@@ -276,19 +337,19 @@
 }
 
 .store-recommendation-time {
-  font-size: 14px;
-  color: #66c0f4;
+  font-size: 15px;
+  color: #1a9fff;
   cursor: pointer;
   transition: color var(--transition-fast);
 }
 
 .store-recommendation-time:hover {
-  color: #b9d7ef;
+  color: #66c0f4;
   text-decoration: underline;
 }
 
 .store-recommendation-question {
-  font-size: 16px;
+  font-size: 15px;
   color: #ffffff;
   font-weight: 400;
 }
@@ -296,18 +357,21 @@
 .store-recommendation-buttons {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
+/* Botones con icono + texto, como los del cliente */
 .store-recommend-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  font-size: 13px;
+  gap: 7px;
+  height: 38px;
+  padding: 0 16px;
+  font-size: 14px;
   font-weight: 500;
-  color: #66c0f4;
+  color: #ffffff;
   background: #4b6174;
   border: none;
   border-radius: 2px;
@@ -316,21 +380,10 @@
   white-space: nowrap;
 }
 
-.store-recommend-btn-icon {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-}
-
-.store-recommend-btn-icon svg {
+.store-recommend-btn-icon-svg {
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-}
-
-.store-recommend-btn-text {
-  padding: 0 16px;
-  height: 40px;
+  width: 18px;
+  height: 18px;
 }
 
 .store-recommend-btn:hover {
@@ -353,84 +406,90 @@
   padding: 10px;
   font-size: 14px;
   line-height: 1.5;
-  color: #8f98a0;
-  background: #171a21;
-  border: 1px solid #2a3f52;
-  border-radius: 2px;
+  color: #8b929a;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #3a4048;
+  border-radius: 0;
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .store-activity-textarea:focus {
-  border-color: #66c0f4;
-  box-shadow: 0 0 0 2px rgba(102, 192, 244, 0.2);
+  border-color: #1a9fff;
+  box-shadow: 0 0 0 2px rgba(26, 159, 255, 0.2);
 }
 
 .store-activity-textarea::placeholder {
-  color: #6a7682;
+  color: #6b737c;
 }
 
 /* ---------- Content Body: two columns (76/24) ---------- */
+/* La altura la marca el contenido (no `flex: 1`): así el contenedor de la
+   app hace scroll normal hasta el final de la página. */
 
 .store-body {
   display: grid;
   grid-template-columns: minmax(0, 3.2fr) minmax(280px, 1fr);
+  align-items: start;
   gap: 30px;
-  padding: 0 35px 40px;
-  background: #242830;
-  flex: 1;
-  min-height: 0;
+  padding: 30px 35px 40px;
+  background: transparent;
 }
 
 .store-main {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 .store-side {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 /* ---------- Columna izquierda ---------- */
 
 .store-section-title {
   font-size: var(--store-section-title-font-size);
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #66c0f4;
+  color: #c7cdd3;
   margin-bottom: 10px;
 }
 
 .store-about {
   font-size: var(--store-about-font-size);
   line-height: var(--store-about-line-height);
-  color: #c6d4df;
+  color: #c7cdd3;
 }
 
-.store-shots {
-  position: relative;
-}
+/* ---------- Grabaciones y capturas: rejilla 2x2 ---------- */
 
-.store-shots-strip {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  padding: 4px 2px 10px;
+.store-shots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
 .store-shot {
   position: relative;
-  width: 320px;
-  height: 180px;
-  flex-shrink: 0;
-  border-radius: 2px;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: none;
+  border-radius: 0;
   overflow: hidden;
+  cursor: pointer;
+  transition: filter var(--transition-fast);
+}
+
+.store-shot:hover {
+  filter: brightness(1.15);
 }
 
 .store-shot-img {
@@ -440,38 +499,54 @@
   object-fit: cover;
 }
 
-.store-shot-arrow {
+/* Icono de descarga en la esquina, como en la galería de Steam */
+.store-shot-download {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
+  top: 6px;
+  right: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(8, 13, 19, 0.75);
-  border: 1px solid rgba(102, 192, 244, 0.3);
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.55);
   color: #ffffff;
-  transition: background-color var(--transition-fast);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
 }
 
-.store-shot-arrow:hover {
-  background: rgba(102, 192, 244, 0.35);
+.store-shot:hover .store-shot-download {
+  opacity: 1;
 }
 
-.store-shot-arrow.left {
-  left: 6px;
+.store-shot-download-svg {
+  width: 16px;
+  height: 16px;
 }
 
-.store-shot-arrow.right {
-  right: 6px;
+.store-shots-manage {
+  display: block;
+  margin-top: 12px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 15px;
+  color: #8b929a;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: color var(--transition-fast);
 }
 
-.store-shot-arrow-svg {
-  width: 18px;
-  height: 18px;
+.store-shots-manage:hover {
+  color: #c7cdd3;
+  text-decoration: underline;
+}
+
+.store-shots-empty {
+  font-size: 15px;
+  color: #8b929a;
 }
 
 .store-updates {
@@ -487,21 +562,32 @@
 }
 
 .store-update-date {
-  font-size: 12px;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  color: #8f98a0;
+  color: #c7cdd3;
+}
+
+/* Filete a la derecha de la fecha, como en el feed de Steam */
+.store-update-date::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .store-update-card {
   padding: 12px;
-  border-radius: 2px;
-  background: #1b2838;
+  border-radius: 0;
+  background: #22262b;
 }
 
 .store-update-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 4px;
@@ -510,23 +596,24 @@
 .store-update-body {
   font-size: 13px;
   line-height: 1.5;
-  color: #8f98a0;
+  color: #8b929a;
 }
 
 /* ---------- Columna derecha ---------- */
 
+/* Un pelín más claro que el fondo para que el panel se lea como bloque */
 .store-panel {
-  padding: 14px;
-  border-radius: 2px;
-  background: #1b2838;
+  padding: 16px;
+  border-radius: 0;
+  background: #22262b;
 }
 
 .store-panel-title {
   font-size: var(--store-panel-title-font-size);
-  font-weight: 600;
+  font-weight: 400;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #8f98a0;
+  color: #c7cdd3;
   margin-bottom: 12px;
 }
 
@@ -536,7 +623,7 @@
 
 .store-friends-count {
   font-size: var(--store-panel-content-font-size);
-  color: #c6d4df;
+  color: #c7cdd3;
   margin-bottom: 10px;
 }
 
@@ -580,7 +667,7 @@
 }
 
 .store-friends-link:hover {
-  color: #b9d7ef;
+  color: #c7cdd3;
   text-decoration: underline;
 }
 
@@ -594,12 +681,12 @@
   width: 100%;
   height: 6px;
   margin-bottom: 14px;
-  background: #0e141b;
+  background: #101215;
 }
 
 .store-ach-bar-fill {
   height: 100%;
-  background: #a4d007;
+  background: #1a9fff;
 }
 
 /* Featured Achievement */
@@ -609,8 +696,8 @@
   gap: 10px;
   padding: 10px;
   margin-bottom: 14px;
-  background: #171a21;
-  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0;
 }
 
 .store-ach-featured-icon {
@@ -638,7 +725,7 @@
 
 .store-ach-featured-desc {
   font-size: 12px;
-  color: #8f98a0;
+  color: #8b929a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -646,74 +733,77 @@
 
 /* Other Unlocked Achievements */
 .store-ach-unlocked-group {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .store-ach-locked-group {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .store-ach-locked-title {
   display: block;
-  font-size: 12px;
-  color: #8f98a0;
-  margin-bottom: 6px;
+  font-size: 13px;
+  color: #8b929a;
+  margin-bottom: 8px;
 }
 
-.store-ach-grid-small {
-  display: grid;
-  grid-template-columns: repeat(6, 32px);
+/* Iconos de 48px alineados a la izquierda, con el "+N" al final */
+.store-ach-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
 }
 
-.store-ach-cell-small {
+.store-ach-cell {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
+  width: 48px;
+  height: 48px;
+  border-radius: 2px;
   font-size: 12px;
   font-weight: 700;
 }
 
-.store-ach-cell-small.unlocked {
-  background: #2a3f5a;
-  border: 1px solid #66c0f4;
-  color: #66c0f4;
+.store-ach-cell.unlocked {
+  background: #1b1e22;
+  border: 1px solid #3a4048;
+  color: #c7cdd3;
 }
 
-.store-ach-cell-small.locked {
-  background: #1b2838;
-  opacity: 0.35;
+.store-ach-cell.locked {
+  background: #1b1e22;
+  border: 1px solid #2a2f35;
+  opacity: 0.4;
   filter: grayscale(1);
-  color: #8f98a0;
+  color: #8b929a;
 }
 
-.store-ach-cell-small.more {
-  background: rgba(42, 63, 90, 0.35);
-  border: 1px dashed #2a3f5a;
-  color: #8f98a0;
-  font-size: 12px;
-  font-weight: 500;
+.store-ach-more {
+  font-size: 14px;
+  color: #c7cdd3;
+  white-space: nowrap;
 }
 
-.store-ach-cell-small-icon {
-  width: 16px;
-  height: 16px;
+.store-ach-cell-icon {
+  width: 24px;
+  height: 24px;
 }
 
-/* View All Link */
+/* View All Link — alineado a la derecha como en el panel de Steam */
 .store-ach-view-all {
-  display: inline-block;
-  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  text-align: right;
   color: #66c0f4;
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .store-ach-view-all:hover {
-  color: #b9d7ef;
+  color: #c7cdd3;
   text-decoration: underline;
 }
 
@@ -757,6 +847,21 @@
     padding: 0 20px;
   }
 
+  .store-tabs {
+    height: auto;
+    flex-wrap: nowrap;
+    padding: 0 12px;
+  }
+
+  .store-tab {
+    padding: 10px 10px;
+  }
+
+  .store-cloud {
+    padding: 0;
+    margin-left: 0;
+  }
+
   .store-actionbar {
     height: auto;
     flex-wrap: wrap;
@@ -773,12 +878,9 @@
   .store-stats {
     width: 100%;
     justify-content: center;
-    gap: 24px;
-  }
-
-  .store-stat {
-    min-width: 140px;
-    padding: 0;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    margin-left: 0;
   }
 
   .store-icon-actions {
@@ -788,8 +890,8 @@
   }
 
   .store-recommendation {
-    height: auto;
-    padding: 16px 20px;
+    gap: 16px;
+    padding: 14px 16px;
     flex-wrap: wrap;
   }
 
@@ -825,15 +927,6 @@
     padding: 10px 24px;
   }
 
-  .store-play-dropdown {
-    width: var(--store-play-dropdown-width);
-  }
-
-  .store-stat {
-    min-width: 120px;
-    padding: 0;
-  }
-
   .store-stat-value {
     font-size: 13px;
   }
@@ -843,18 +936,18 @@
   }
 
   .store-stat-bar {
-    width: 100px;
+    width: 80px;
   }
 
   .store-recommendation {
     gap: 16px;
   }
 
-  .store-recommend-btn-text {
-    display: none;
-  }
-
   .store-body {
     padding: 0 16px 24px;
+  }
+
+  .store-shots-grid {
+    grid-template-columns: 1fr;
   }
 }

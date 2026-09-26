@@ -1,5 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { CloseIcon, ChevronLeftIcon, ChevronRightIcon } from './Icons';
+import { SmartImage } from './SmartImage';
 import { resolveAssetSrc, ASSET_EXTENSIONS } from '../utils/assets';
 import './ImageViewer.css';
 
@@ -41,6 +43,9 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
     setAttempt(0);
     setLoadedAttempt(-1);
   }, [currentIndex, images.length]);
+
+  // El padre monta el visor con `key` (slug + apertura + índice), así que el
+  // estado inicial ya es el de la captura pulsada y no hace falta sincronizarlo.
 
   useEffect(() => {
     if (!isOpen) return;
@@ -100,7 +105,9 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
 
   const imageUrl = candidates[attempt];
 
-  return (
+  // Se monta en un portal para salir de cualquier ancestro con `contain` o
+  // `transform`: si no, el overlay fixed se quedaría encerrado en la página.
+  return createPortal(
     <div
       className="image-viewer-overlay"
       ref={viewerRef}
@@ -127,7 +134,6 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
               className="image-viewer-nav image-viewer-nav-left"
               onClick={goPrevious}
               aria-label="Captura anterior"
-              disabled={images.length <= 1}
             >
               <ChevronLeftIcon />
             </button>
@@ -135,7 +141,6 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
               className="image-viewer-nav image-viewer-nav-right"
               onClick={goNext}
               aria-label="Captura siguiente"
-              disabled={images.length <= 1}
             >
               <ChevronRightIcon />
             </button>
@@ -159,12 +164,44 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
           />
         </div>
 
-        {images.length > 1 && (
-          <div className="image-viewer-counter" aria-live="polite">
+        {/* Pie del visor: contador + tira de miniaturas para saltar a cualquiera */}
+        <div className="image-viewer-footer">
+          <span className="image-viewer-counter" aria-live="polite">
             {currentIndex + 1} / {images.length}
-          </div>
-        )}
+          </span>
+
+          {images.length > 1 && (
+            <div className="image-viewer-strip" role="tablist" aria-label="Ir a la captura">
+              {images.map((image, index) => (
+                <button
+                  key={image}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === currentIndex}
+                  aria-label={`Captura ${index + 1}`}
+                  className={`image-viewer-thumb ${index === currentIndex ? 'active' : ''}`}
+                  style={{ background: projectFallbackGradient }}
+                  onClick={() => {
+                    setCurrentIndex(index);
+                    setAttempt(0);
+                    setLoadedAttempt(-1);
+                  }}
+                >
+                  <SmartImage
+                    basePath={`/projects/${projectSlug}/screenshots/${image}`}
+                    kind="screenshots"
+                    className="image-viewer-thumb-img"
+                    alt=""
+                    draggable={false}
+                    fallback={<span className="image-viewer-thumb-fallback" aria-hidden="true" />}
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };

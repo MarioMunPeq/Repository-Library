@@ -1,23 +1,37 @@
 .friends-root {
   position: fixed;
-  right: 16px;
-  bottom: 40px;
+  right: 0;
+  bottom: 0;
   z-index: 200;
   will-change: transform;
 }
 
 .friends-panel {
-  width: 320px;
-  height: min(480px, calc(100vh - 48px));
+  width: 340px;
+  height: min(660px, calc(100vh - 48px));
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #1b2838;
-  border: 1px solid #000;
-  border-radius: 4px 4px 0 0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  font-size: 13px;
-  color: #c6d4df;
+  background: #1b1e22;
+  border: 1px solid #101215;
+  border-radius: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  color: #c7cdd3;
+}
+
+/* ---------- Colores de estado ---------- */
+
+.ring-online {
+  border-color: #c05cd8;
+}
+
+.ring-playing {
+  border-color: #57cbde;
+}
+
+.ring-offline {
+  border-color: #3d434a;
 }
 
 /* ---------- Cabecera ---------- */
@@ -25,12 +39,12 @@
 .fp-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 64px;
-  padding: 0 12px;
+  gap: 12px;
+  min-height: 76px;
+  padding: 10px 10px 10px 12px;
   flex-shrink: 0;
-  background: #16202d;
-  border-bottom: 1px solid #000;
+  background: #16191d;
+  border-bottom: 1px solid #101215;
   cursor: move;
   touch-action: none;
   user-select: none;
@@ -40,18 +54,20 @@
   cursor: grabbing;
 }
 
+/* ---------- Avatares: cuadrados como en Steam ---------- */
+
 .fp-avatar {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 2px;
   flex-shrink: 0;
   overflow: hidden;
   border: 2px solid transparent;
   font-weight: 700;
-  color: #e7f1f7;
-  background: #232e3c;
+  color: #ffffff;
+  background: #1f2327;
   user-select: none;
 }
 
@@ -60,33 +76,21 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 0;
   object-fit: cover;
 }
 
 .fp-avatar.head {
-  font-size: 17px;
+  font-size: 20px;
 }
 
 .fp-avatar.row {
   font-size: 12px;
 }
 
-.fp-avatar.ring-online {
-  border-color: #57cbde;
-}
-
-.fp-avatar.ring-playing {
-  border-color: #a4d007;
-}
-
-.fp-avatar.ring-offline {
-  border-color: #3d434a;
-}
-
 .fp-avatar.row.ring-offline {
   filter: grayscale(1);
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 .fp-header-user {
@@ -94,30 +98,39 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  line-height: 1.3;
+  gap: 1px;
+  line-height: 1.25;
 }
 
 .fp-header-name {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
 }
 
+.fp-header-name.ring-online {
+  color: #c05cd8;
+}
+
+.fp-header-name.ring-playing {
+  color: #57cbde;
+}
+
 .fp-header-chevron {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   flex-shrink: 0;
-  color: #8f98a0;
+  color: #8b929a;
 }
 
 .fp-header-status {
-  font-size: 11px;
-  color: #8f98a0;
+  font-size: 12px;
+  color: #c7cdd3;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -127,46 +140,41 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  margin-left: 4px;
+  flex-shrink: 0;
 }
 
 .fp-icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 3px;
-  color: #8f98a0;
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  color: #8b929a;
   transition: background-color 150ms ease, color 150ms ease;
 }
 
 .fp-icon-btn:hover {
-  background: rgba(102, 192, 244, 0.12);
-  color: #66c0f4;
-}
-
-.fp-icon-btn.accent {
-  color: #66c0f4;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
 }
 
 .fp-icon-btn-svg {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
 }
 
 /* ---------- Fila de favoritos ---------- */
 
 .fp-favorites {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 56px;
-  padding: 8px 12px;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 12px 10px;
   flex-shrink: 0;
   overflow-x: auto;
-  background: #171a21;
-  border-bottom: 1px solid #000;
+  background: #1b1e22;
+  border-bottom: 1px solid #101215;
   scrollbar-width: none;
 }
 
@@ -177,14 +185,16 @@
 .fp-fav {
   position: relative;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
   flex-shrink: 0;
   padding: 0;
-  border-radius: 50%;
   transition: transform 150ms ease;
 }
 
 .fp-fav:hover {
-  transform: scale(1.06);
+  transform: translateY(-2px);
 }
 
 .fp-fav-avatar {
@@ -192,15 +202,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 15px;
+  width: 64px;
+  height: 64px;
+  border-radius: 2px;
+  border: 2px solid transparent;
+  font-size: 22px;
   font-weight: 700;
-  color: #e7f1f7;
-  border: 1px solid rgba(0, 0, 0, 0.45);
+  color: #ffffff;
   overflow: hidden;
   user-select: none;
+}
+
+.fp-fav-avatar.ring-offline {
+  filter: grayscale(1);
+  opacity: 0.55;
 }
 
 .fp-fav-avatar-img {
@@ -208,27 +223,17 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 0;
   object-fit: cover;
 }
 
-.fp-fav-dot {
-  position: absolute;
-  right: -2px;
-  bottom: -2px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 2px solid #171a21;
-  box-sizing: content-box;
-}
-
-.fp-fav-dot.on {
-  background: #57cbde;
-}
-
-.fp-fav-dot.off {
-  background: #626d77;
+.fp-fav-name {
+  font-size: 12px;
+  color: #c7cdd3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 64px;
 }
 
 /* ---------- Barra AMIGOS ---------- */
@@ -237,18 +242,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 12px;
+  padding: 8px 8px 8px 14px;
   flex-shrink: 0;
-  background: #1b2838;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+  background: #1b1e22;
+  box-shadow: inset 0 -1px 0 #66c0f4;
 }
 
 .fp-toolbar-title {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #8f98a0;
+  letter-spacing: 0.5px;
+  color: #ffffff;
 }
 
 .fp-toolbar-actions {
@@ -262,45 +267,63 @@
 .fp-list {
   flex: 1;
   overflow-y: auto;
-  background: #1b2838;
-  padding: 2px 0 8px;
+  background: #1b1e22;
+  padding-bottom: 8px;
+}
+
+.fp-section + .fp-section {
+  margin-top: 4px;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.fp-section-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 8px 6px 14px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.fp-section-count {
+  color: #8b929a;
+}
+
+.fp-section-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: auto;
+  border-radius: 2px;
+  color: #8b929a;
+  transition: color 150ms ease;
+}
+
+.fp-section-action:hover {
+  color: #ffffff;
 }
 
 .fp-group {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px 4px;
-  margin-top: 4px;
-  border-top: 1px solid rgba(0, 0, 0, 0.35);
-}
-
-.fp-group:first-child {
-  margin-top: 0;
-  border-top: none;
+  padding: 6px 14px 4px;
 }
 
 .fp-group-icon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
   color: #6b757d;
 }
 
 .fp-group-name {
   font-size: 12px;
-  font-weight: 700;
-  color: #7a828b;
-}
-
-.fp-section-title {
-  padding: 8px 16px;
-  margin: 0;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #8f98a0;
+  color: #8b929a;
 }
 
 .fp-row {
@@ -308,7 +331,7 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  padding: 6px 16px;
+  padding: 5px 8px 5px 14px;
   text-align: left;
   color: inherit;
   background: transparent;
@@ -317,11 +340,11 @@
 }
 
 .fp-row.indented {
-  padding-left: 28px;
+  padding-left: 30px;
 }
 
 .fp-row:hover {
-  background: rgba(102, 192, 244, 0.08);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .fp-row-info {
@@ -329,105 +352,122 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  line-height: 1.35;
+  line-height: 1.3;
 }
 
 .fp-name {
-  font-size: 13px;
+  font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .fp-name.online {
-  color: #57cbde;
-}
-
-.fp-name.playing {
-  color: #a4d007;
+  color: #66c0f4;
 }
 
 .fp-name.offline {
-  color: #8f98a0;
+  color: #c7cdd3;
 }
 
 .fp-subtitle {
-  font-size: 11px;
-  color: #8f98a0;
+  font-size: 12px;
+  color: #8b929a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .fp-subtitle.offline {
-  color: #626d77;
+  color: #6b737c;
 }
 
 .fp-empty {
-  padding: 8px 16px;
-  font-size: 12px;
-  color: #626d77;
+  padding: 6px 14px 10px;
+  font-size: 13px;
+  color: #6b737c;
 }
 
 /* ---------- Pie: chats de grupo ---------- */
 
 .fp-groups {
-  position: relative;
   flex-shrink: 0;
-  padding: 10px 16px;
-  background: #16202d;
-  border-top: 1px solid #000;
+  background: #16191d;
+  border-top: 1px solid #101215;
 }
 
 .fp-groups-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 6px 8px 6px 10px;
+  box-shadow: inset 0 -1px 0 #66c0f4;
 }
 
 .fp-groups-title-row {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #8f98a0;
+  color: #ffffff;
 }
 
 .fp-groups-chevron {
   width: 12px;
   height: 12px;
-  color: #8f98a0;
+  color: #c7cdd3;
+}
+
+.fp-groups-body {
+  position: relative;
+  padding: 10px 12px 12px;
+}
+
+.fp-groups-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: 13px;
+  color: #c7cdd3;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid #2a2f35;
+  border-radius: 4px;
+  outline: none;
+}
+
+.fp-groups-input::placeholder {
+  color: #8b929a;
 }
 
 .fp-groups-text {
-  margin-top: 6px;
-  padding-right: 22px;
-  font-size: 12px;
-  color: #626d77;
-  line-height: 1.5;
+  margin-top: 10px;
+  padding-right: 20px;
+  font-size: 13px;
+  color: #8b929a;
+  line-height: 1.45;
+}
+
+.fp-groups-link {
+  color: #66c0f4;
 }
 
 .fp-resize {
   position: absolute;
-  right: 5px;
-  bottom: 5px;
+  right: 6px;
+  bottom: 6px;
   width: 12px;
   height: 12px;
-  color: #626d77;
+  color: #6b737c;
 }
 
 @media (max-width: 640px) {
-  .friends-root {
-    right: 8px;
-    bottom: 40px;
-  }
-
   .friends-panel {
-    width: min(320px, calc(100vw - 16px));
-    height: min(480px, calc(100vh - 48px));
+    width: min(340px, calc(100vw - 16px));
+    height: min(660px, calc(100vh - 48px));
   }
 }
 

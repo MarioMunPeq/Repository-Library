@@ -6,6 +6,7 @@ import { SmartImage } from './SmartImage';
 import {
   ChevronDownIcon,
   CloseIcon,
+  FilterIcon,
   GearIcon,
   GroupChatIcon,
   MinimizeIcon,
@@ -33,6 +34,12 @@ function avatarColor(name: string): string {
 }
 
 const isOfflineStatus = (status: FriendStatus) => status === 'offline' || status === 'invisible';
+
+/** Color del marco del avatar según el estado: jugando, conectado o desconectado. */
+const ringClass = (status: FriendStatus, playing: boolean): string => {
+  if (isOfflineStatus(status)) return 'ring-offline';
+  return playing ? 'ring-playing' : 'ring-online';
+};
 
 interface DragState {
   startX: number;
@@ -134,7 +141,7 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
     const content = (
       <>
         <span
-          className={`fp-avatar row ${offline ? 'ring-offline' : playing ? 'ring-playing' : 'ring-online'}`}
+          className={`fp-avatar row ${ringClass(friend.status, playing)}`}
           style={{ width: 32, height: 32 }}
           aria-hidden="true"
         >
@@ -150,9 +157,7 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
           )}
         </span>
         <span className="fp-row-info">
-          <span className={`fp-name ${offline ? 'offline' : playing ? 'playing' : 'online'}`}>
-            {friend.name}
-          </span>
+          <span className={`fp-name ${offline ? 'offline' : 'online'}`}>{friend.name}</span>
           <span className={`fp-subtitle ${offline ? 'offline' : ''}`}>{friend.statusText}</span>
         </span>
       </>
@@ -186,8 +191,8 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
           onPointerCancel={handleDragEnd}
         >
           <span
-            className={`fp-avatar head ${currentUser.status === 'online' ? 'ring-online' : 'ring-offline'}`}
-            style={{ width: 44, height: 44 }}
+            className={`fp-avatar head ${ringClass(currentUser.status, false)}`}
+            style={{ width: 52, height: 52 }}
             aria-hidden="true"
           >
             <SmartImage
@@ -198,7 +203,7 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
             />
           </span>
           <div className="fp-header-user">
-            <span className="fp-header-name">
+            <span className={`fp-header-name ${ringClass(currentUser.status, false)}`}>
               {currentUser.name}
               <ChevronDownIcon className="fp-header-chevron" />
             </span>
@@ -222,7 +227,7 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
             {favorites.map((friend) => (
               <button key={friend.id} className="fp-fav" title={`${friend.name} · ${friend.statusText}`}>
                 <span
-                  className="fp-fav-avatar"
+                  className={`fp-fav-avatar ${ringClass(friend.status, Boolean(friend.project))}`}
                   style={{ background: avatarColor(friend.name) }}
                   aria-hidden="true"
                 >
@@ -237,49 +242,55 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
                     friend.avatarInitial
                   )}
                 </span>
-                <span
-                  className={`fp-fav-dot ${isOfflineStatus(friend.status) ? 'off' : 'on'}`}
-                  aria-hidden="true"
-                />
+                <span className="fp-fav-name">{friend.name}</span>
               </button>
             ))}
           </div>
         )}
 
         <div className="fp-toolbar">
-          <span className="fp-toolbar-title">AMIGOS</span>
+          <span className="fp-toolbar-title">Amigos</span>
           <div className="fp-toolbar-actions">
             <button className="fp-icon-btn" aria-label="Buscar amigos">
               <SearchIcon className="fp-icon-btn-svg" />
             </button>
-            <button className="fp-icon-btn accent" aria-label="Añadir amigo">
+            <button className="fp-icon-btn" aria-label="Añadir amigo">
               <PlusIcon className="fp-icon-btn-svg" />
             </button>
           </div>
         </div>
 
         <div className="fp-list">
-          <h3 className="fp-section-title">AMIGOS EN LÍNEA ({onlineFriends.length})</h3>
+          <div className="fp-section">
+            <h3 className="fp-section-title">
+              Amigos en línea <span className="fp-section-count">({onlineFriends.length})</span>
+            </h3>
 
-          {activityGroups.map((group) => (
-            <div key={group.name}>
-              <div className="fp-group">
-                <GroupChatIcon className="fp-group-icon" />
-                <span className="fp-group-name">{group.name}</span>
+            {activityGroups.map((group) => (
+              <div key={group.name}>
+                <div className="fp-group">
+                  <GroupChatIcon className="fp-group-icon" />
+                  <span className="fp-group-name">{group.name}</span>
+                </div>
+                {group.friends.map((friend) => renderRow(friend, true))}
               </div>
-              {group.friends.map((friend) => renderRow(friend, true))}
-            </div>
-          ))}
+            ))}
 
-          {ungroupedOnline.map((friend) => renderRow(friend))}
+            {ungroupedOnline.map((friend) => renderRow(friend))}
 
-          {onlineFriends.length === 0 && <p className="fp-empty">No hay amigos en línea</p>}
+            {onlineFriends.length === 0 && <p className="fp-empty">No hay amigos en línea</p>}
+          </div>
 
           {offlineFriends.length > 0 && (
-            <>
-              <h3 className="fp-section-title">DESCONECTADOS ({offlineFriends.length})</h3>
+            <div className="fp-section">
+              <h3 className="fp-section-title">
+                Desconectados <span className="fp-section-count">({offlineFriends.length})</span>
+                <button className="fp-section-action" aria-label="Ordenar desconectados">
+                  <FilterIcon className="fp-icon-btn-svg" />
+                </button>
+              </h3>
               {offlineFriends.map((friend) => renderRow(friend))}
-            </>
+            </div>
           )}
         </div>
 
@@ -287,14 +298,26 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
           <div className="fp-groups-head">
             <span className="fp-groups-title-row">
               <ChevronDownIcon className="fp-groups-chevron" />
-              CHATS DE GRUPO
+              Chats de grupo
             </span>
-            <button className="fp-icon-btn accent" aria-label="Nuevo chat de grupo">
+            <button className="fp-icon-btn" aria-label="Nuevo chat de grupo">
               <PlusIcon className="fp-icon-btn-svg" />
             </button>
           </div>
-          <p className="fp-groups-text">Los chats de grupo en los que participes aparecerán aquí.</p>
-          <ResizeIcon className="fp-resize" />
+          <div className="fp-groups-body">
+            <input
+              className="fp-groups-input"
+              type="text"
+              placeholder="Los chats de grupo en los que participes aparecerán aquí."
+              readOnly
+              aria-label="Buscar chat de grupo"
+            />
+            <p className="fp-groups-text">
+              Puedes iniciar un chat con <span className="fp-groups-link">amigos</span> o unirte al chat de un{' '}
+              <span className="fp-groups-link">grupo de Steam</span>.
+            </p>
+            <ResizeIcon className="fp-resize" />
+          </div>
         </footer>
       </section>
     </div>

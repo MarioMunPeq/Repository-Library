@@ -36,6 +36,21 @@ export interface ProjectUpdate {
   body: string;
 }
 
+/** Datos de "tienda" que se muestran en la tarjeta del carrusel.
+ *  Son ficticios, replicando el formato de la ficha de Steam. */
+export interface ProjectPrice {
+  /** Precio final ya formateado (ej. '14,99€' o 'Gratis') */
+  final: string;
+  /** Precio original tachado cuando hay descuento */
+  original?: string;
+  /** Descuento en porcentaje (solo si hay precio original) */
+  discount?: number;
+  /** Valoración tipo Steam (ej. 'Muy positivas') */
+  review: string;
+  /** Número de reseñas ya formateado (ej. '10.646') */
+  reviewCount: string;
+}
+
 export interface Project {
   slug: string;
   name: string;
@@ -67,6 +82,7 @@ export interface Project {
   totalTech: number;
   technologies: string[];
   collaborators: string[];
+  price: ProjectPrice;
   updates: ProjectUpdate[];
   stats: ProjectStats;
   activity: ActivityItem[];
@@ -125,6 +141,13 @@ export const projects: Project[] = [
     totalTech: 0,
     technologies: [],
     collaborators: [],
+    price: {
+      final: '9,99€',
+      original: '24,99€',
+      discount: 60,
+      review: 'Muy positivas',
+      reviewCount: '1.284',
+    },
     updates: [],
     stats: defaultStats(),
     activity: [],
@@ -147,6 +170,13 @@ export const projects: Project[] = [
     totalTech: 0,
     technologies: [],
     collaborators: [],
+    price: {
+      final: '9,99€',
+      original: '19,99€',
+      discount: 50,
+      review: 'Muy positivas',
+      reviewCount: '842',
+    },
     updates: [],
     stats: defaultStats(),
     activity: [],
@@ -169,13 +199,18 @@ export const projects: Project[] = [
     totalTech: 0,
     technologies: [],
     collaborators: [],
+    price: {
+      final: 'Gratis',
+      review: 'Sin reseñas',
+      reviewCount: '0',
+    },
     updates: [],
     stats: defaultStats(),
     activity: [],
-    headerPath: '/projects/minecraft/hero',
   }),
   defineProject({
     slug: 'news-tower',
+
     name: 'News Tower',
     category: 'juego',
     recommendation: 'desarrolladores',
@@ -192,6 +227,13 @@ export const projects: Project[] = [
     totalTech: 0,
     technologies: [],
     collaborators: [],
+    price: {
+      final: '7,99€',
+      original: '9,99€',
+      discount: 20,
+      review: 'Positivas',
+      reviewCount: '316',
+    },
     updates: [],
     stats: defaultStats(),
     activity: [],
@@ -214,6 +256,13 @@ export const projects: Project[] = [
     totalTech: 0,
     technologies: [],
     collaborators: [],
+    price: {
+      final: '14,99€',
+      original: '59,99€',
+      discount: 75,
+      review: 'Muy positivas',
+      reviewCount: '10.646',
+    },
     updates: [],
     stats: defaultStats(),
     activity: [],
@@ -236,9 +285,14 @@ export const projects: Project[] = [
     totalTech: 0,
     technologies: [],
     collaborators: [],
+    price: {
+      final: 'Gratis',
+      review: 'Positivas',
+      reviewCount: '2.104',
+    },
     updates: [],
     stats: defaultStats(),
     activity: [],
-    headerPath: '/projects/league-of-legends-helper/hero',
   }),
 ];
+
