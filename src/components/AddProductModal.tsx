@@ -1,17 +1,28 @@
 import { projects } from '../data/projects.tsx';
 import { SmartImage } from './SmartImage';
+import { DownloadIcon } from './Icons';
 
 interface AddProductModalProps {
   open: boolean;
   onClose: () => void;
 }
 
+const STATUS_LABEL: Record<string, string> = {
+  completado: 'Publicado',
+  'en desarrollo': 'En desarrollo',
+  proximamente: 'Próximamente',
+};
+
 export const AddProductModal: React.FC<AddProductModalProps> = ({ open, onClose }) => {
   if (!open) {
     return null;
   }
 
-  const upcoming = projects.filter((project) => project.status === 'proximamente');
+  // Todo lo que aún no está publicado es lo que se puede "añadir" a la
+  // biblioteca: lo terminado ya está dentro.
+  const upcoming = projects
+    .filter((project) => project.status !== 'completado')
+    .sort((a, b) => a.name.localeCompare(b.name, 'es'));
 
   return (
     <div className="add-modal-overlay" onClick={onClose} role="presentation">
@@ -31,25 +42,52 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({ open, onClose 
 
         {upcoming.length > 0 ? (
           <ul className="add-modal-list">
-            {upcoming.map((project) => (
-              <li className="add-modal-item" key={project.slug}>
-                <span
-                  className="add-modal-item-icon"
-                  style={{ background: project.fallbackGradient }}
-                  aria-hidden="true"
-                >
-                  <SmartImage
-                    basePath={project.iconPath}
-                    kind="icon"
-                    className="sidebar-item-img"
-                    alt=""
-                    fallback={<span className="gradient-fallback" />}
-                  />
-                </span>
-                <span className="add-modal-item-name">{project.name}</span>
-                <span className="add-modal-item-badge">Próximamente</span>
-              </li>
-            ))}
+            {upcoming.map((project) => {
+              const content = (
+                <>
+                  <span
+                    className="add-modal-item-icon"
+                    style={{ background: project.fallbackGradient }}
+                    aria-hidden="true"
+                  >
+                    <SmartImage
+                      basePath={project.iconPath}
+                      kind="icon"
+                      className="sidebar-item-img"
+                      alt=""
+                      fallback={<span className="gradient-fallback" />}
+                    />
+                  </span>
+                  <span className="add-modal-item-info">
+                    <span className="add-modal-item-name">{project.name}</span>
+                    <span className="add-modal-item-hint">
+                      {project.githubUrl
+                        ? 'Toca para abrir el proyecto en el navegador'
+                        : 'Todavía no hay una demo pública'}
+                    </span>
+                  </span>
+                  {project.githubUrl && <DownloadIcon className="add-modal-item-go" />}
+                </>
+              );
+
+              return (
+                <li key={project.slug} className="add-modal-item">
+                  {project.githubUrl ? (
+                    <a
+                      className="add-modal-item-link"
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <span className="add-modal-item-link is-disabled">{content}</span>
+                  )}
+                  <span className="add-modal-item-badge">{STATUS_LABEL[project.status]}</span>
+                </li>
+              );
+            })}
           </ul>
         ) : (
           <p className="add-modal-empty">No hay proyectos en camino ahora mismo.</p>

@@ -7,7 +7,7 @@ import {
   ChevronRightIcon,
   CloseIcon,
   CodeIcon,
-  DisplayIcon,
+  FriendsIcon,
   MaximizeIcon,
   MinimizeIcon,
   TrophyIcon,
@@ -19,9 +19,14 @@ interface NavBarProps {
   username: string;
   activeSection: SectionId;
   onSelectSection?: (section: SectionId) => void;
-  onTogglePresentation?: () => void;
   onBack?: () => void;
   onForward?: () => void;
+  /** Móvil: abre y cierra el cajón lateral. */
+  onToggleSidebar?: () => void;
+  sidebarOpen?: boolean;
+  /** Móvil: abre el panel de amigos. */
+  onToggleFriends?: () => void;
+  friendsOpen?: boolean;
 }
 
 const SECTIONS: { id: 'store' | 'library' | 'community'; label: string }[] = [
@@ -49,9 +54,12 @@ export const NavBar: React.FC<NavBarProps> = ({
   username,
   activeSection,
   onSelectSection,
-  onTogglePresentation,
   onBack,
   onForward,
+  onToggleSidebar,
+  sidebarOpen = false,
+  onToggleFriends,
+  friendsOpen = false,
 }) => {
   const [notifOpen, setNotifOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
@@ -69,11 +77,23 @@ export const NavBar: React.FC<NavBarProps> = ({
 
   return (
     <header className="nav-bar">
+      {/* Botón de menú: solo aparece en móvil para abrir el cajón lateral */}
+      <button
+        className="nav-burger"
+        onClick={onToggleSidebar}
+        aria-label={sidebarOpen ? 'Cerrar el menú' : 'Abrir el menú'}
+        aria-expanded={sidebarOpen}
+      >
+        <span className="nav-burger-bar" aria-hidden="true" />
+        <span className="nav-burger-bar" aria-hidden="true" />
+        <span className="nav-burger-bar" aria-hidden="true" />
+      </button>
+
       <div className="nav-back">
-        <button className="nav-back-btn" aria-label="Atrás" onClick={onBack}>
+        <button className="nav-back-btn" aria-label="Atrás" onClick={onBack} disabled={!onBack}>
           <ChevronLeftIcon />
         </button>
-        <button className="nav-back-btn" aria-label="Adelante" onClick={onForward}>
+        <button className="nav-back-btn" aria-label="Adelante" onClick={onForward} disabled={!onForward}>
           <ChevronRightIcon />
         </button>
       </div>
@@ -149,8 +169,14 @@ export const NavBar: React.FC<NavBarProps> = ({
             )}
           </div>
 
-          <button className="nav-icon-btn" aria-label="Modo presentación" onClick={onTogglePresentation}>
-            <DisplayIcon className="nav-icon-svg" />
+          {/* Móvil: acceso directo al panel de amigos */}
+          <button
+            className={`nav-friends-btn${friendsOpen ? ' active' : ''}`}
+            aria-label="Amigos y chat"
+            aria-expanded={friendsOpen}
+            onClick={onToggleFriends}
+          >
+            <FriendsIcon className="nav-friends-btn-svg" />
           </button>
         </div>
 

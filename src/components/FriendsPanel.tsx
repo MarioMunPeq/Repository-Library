@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { currentUser as defaultCurrentUser, friends as defaultFriends } from '../data/friends';
 import { devProfile } from '../data/devProfile';
 import type { CurrentUser, Friend, FriendStatus } from '../data/friends';
@@ -60,11 +60,40 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
 }) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
+  /** En móvil el panel es una hoja inferior, no una ventana arrastrable. */
+  const [isSheet, setIsSheet] = useState(false);
+  const [sheetExpanded, setSheetExpanded] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<DragState | null>(null);
 
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 900px)');
+    const sync = () => {
+      setIsSheet(query.matches);
+      if (!query.matches) {
+        setSheetExpanded(false);
+        setOffset({ x: 0, y: 0 });
+      }
+    };
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+
+  // Escape cierra el panel, esté en modo ventana o en modo hoja.
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onOpenChange(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open, onOpenChange]);
+
   const handleDragStart = (event: React.PointerEvent<HTMLElement>) => {
     if (event.button !== 0) return;
+    // La hoja inferior está anclada: no se arrastra.
+    if (isSheet) return;
     if ((event.target as HTMLElement).closest('button, a')) return;
     const el = rootRef.current;
     if (!el) return;
@@ -177,19 +206,41 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
   };
 
   return (
-    <div
-      className="friends-root"
-      ref={rootRef}
-      style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
-    >
-      <section className="friends-panel" id="friends-panel" role="region" aria-label="Panel de amigos">
-        <header
-          className={`fp-header${dragging ? ' dragging' : ''}`}
-          onPointerDown={handleDragStart}
-          onPointerMove={handleDragMove}
-          onPointerUp={handleDragEnd}
-          onPointerCancel={handleDragEnd}
-        >
+    <>
+      {/* Velo detrás de la hoja inferior (solo móvil) */}
+      {isSheet && open && (
+        <button
+          className="fp-sheet-scrim"
+          type="button"
+          aria-label="Cerrar el panel de amigos"
+          onClick={() => onOpenChange(false)}
+        />
+      )}
+
+      <div
+        className={`friends-root${isSheet ? ' sheet' : ''}${sheetExpanded ? ' expanded' : ''}`}
+        ref={rootRef}
+        style={isSheet ? undefined : { transform: `translate(${offset.x}px, ${offset.y}px)` }}
+      >
+        <section className="friends-panel" id="friends-panel" role="region" aria-label="Panel de amigos">
+          {/* Tirador para desplegar y recoger la hoja (solo móvil) */}
+          <button
+            className="fp-sheet-handle"
+            type="button"
+            aria-expanded={sheetExpanded}
+            aria-label={sheetExpanded ? 'Contraer el panel de amigos' : 'Desplegar el panel de amigos'}
+            onClick={() => setSheetExpanded((value) => !value)}
+          >
+            <span className="fp-sheet-handle-bar" aria-hidden="true" />
+          </button>
+
+          <header
+            className={`fp-header${dragging ? ' dragging' : ''}`}
+            onPointerDown={handleDragStart}
+            onPointerMove={handleDragMove}
+            onPointerUp={handleDragEnd}
+            onPointerCancel={handleDragEnd}
+          >
           <span
             className={`fp-avatar head ${ringClass(currentUser.status, false)}`}
             style={{ width: 52, height: 52 }}
@@ -319,7 +370,8 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
             <ResizeIcon className="fp-resize" />
           </div>
         </footer>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 };

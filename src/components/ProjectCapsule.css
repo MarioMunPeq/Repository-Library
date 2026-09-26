@@ -74,6 +74,14 @@
   user-select: none;
 }
 
+/* En móvil no hay hover: se anula el "lift" de la tarjeta para que al tocar
+   no se quede desplazada. */
+@media (hover: none) {
+  .project-capsule:hover {
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .project-capsule {
     transition: none;

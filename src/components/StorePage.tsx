@@ -196,22 +196,24 @@ export const StorePage: React.FC<StorePageProps> = ({ onOpenProject }) => {
                 </div>
               </div>
 
-              <button
-                className="store-switcher-arrow left"
-                type="button"
-                aria-label="Proyecto anterior"
-                onClick={() => step(-1)}
-              >
-                <ChevronLeftIcon className="store-switcher-arrow-svg" />
-              </button>
-              <button
-                className="store-switcher-arrow right"
-                type="button"
-                aria-label="Proyecto siguiente"
-                onClick={() => step(1)}
-              >
-                <ChevronRightIcon className="store-switcher-arrow-svg" />
-              </button>
+              <div className="store-switcher-controls">
+                <button
+                  className="store-switcher-arrow left"
+                  type="button"
+                  aria-label="Proyecto anterior"
+                  onClick={() => step(-1)}
+                >
+                  <ChevronLeftIcon className="store-switcher-arrow-svg" />
+                </button>
+                <button
+                  className="store-switcher-arrow right"
+                  type="button"
+                  aria-label="Proyecto siguiente"
+                  onClick={() => step(1)}
+                >
+                  <ChevronRightIcon className="store-switcher-arrow-svg" />
+                </button>
+              </div>
             </div>
 
             <div className="store-dots" role="tablist" aria-label="Seleccionar proyecto">

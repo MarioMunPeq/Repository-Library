@@ -277,3 +277,17 @@ export const LinkedInIcon = ({ className = '' }: IconProps) => (
     <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S.02 4.88.02 3.5 1.13 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.65 4.78 6.1V24h-4v-8c0-1.9-.03-4.35-2.65-4.35-2.65 0-3.05 2.07-3.05 4.2V24h-4V8z" />
   </svg>
 );
+
+export const StoreIcon = ({ className = '' }: IconProps) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M3 7h18l-1.5 12.5a2 2 0 0 1-2 1.8H6.5a2 2 0 0 1-2-1.8L3 7z" />
+    <path d="M8.5 10V6a3.5 3.5 0 1 1 7 0v4" />
+  </svg>
+);
+
+export const UserIcon = ({ className = '' }: IconProps) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 21a8 8 0 0 1 16 0" />
+  </svg>
+);

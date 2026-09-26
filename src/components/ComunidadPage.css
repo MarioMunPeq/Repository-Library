@@ -133,9 +133,18 @@
 @media (max-width: 900px) {
   .community-page {
     flex-direction: column;
+    padding: 16px 12px 28px;
   }
 
   .community-side {
     width: 100%;
+  }
+
+  .community-panel {
+    padding: 14px;
+  }
+
+  .community-social-row {
+    min-height: var(--touch-target);
   }
 }

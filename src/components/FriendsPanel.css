@@ -464,10 +464,148 @@
   color: #6b737c;
 }
 
-@media (max-width: 640px) {
-  .friends-panel {
-    width: min(340px, calc(100vw - 16px));
-    height: min(660px, calc(100vh - 48px));
+/* Elementos del modo hoja: ocultos en escritorio */
+.fp-sheet-handle,
+.fp-sheet-scrim {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  /* Velo detrás de la hoja */
+  .fp-sheet-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 190;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0.55);
+    animation: fp-sheet-fade 200ms ease;
+  }
+
+  @keyframes fp-sheet-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Hoja anclada abajo, a ancho completo */
+  .friends-root.sheet {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 220;
+  }
+
+  .friends-root.sheet .friends-panel {
+    width: 100%;
+    height: 72dvh;
+    max-height: 100dvh;
+    border-radius: 8px 8px 0 0;
+    border: none;
+    border-top: 1px solid #3a4048;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.6);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    animation: fp-sheet-in 240ms ease-out;
+  }
+
+  .friends-root.sheet.expanded .friends-panel {
+    height: 92dvh;
+  }
+
+  @keyframes fp-sheet-in {
+    from {
+      transform: translateY(16px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Tirador */
+  .fp-sheet-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 26px;
+    padding: 0;
+    background: none;
+    border: none;
+    flex-shrink: 0;
+    touch-action: none;
+  }
+
+  .fp-sheet-handle-bar {
+    display: block;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: #5a6470;
+  }
+
+  .fp-header {
+    /* La cabecera ya no es asa de arrastre en móvil */
+    cursor: default;
+    min-height: 64px;
+    padding-left: 16px;
+  }
+
+  .fp-avatar.head {
+    width: 44px;
+    height: 44px;
+  }
+
+  .fp-list {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Objetivos táctiles */
+  .fp-fav-avatar {
+    width: 56px;
+    height: 56px;
+  }
+
+  .fp-fav {
+    gap: 6px;
+  }
+
+  .fp-fav-name {
+    max-width: 56px;
+  }
+
+  .fp-icon-btn {
+    width: var(--touch-target);
+    height: var(--touch-target);
+  }
+
+  .fp-row {
+    min-height: var(--touch-target);
+  }
+
+  .fp-toolbar,
+  .fp-groups-head {
+    min-height: 48px;
+  }
+
+  .fp-toolbar-title,
+  .fp-groups-title-row {
+    font-size: 16px;
+  }
+
+  .fp-row .fp-avatar {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .fp-groups-input {
+    height: 44px;
+    font-size: 15px;
   }
 }
 

@@ -1,0 +1,51 @@
+/* ==========================================================================
+   MobileTabBar — Barra de pestañas inferior (solo móvil)
+   Oculta en escritorio: la navegación vive en la barra superior.
+   ========================================================================== */
+
+.mobile-tabs {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .mobile-tabs {
+    position: relative;
+    z-index: 150;
+    display: flex;
+    align-items: stretch;
+    flex-shrink: 0;
+    background: var(--chrome-bg-alt);
+    border-top: 1px solid #0e141c;
+    /* Respeta la barra de inicio del iPhone */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .mobile-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: var(--mobile-tabbar-height);
+    padding: 6px 2px;
+    color: #8b929a;
+    transition: color var(--transition-fast);
+  }
+
+  .mobile-tab.active {
+    color: #1a9fff;
+  }
+
+  .mobile-tab-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mobile-tab-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+}

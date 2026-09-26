@@ -5,7 +5,8 @@ import { SmartImage } from './SmartImage';
 import { ChevronDownIcon, GridIcon } from './Icons';
 
 interface SidebarProps {
-  selectedProject: Project | null;
+  /** Slug del proyecto abierto, o null si estamos en la portada. */
+  selectedSlug: string | null;
   onSelectProject: (project: Project) => void;
   onDeselectProject: () => void;
 }
@@ -22,11 +23,11 @@ const CATEGORY_SECTIONS: CategorySection[] = [
 
 const renderListItems = (
   sectionProjects: Project[],
-  selectedProject: Project | null,
+  selectedSlug: string | null,
   onSelectProject: (project: Project) => void,
 ) =>
   sectionProjects.map((project) => {
-    const selected = selectedProject?.slug === project.slug;
+    const selected = selectedSlug === project.slug;
     return (
       <button
         key={project.slug}
@@ -48,7 +49,7 @@ const renderListItems = (
     );
   });
 
-export const Sidebar: React.FC<SidebarProps> = ({ selectedProject, onSelectProject, onDeselectProject }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ selectedSlug, onSelectProject, onDeselectProject }) => {
   const [collapsedSections, setCollapsedSections] = useState<Record<ProjectCategory, boolean>>({
     portfolio: false,
     juego: false,
@@ -86,7 +87,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ selectedProject, onSelectProje
                   className={`sidebar-category-chevron ${isCollapsed ? 'collapsed' : ''}`}
                 />
               </button>
-              {!isCollapsed && renderListItems(sectionProjects, selectedProject, onSelectProject)}
+              {!isCollapsed && renderListItems(sectionProjects, selectedSlug, onSelectProject)}
             </div>
           );
         })}

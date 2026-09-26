@@ -204,6 +204,18 @@
   justify-content: center;
 }
 
+/* Contenedor de las flechas: cubre el cuadrado y las deja a los lados en
+   escritorio; en móvil pasa a ser una fila por debajo del cuadrado. */
+.store-switcher-controls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.store-switcher-controls > * {
+  pointer-events: auto;
+}
+
 .store-switcher-card {
   position: relative;
   display: flex;
@@ -614,49 +626,113 @@
 
 /* ---------- Responsive ---------- */
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
+  /* La navegación de la tienda pasa a una fila con scroll horizontal en vez
+     de desaparecer: los menús siguen siendo accesibles deslizando. */
   .store-nav {
     height: auto;
-    flex-wrap: wrap;
+    min-height: 52px;
     gap: 8px;
-    padding: 10px 16px;
+    padding: 0 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .store-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .store-nav-list {
-    display: none;
+    flex-shrink: 0;
+    gap: 0;
+  }
+
+  .store-nav-item {
+    height: 52px;
+    padding: 0 10px;
+    white-space: nowrap;
   }
 
   .store-search {
     order: 3;
     width: 100%;
     max-width: none;
+    margin-left: 0;
+    padding-bottom: 8px;
+  }
+
+  .store-wishlist {
+    margin-left: auto;
   }
 
   .store-wishlist-label {
     display: none;
   }
 
+  /* El splash ocupa el alto disponible entre la barra superior y la de
+     pestañas, y las flechas pasan a debajo del cuadrado. */
+  .store-splash {
+    min-height: calc(100dvh - var(--mobile-topbar-height) - var(--mobile-tabbar-height));
+    gap: 14px;
+    padding: 24px 16px;
+  }
+
+  .store-switcher-wrap {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .store-switcher-card {
+    width: min(300px, 78vw);
+  }
+
+  .store-switcher-controls {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
   .store-switcher-arrow {
-    width: 36px;
-    height: 36px;
+    position: static;
+    transform: none;
+    width: var(--touch-target);
+    height: var(--touch-target);
   }
 
   .store-switcher-arrow.left {
-    right: calc(100% + 8px);
+    right: auto;
   }
 
   .store-switcher-arrow.right {
-    left: calc(100% + 8px);
+    left: auto;
+  }
+
+  .store-switcher-hint {
+    text-align: center;
   }
 
   .store-projects {
     padding: 20px 16px 28px;
   }
 
-  .store-projects-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
+  .store-projects-head {
+    flex-wrap: wrap;
+    gap: 10px;
   }
+
+  /* Dos columnas fijas: en 16:9 caben bien a 375px */
+  .store-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 12px;
+  }
+
+  .store-project-name {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
 }
 
 @media (prefers-reduced-motion: reduce) {

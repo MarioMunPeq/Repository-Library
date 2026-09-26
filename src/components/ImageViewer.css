@@ -243,17 +243,23 @@
     height: 40px;
   }
 
+  /* Las flechas se montan SOBRE la imagen: a 375px no caben fuera del
+     contenedor y se irían de la pantalla. */
   .image-viewer-nav {
+    top: auto;
+    bottom: 0;
+    transform: none;
     width: 44px;
-    height: 64px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.55);
   }
 
   .image-viewer-nav-left {
-    left: -56px;
+    left: 4px;
   }
 
   .image-viewer-nav-right {
-    right: -56px;
+    right: 4px;
   }
 
   .image-viewer-nav svg {
@@ -285,15 +291,15 @@
 
   .image-viewer-nav {
     width: 40px;
-    height: 56px;
+    height: 40px;
   }
 
   .image-viewer-nav-left {
-    left: -48px;
+    left: 2px;
   }
 
   .image-viewer-nav-right {
-    right: -48px;
+    right: 2px;
   }
 
   .image-viewer-nav svg {

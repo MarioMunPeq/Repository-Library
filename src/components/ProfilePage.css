@@ -745,3 +745,160 @@
     transition: none;
   }
 }
+
+/* ==========================================================================
+   MÓVIL (<= 900px) — perfil
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  /* El bloque central deja de estar centrado: ocupa el ancho sin márgenes
+     laterales, como en la app de Steam. */
+  .profile-container {
+    max-width: none;
+    padding-bottom: 32px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 20px 16px;
+  }
+
+  .profile-header-info {
+    align-items: center;
+    width: 100%;
+  }
+
+  .profile-realname-row {
+    justify-content: center;
+  }
+
+  /* Las insignias caben en fila con scroll en vez de partirse */
+  .profile-featured-badges {
+    justify-content: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .profile-featured-badges::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profile-featured-badge {
+    flex-shrink: 0;
+  }
+
+  .profile-header-right {
+    margin-left: 0;
+    width: 100%;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .profile-header-right-top {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-avatar-wrap {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-username {
+    font-size: 22px;
+  }
+
+  .profile-years-card {
+    width: 150px;
+  }
+
+  .profile-edit-btn {
+    min-height: var(--touch-target);
+    padding: 0 20px;
+  }
+
+  .profile-settings-btn {
+    width: var(--touch-target);
+    height: var(--touch-target);
+  }
+
+  .profile-body {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+    gap: 16px;
+  }
+
+  .profile-panel {
+    padding: 14px;
+  }
+
+  .profile-fav-row {
+    gap: 12px;
+  }
+
+  .profile-fav-name {
+    font-size: 18px;
+  }
+
+  .profile-fav-stats {
+    gap: 28px;
+  }
+
+  .profile-ach-head {
+    gap: 8px;
+  }
+
+  .profile-ach-bar {
+    width: 100%;
+  }
+
+  .profile-ach-badges {
+    margin-left: 0;
+  }
+
+  /* Expositor: una sola columna con el resto debajo */
+  .profile-shots {
+    flex-direction: column;
+  }
+
+  .profile-shot-big {
+    width: 100%;
+    max-width: none;
+  }
+
+  .profile-shot-stack {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .profile-shot-small {
+    min-height: 0;
+  }
+
+  .profile-shot-more {
+    min-height: 70px;
+  }
+
+  .profile-stats-row {
+    padding: 10px 0;
+    font-size: 15px;
+  }
+
+  .profile-badge-cell {
+    width: 56px;
+    height: 56px;
+  }
+
+  .profile-side-link {
+    min-height: var(--touch-target);
+    display: inline-flex;
+    align-items: center;
+  }
+}

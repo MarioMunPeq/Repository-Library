@@ -956,3 +956,216 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   MÓVIL (<= 900px) — página de proyecto
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  /* Banner más bajo y logo por encima del playbar */
+  .store-banner {
+    height: 190px;
+  }
+
+  .store-banner-logo {
+    bottom: auto;
+    top: 16px;
+    padding: 0 16px;
+  }
+
+  .store-banner-logo .project-logo-img {
+    max-width: 62%;
+    max-height: 92px;
+  }
+
+  .store-banner-logo .project-logo-fallback {
+    font-size: 32px;
+  }
+
+  /* Playbar en dos filas: botón y cloud arriba, stats en una fila con scroll */
+  .store-actionbar {
+    height: auto;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+  }
+
+  .store-play-group {
+    margin-left: 0;
+    width: auto;
+    height: 42px;
+  }
+
+  .store-play-btn {
+    padding: 0 18px;
+    font-size: 13px;
+  }
+
+  .store-play-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .store-cloud {
+    margin-left: 0;
+    padding: 0;
+  }
+
+  .store-stats {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    /* Las tres stats no caben en una línea a 375px: fila con scroll */
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .store-stats::-webkit-scrollbar {
+    display: none;
+  }
+
+  .store-stat {
+    flex-shrink: 0;
+  }
+
+  .store-stat-label {
+    font-size: 10px;
+  }
+
+  .store-stat-value {
+    font-size: 14px;
+  }
+
+  .store-icon-actions {
+    margin-left: auto;
+    margin-right: 0;
+    gap: 4px;
+  }
+
+  /* Objetivos táctiles */
+  .store-icon-btn {
+    width: var(--touch-target);
+    height: var(--touch-target);
+  }
+
+  .store-icon-btn-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Pestañas con scroll y altura táctil */
+  .store-tabs {
+    height: 46px;
+    padding: 0 8px;
+  }
+
+  .store-tab {
+    min-height: 46px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  /* Recomendación: botones debajo del texto */
+  .store-recommendation {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .store-recommendation-buttons {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .store-recommend-btn {
+    min-height: var(--touch-target);
+  }
+
+  .store-body {
+    padding: 20px 16px 32px;
+    gap: 20px;
+  }
+
+  .store-main,
+  .store-side {
+    gap: 20px;
+  }
+
+  .store-panel {
+    padding: 14px;
+  }
+
+  /* Dos columnas de capturas: a 375px en 16:9 se leen bien */
+  .store-shots-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .store-shot-download {
+    /* En táctil no hay hover: el icono se muestra siempre */
+    opacity: 1;
+    width: 32px;
+    height: 32px;
+  }
+
+  .store-shots-manage {
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+  }
+
+  /* Actividad */
+  .store-activity-textarea {
+    font-size: 15px;
+  }
+
+  .store-update-date {
+    font-size: 13px;
+  }
+
+  .store-update-title {
+    font-size: 15px;
+  }
+
+  /* Logros */
+  .store-ach-grid {
+    gap: 8px;
+  }
+
+  .store-ach-cell {
+    width: 56px;
+    height: 56px;
+  }
+
+  .store-ach-featured {
+    padding: 8px;
+  }
+
+  .store-ach-view-all {
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  /* Amigos */
+  .store-friends-avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  .store-friends-link {
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+  }
+}

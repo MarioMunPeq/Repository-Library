@@ -72,6 +72,14 @@
   /* ---------- Shell ---------- */
   --footer-height: 40px;
 
+  /* ---------- Shell móvil (solo dentro del breakpoint) ---------- */
+  --mobile-breakpoint: 900px;
+  --mobile-topbar-height: 48px;
+  --mobile-tabbar-height: 56px;
+  --mobile-drawer-width: 280px;
+  /* Objetivo táctil mínimo recomendado (Apple HIG / Material). */
+  --touch-target: 44px;
+
   /* ---------- Chrome (menú superior, navegación y footer) ---------- */
   --chrome-bg: #16191d;
   --chrome-bg-alt: #121517;

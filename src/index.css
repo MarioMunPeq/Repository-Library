@@ -56,6 +56,9 @@ html,
 body,
 #root {
   height: 100%;
+  /* 100dvh respeta la barra de direcciones del navegador en móvil; 100vh se
+     queda como fallback para navegadores que no lo soportan. */
+  height: 100dvh;
   width: 100%;
   overflow: hidden;
 }
@@ -69,6 +72,9 @@ body {
   background-color: #1b1e22;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Evita el flash azul al tocar en Android/iOS */
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
 }
 
 a {
