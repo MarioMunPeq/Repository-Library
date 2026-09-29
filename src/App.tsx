@@ -15,6 +15,7 @@ import { ComunidadPage } from './components/ComunidadPage';
 import { ProfilePage } from './components/ProfilePage';
 import { Footer } from './components/Footer';
 import { FriendsPanel } from './components/FriendsPanel';
+import { WelcomePopup } from './components/WelcomePopup';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import './App.css';
 
@@ -116,6 +117,9 @@ function AppContent() {
       <MobileTabBar activeSection={activeSection} onSelectSection={handleSelectSection} />
 
       <FriendsPanel open={friendsOpen} onOpenChange={setFriendsOpen} />
+
+      {/* Ventana de bienvenida: una vez por sesión, como al abrir Steam */}
+      <WelcomePopup />
     </div>
   );
 }

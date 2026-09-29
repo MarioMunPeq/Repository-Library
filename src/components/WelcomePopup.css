@@ -1,0 +1,470 @@
+/* ==========================================================================
+   WelcomePopup — Ventana de bienvenida al entrar
+   Imita la notificación que Steam muestra al arrancar: cápsula a la
+   izquierda con el título y las stats, un bloque de "actualización
+   importante" con imagen, un CTA ancho, flechas con puntos y pie con
+   copyright y "Cerrar".
+   ========================================================================== */
+
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  /* Velo frío y casi opaco, como el fondo de la ventana de Steam */
+  background: rgba(12, 15, 19, 0.92);
+  animation: welcome-overlay-in 200ms ease;
+}
+
+@keyframes welcome-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.welcome-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(880px, 100%);
+  max-height: calc(100dvh - 48px);
+  padding: 24px 28px 0;
+  background: #1a1f27;
+  border: 1px solid #2f3a47;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+  animation: welcome-panel-in 240ms ease-out;
+}
+
+@keyframes welcome-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.welcome-panel:focus {
+  outline: none;
+}
+
+/* ---------- Cerrar (esquina) ---------- */
+
+.welcome-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: #8b929a;
+  border-radius: 2px;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.welcome-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.welcome-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- Cabecera: cápsula + título + stats ---------- */
+
+.welcome-head {
+  display: flex;
+  gap: 20px;
+}
+
+.welcome-capsule {
+  position: relative;
+  display: block;
+  width: 100px;
+  aspect-ratio: 2 / 3;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.welcome-capsule-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.welcome-head-main {
+  flex: 1;
+  min-width: 0;
+  padding-top: 6px;
+}
+
+.welcome-title {
+  margin: 0 0 14px;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+
+.welcome-head-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.welcome-library-btn {
+  height: 40px;
+  padding: 0 18px;
+  font-size: 15px;
+  color: #ffffff;
+  background: #4b6174;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.welcome-library-btn:hover {
+  background: #5a7a93;
+}
+
+.welcome-stats {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+}
+
+.welcome-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 108px;
+}
+
+.welcome-stat-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #8b929a;
+}
+
+.welcome-stat-value {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+/* ---------- Cuerpo: aviso + imagen + texto + CTA ---------- */
+
+.welcome-body {
+  display: flex;
+  flex-direction: column;
+  margin-top: 22px;
+  overflow-y: auto;
+}
+
+.welcome-eyebrow {
+  margin: 0 0 2px;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #8b929a;
+}
+
+.welcome-slide-title {
+  margin: 0 0 12px;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #ffffff;
+  animation: welcome-fade 260ms ease;
+}
+
+.welcome-slide-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #12161b;
+  animation: welcome-fade 320ms ease;
+}
+
+/* Rejilla de proyectos en la segunda página */
+.welcome-slide-projects {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 4px;
+  animation: welcome-fade 320ms ease;
+}
+
+.welcome-slide-project {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.welcome-slide-project-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.welcome-slide-project-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 4px 6px;
+  font-size: 9px;
+  line-height: 1.2;
+  color: #ffffff;
+  background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.welcome-text {
+  margin: 14px 0 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #c7cdd3;
+  animation: welcome-fade 300ms ease;
+}
+
+@keyframes welcome-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-cta {
+  height: 46px;
+  flex-shrink: 0;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #4b6174;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.welcome-cta:hover {
+  background: #5a7a93;
+}
+
+/* ---------- Controles: flechas y puntos ---------- */
+
+.welcome-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+}
+
+.welcome-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #ffffff;
+  border-radius: 2px;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast), background-color var(--transition-fast);
+}
+
+.welcome-arrow:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.welcome-arrow svg {
+  width: 26px;
+  height: 26px;
+}
+
+.welcome-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.welcome-dot {
+  width: 18px;
+  height: 4px;
+  padding: 0;
+  border: none;
+  background: #4b5460;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.welcome-dot.active {
+  background: #c7cdd3;
+}
+
+.welcome-dot:hover {
+  background: #8b929a;
+}
+
+/* ---------- Pie ---------- */
+
+.welcome-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 -28px;
+  padding: 12px 20px;
+  background: #141920;
+  border-top: 1px solid #2f3a47;
+}
+
+.welcome-legal {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #6b737c;
+}
+
+.welcome-dismiss {
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: #ffffff;
+  background: #4b6174;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.welcome-dismiss:hover {
+  background: #5a7a93;
+}
+
+/* ==========================================================================
+   MÓVIL (<= 640px): la ventana ocupa casi toda la pantalla
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .welcome-overlay {
+    padding: 0;
+  }
+
+  .welcome-panel {
+    width: 100%;
+    max-height: 100dvh;
+    padding: 20px 16px 0;
+  }
+
+  .welcome-head {
+    gap: 14px;
+  }
+
+  .welcome-capsule {
+    width: 68px;
+  }
+
+  .welcome-title {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .welcome-head-row {
+    gap: 14px;
+  }
+
+  .welcome-library-btn {
+    min-height: var(--touch-target);
+  }
+
+  .welcome-stats {
+    gap: 18px;
+  }
+
+  .welcome-stat {
+    min-width: 0;
+  }
+
+  .welcome-eyebrow {
+    font-size: 13px;
+  }
+
+  .welcome-slide-title {
+    font-size: 22px;
+  }
+
+  .welcome-text {
+    font-size: 14px;
+  }
+
+  .welcome-slide-projects {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .welcome-cta {
+    min-height: var(--touch-target);
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+
+  .welcome-arrow {
+    width: var(--touch-target);
+    height: var(--touch-target);
+  }
+
+  .welcome-dismiss {
+    min-height: var(--touch-target);
+  }
+
+  .welcome-footer {
+    margin: 0 -16px;
+    padding: 12px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-overlay,
+  .welcome-panel,
+  .welcome-slide-title,
+  .welcome-slide-img,
+  .welcome-slide-projects,
+  .welcome-text {
+    animation: none;
+  }
+}
