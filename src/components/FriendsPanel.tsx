@@ -275,27 +275,50 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
 
         {favorites.length > 0 && (
           <div className="fp-favorites" role="list" aria-label="Amigos favoritos">
-            {favorites.map((friend) => (
-              <button key={friend.id} className="fp-fav" title={`${friend.name} · ${friend.statusText}`}>
-                <span
-                  className={`fp-fav-avatar ${ringClass(friend.status, Boolean(friend.project))}`}
-                  style={{ background: avatarColor(friend.name) }}
-                  aria-hidden="true"
-                >
-                  {friend.slug ? (
-                    <SmartImage
-                      basePath={`/friends/${friend.slug}/avatar`}
-                      kind="avatar"
-                      className="fp-fav-avatar-img"
-                      alt=""
-                    />
-                  ) : (
-                    friend.avatarInitial
-                  )}
-                </span>
-                <span className="fp-fav-name">{friend.name}</span>
-              </button>
-            ))}
+            {favorites.map((friend) => {
+              const content = (
+                <>
+                  <span
+                    className={`fp-fav-avatar ${ringClass(friend.status, Boolean(friend.project))}`}
+                    style={{ background: avatarColor(friend.name) }}
+                    aria-hidden="true"
+                  >
+                    {friend.slug ? (
+                      <SmartImage
+                        basePath={`/friends/${friend.slug}/avatar`}
+                        kind="avatar"
+                        className="fp-fav-avatar-img"
+                        alt=""
+                      />
+                    ) : (
+                      friend.avatarInitial
+                    )}
+                  </span>
+                  <span className="fp-fav-name">{friend.name}</span>
+                </>
+              );
+              const title = `${friend.name} · ${friend.statusText}`;
+              // Igual que las filas de la lista, el favorito abre su GitHub.
+              if (friend.githubUrl) {
+                return (
+                  <a
+                    key={friend.id}
+                    className="fp-fav"
+                    href={friend.githubUrl}
+                    target="_blank"
+                    rel="noopener"
+                    title={title}
+                  >
+                    {content}
+                  </a>
+                );
+              }
+              return (
+                <button key={friend.id} className="fp-fav" title={title}>
+                  {content}
+                </button>
+              );
+            })}
           </div>
         )}
 

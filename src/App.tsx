@@ -35,7 +35,9 @@ const ProjectRoute: React.FC = () => {
 };
 
 function AppContent() {
-  const [friendsOpen, setFriendsOpen] = useState(false);
+  // El panel de amigos arranca abierto en escritorio; en móvil es una hoja a
+  // pantalla completa con velo, así que solo se abre cuando se pulse el botón.
+  const [friendsOpen, setFriendsOpen] = useState(() => !window.matchMedia('(max-width: 900px)').matches);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const location = useLocation();
