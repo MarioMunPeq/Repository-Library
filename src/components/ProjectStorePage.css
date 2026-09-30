@@ -1093,31 +1093,39 @@
     margin-left: 0;
   }
 
-  .store-actionbar {
-    height: auto;
-    flex-wrap: wrap;
-    padding: 16px 20px;
-    gap: 16px;
+  /* En pantallas estrechas la banda se reparte en tres filas compactas: el
+     botón con los iconos (que sí caben juntos), el estado en cloud y las
+     stats. Antes de agrupar en una columna el bloque ocupaba 210px de alto,
+     una cuarta parte de la pantalla del teléfono. */
+  .store-actionbar-content {
+    gap: 10px 12px;
+    padding: 12px 16px;
   }
 
   .store-play-group {
+    order: 1;
     margin-left: 0;
-    width: 100%;
+    width: auto;
+  }
+
+  .store-icon-actions {
+    order: 2;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .store-cloud {
+    order: 3;
+    flex: 1 0 100%;
     justify-content: center;
   }
 
   .store-stats {
+    order: 4;
     width: 100%;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 16px 24px;
     margin-left: 0;
-  }
-
-  .store-icon-actions {
-    margin-right: 0;
-    width: 100%;
-    justify-content: center;
   }
 
   .store-recommendation {
@@ -1209,11 +1217,20 @@
   }
 
   /* Playbar en dos filas: botón y cloud arriba, stats en una fila con scroll */
+  /* La banda de JUGAR pasa a dos filas: la de arriba con el botón, el estado en
+     cloud y los iconos, y la de abajo con las stats. El flex que decide el
+     reparto es `.store-actionbar-content` (dentro está `.store-stats`), así que
+     es ese el que tiene que envolver; si se envuelve el padre, las stats se
+     estiran hasta salirse de la pantalla. */
   .store-actionbar {
     height: auto;
+  }
+
+  .store-actionbar-content {
     flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
+    align-content: center;
+    height: auto;
+    gap: 10px 14px;
     padding: 12px 16px;
   }
 
@@ -1238,19 +1255,28 @@
     padding: 0;
   }
 
+  /* Las etiquetas en versalitas de 10px se leen justas en un teléfono. */
+  .store-cloud-label {
+    font-size: 11px;
+  }
+
   .store-stats {
     order: 3;
     width: 100%;
     margin-left: 0;
-    padding-top: 8px;
+    padding-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    /* Las tres stats no caben en una línea a 375px: fila con scroll */
+    /* Las tres stats en una sola fila, como en el cliente: en un teléfono no
+       caben, así que se desliza. El degradado de la derecha avisa de que
+       sigue habiendo contenido. */
     flex-wrap: nowrap;
     justify-content: flex-start;
     gap: 20px;
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
+    mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
   }
 
   .store-stats::-webkit-scrollbar {
@@ -1262,7 +1288,7 @@
   }
 
   .store-stat-label {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .store-stat-value {
@@ -1298,6 +1324,69 @@
     font-size: 13px;
   }
 
+  /* La fila de pestañas se desliza en un teléfono: el degradado de la derecha
+     deja claro que hay más pestañas fuera de vista. */
+  .store-tabs {
+    -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, #000 92%, transparent 100%);
+  }
+
+  /* ---------- Resumen posterior: la tira no puede salirse de su caja ----------
+     Con tres capturas a 180px dentro de una caja de ~330px la rejilla se
+     dibujaba por fuera de la tarjeta; aquí la caja recorta y la tira se
+     desliza, con enganche al pasar de captura. */
+  .store-news-box {
+    overflow: hidden;
+  }
+
+  .store-news-strip {
+    grid-auto-columns: minmax(140px, 58%);
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
+    mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
+  }
+
+  .store-news-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .store-news-item {
+    scroll-snap-align: start;
+  }
+
+  /* Título del bloque en una sola línea y los tres controles a la derecha,
+     como en escritorio; con dos líneas el título empuja los botones. */
+  .store-news-header {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .store-news-header .store-section-title {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .store-news-btn {
+    position: relative;
+    width: 36px;
+    height: var(--touch-target);
+  }
+
+  /* Zona de pulsación de 44px sin agrandar el glifo. */
+  .store-news-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0 -4px;
+  }
+
   /* Recomendación: botones debajo del texto */
   .store-recommendation {
     flex-direction: column;
@@ -1314,6 +1403,14 @@
 
   .store-recommend-btn {
     min-height: var(--touch-target);
+  }
+
+  /* Notas: el botón también es un objetivo táctil. */
+  .store-notes-new {
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   .store-body {

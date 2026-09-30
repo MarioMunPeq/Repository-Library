@@ -187,6 +187,18 @@
     gap: 8px;
   }
 
+  /* El botón redondo se queda en su círculo de 28px y aun así se pulsa con el
+     dedo: el pseudo amplía la zona sin descolocar la cabecera. */
+  .section-round-btn {
+    position: relative;
+  }
+
+  .section-round-btn::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+  }
+
   .section-title {
     font-size: 17px;
   }
@@ -196,10 +208,12 @@
     white-space: nowrap;
   }
 
-  /* Las cápsulas son 2:3: caben dos por fila a 375px */
+  /* Las cápsulas son 2:3: caben dos por fila a 375px. El hueco vertical se
+     aprieta (40px era un vacío enorme en una columna) y deja aire para el
+     círculo de contador, que sobresale por abajo. */
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 40px 12px;
+    gap: 28px 12px;
   }
 
   .sort-dropdown {

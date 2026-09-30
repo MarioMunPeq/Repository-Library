@@ -1333,6 +1333,40 @@
     min-height: var(--touch-target);
   }
 
+  /* ---------- Objetivos táctiles del cajón ----------
+     Los botones redondos y el filtro conservan su tamaño visual (si no, la
+     cabecera del cajón no cabe) y amplían la zona de pulsación con un pseudo. */
+  .sidebar-grid-btn,
+  .sidebar-search-filter {
+    position: relative;
+  }
+
+  .sidebar-grid-btn::after,
+  .sidebar-search-filter::after {
+    content: '';
+    position: absolute;
+    inset: -10px;
+  }
+
+  /* El filtro son 18px de glifo: necesita 13px de halo para llegar a 44. */
+  .sidebar-search-filter::after {
+    inset: -13px;
+  }
+
+  .sidebar-search {
+    height: 36px;
+  }
+
+  .sidebar-category-header {
+    height: var(--touch-target);
+  }
+
+  /* Las cabeceras de categoría en versalitas: 12px se leen sin effort. */
+  .sidebar-category-name,
+  .sidebar-category-count {
+    font-size: 12px;
+  }
+
   .app-scrim {
     display: block;
     position: fixed;
@@ -1422,6 +1456,11 @@
 
   .nav-user {
     margin-right: auto;
+    /* Sin el nombre, el botón se quedaba con el caret de 10px: se le da la
+       zona táctil aunque solo muestre el glifo. */
+    min-width: var(--touch-target);
+    min-height: var(--touch-target);
+    justify-content: center;
   }
 }
 

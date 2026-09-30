@@ -467,8 +467,22 @@
     letter-spacing: 1px;
   }
 
+  /* El descuento y el precio se centran bajo el botón en vez de quedar
+     colgando a la derecha. */
   .welcome-price {
-    align-self: flex-end;
+    align-self: center;
+  }
+
+  .welcome-dot {
+    position: relative;
+  }
+
+  /* La mota se ve de 4px pero se pulsa con el dedo: con 6px de paso, un halo
+     de 20px arriba y abajo deja 44px de alto sin pisar la vecina. */
+  .welcome-dot::after {
+    content: '';
+    position: absolute;
+    inset: -20px -3px;
   }
 
   .welcome-discount {

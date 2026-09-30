@@ -43,7 +43,9 @@
   }
 
   .mobile-tab-label {
-    font-size: 11px;
+    /* 11px se leía justo en un teléfono: 12px sigue entrando en la barra de
+       56px y se lee sin effort. */
+    font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.2px;
     white-space: nowrap;

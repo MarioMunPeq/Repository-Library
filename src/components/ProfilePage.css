@@ -947,6 +947,12 @@
     width: 150px;
   }
 
+  /* 11px se leía justo en el móvil. */
+  .profile-years-label,
+  .profile-years-exp {
+    font-size: 12px;
+  }
+
   .profile-edit-btn {
     min-height: var(--touch-target);
     padding: 0 20px;

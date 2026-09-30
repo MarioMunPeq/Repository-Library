@@ -673,24 +673,38 @@
 /* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
-  /* La navegación de la tienda pasa a una fila con scroll horizontal en vez
-     de desaparecer: los menús siguen siendo accesibles deslizando. */
+  /* La navegación de la tienda pasa a dos filas: arriba los menús, que se
+     deslizan solos, con la lista de deseos fija a la derecha; abajo el
+     buscador a todo lo ancho. Sin `flex-wrap` en `.store-nav` el buscador
+     (que pide `width: 100%` y `order: 3`) se estira en vez de bajar de fila y
+     queda reducido a un hilo fuera de pantalla. */
   .store-nav {
+    flex-wrap: wrap;
+    align-items: center;
     height: auto;
     min-height: 52px;
-    gap: 8px;
-    padding: 0 12px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .store-nav::-webkit-scrollbar {
-    display: none;
+    gap: 0 8px;
+    padding: 0 12px 8px;
+    overflow: visible;
   }
 
   .store-nav-list {
-    flex-shrink: 0;
+    /* `flex-basis: 0` es lo que deja a la lista de deseos en la MISMA fila que
+       los menús: con base `auto` la lista mide lo que necesitan sus hijos
+       (651px), no cabe con el wishlist al lado y el reparto de líneas la manda
+       sola a una fila, dejando el wishlist colgando debajo. */
+    flex: 1 1 0;
+    min-width: 0;
     gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, #000 92%, transparent 100%);
+  }
+
+  .store-nav-list::-webkit-scrollbar {
+    display: none;
   }
 
   .store-nav-item {
@@ -699,16 +713,31 @@
     white-space: nowrap;
   }
 
+  /* Los controles de la barra también son objetivos táctiles. */
+  .store-search-input,
+  .store-wishlist {
+    height: 40px;
+  }
+
+  /* El botón de la lupa ocupa toda la altura del campo. */
+  .store-search-btn {
+    top: 1px;
+    bottom: 1px;
+    height: auto;
+  }
+
   .store-search {
     order: 3;
+    flex: 1 0 100%;
     width: 100%;
     max-width: none;
-    margin-left: 0;
-    padding-bottom: 8px;
+    margin: 8px 0 0;
   }
 
   .store-wishlist {
-    margin-left: auto;
+    order: 2;
+    flex-shrink: 0;
+    margin-left: 8px;
   }
 
   .store-wishlist-label {
@@ -732,7 +761,7 @@
      con la imagen arriba y la ficha debajo. */
   .store-switcher-card {
     flex-direction: column;
-    width: min(300px, 78vw);
+    width: min(340px, 90vw);
     aspect-ratio: auto;
   }
 
@@ -791,6 +820,33 @@
     font-size: 13px;
   }
 
+  /* Objetivos táctiles: el botón de precio, el punto del carrusel y el
+     desplegable de ordenar. */
+  .store-switcher-cta {
+    height: var(--touch-target);
+  }
+
+  /* Las motas se separan para que su zona de pulsación (23x43) no se pise
+     entre ellas: mota de 7px con 16px de paso = 23px. */
+  .store-dots {
+    gap: 16px;
+  }
+
+  .store-dot {
+    position: relative;
+  }
+
+  .store-dot::after {
+    content: '';
+    position: absolute;
+    inset: -18px -8px;
+  }
+
+  .store-sort {
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
