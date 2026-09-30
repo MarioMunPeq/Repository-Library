@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "steam:achievements": "node scripts/fetch-steam-achievements.js",
+    "github:snapshot": "node scripts/fetch-github.js",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {

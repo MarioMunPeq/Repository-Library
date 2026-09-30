@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects.tsx';
 import { devProfile } from '../data/devProfile';
 import { SmartImage } from './SmartImage';
-import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from './Icons';
+import { CloseIcon } from './Icons';
 import './WelcomePopup.css';
 
 /** Se guarda en la sesión: al recargar dentro de la misma pestaña no vuelve a salir. */
@@ -37,64 +37,42 @@ export const WelcomePopup: React.FC = () => {
       return true;
     }
   });
-  const [index, setIndex] = useState(0);
-
   const published = projects.filter((project) => project.status === 'completado').length;
 
-  const slides = useMemo<Slide[]>(
-    () => [
-      {
-        eyebrow: 'Bienvenido',
-        title: 'Una biblioteca con forma de Steam',
-        body:
-          'Este sitio es mi portfolio. Hecho a medida, cada proyecto tiene su propia ficha con descripción, ' +
-          'capturas y tecnologías, pero la interfaz está calcada del cliente de Steam porque me gusta más ' +
-          'así que una web de portfolio normal.',
-        cta: 'Más información',
-        target: '/perfil',
-        image: (
-          <SmartImage
-            basePath="/projects/persona5/hero"
-            kind="hero"
-            className="welcome-slide-img"
-            alt=""
-            fallback={<span className="gradient-fallback" />}
-          />
-        ),
-      },
-      {
-        eyebrow: 'Cómo funciona',
-        title: 'Cada juego es un proyecto',
-        body:
-          `De los ${projects.length} proyectos, ${published} están terminados y el resto sigue en camino. ` +
-          'Para que la biblioteca tenga sentido, cada entrada está asociada a un juego real de Steam y los ' +
-          'logros que ves en su ficha son los de ese juego. Si el proyecto tiene demo publicada, el botón ' +
-          'Jugar te lleva a ella.',
-        cta: 'Ver todos los proyectos',
-        target: '/',
-        image: (
-          <div className="welcome-slide-projects">
-            {projects.map((project) => (
-              <span
-                key={project.slug}
-                className="welcome-slide-project"
-                style={{ background: project.fallbackGradient }}
-                title={project.name}
-              >
-                <SmartImage
-                  basePath={project.iconPath}
-                  kind="icon"
-                  className="welcome-slide-project-img"
-                  alt=""
-                  fallback={<span className="gradient-fallback" />}
-                />
-                <span className="welcome-slide-project-name">{project.name}</span>
-              </span>
-            ))}
-          </div>
-        ),
-      },
-    ],
+  const slide = useMemo<Slide>(
+    () => ({
+      eyebrow: 'Cómo funciona',
+      title: 'Cada juego es un proyecto',
+      body:
+        `De los ${projects.length} proyectos, ${published} están terminados y el resto sigue en camino. ` +
+        'Para que la biblioteca tenga sentido, cada entrada está asociada a un juego real de Steam y los ' +
+        'logros que ves en su ficha son los de ese juego. Si el proyecto tiene demo publicada, el botón ' +
+        'Jugar te lleva a ella. El proyecto estrella es Persona 5 Royal: es mi portfolio principal, el más ' +
+        'desarrollado y el mejor terminado, así que es el primero que deberías abrir.',
+      cta: 'Ver todos los proyectos',
+      target: '/',
+      image: (
+        <div className="welcome-slide-projects">
+          {projects.map((project) => (
+            <span
+              key={project.slug}
+              className="welcome-slide-project"
+              style={{ background: project.fallbackGradient }}
+              title={project.name}
+            >
+              <SmartImage
+                basePath={project.iconPath}
+                kind="icon"
+                className="welcome-slide-project-img"
+                alt=""
+                fallback={<span className="gradient-fallback" />}
+              />
+              <span className="welcome-slide-project-name">{project.name}</span>
+            </span>
+          ))}
+        </div>
+      ),
+    }),
     [published],
   );
 
@@ -107,27 +85,12 @@ export const WelcomePopup: React.FC = () => {
     setOpen(false);
   }, []);
 
-  const go = useCallback(
-    (direction: -1 | 1) => {
-      setIndex((current) => (current + direction + slides.length) % slides.length);
-    },
-    [slides.length],
-  );
-
   useEffect(() => {
     if (!open) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         close();
-        return;
-      }
-      if (event.key === 'ArrowRight') {
-        go(1);
-        return;
-      }
-      if (event.key === 'ArrowLeft') {
-        go(-1);
         return;
       }
       // Trampa de foco: la ventana es modal.
@@ -149,15 +112,13 @@ export const WelcomePopup: React.FC = () => {
 
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [open, close, go]);
+  }, [open, close]);
 
   useEffect(() => {
     if (open) panelRef.current?.focus();
   }, [open]);
 
   if (!open) return null;
-
-  const slide = slides[index];
 
   // Portal a document.body: se sitúa por encima de la app en cualquier vista.
   return createPortal(
@@ -222,13 +183,9 @@ export const WelcomePopup: React.FC = () => {
 
         <div className="welcome-body">
           <p className="welcome-eyebrow">{slide.eyebrow}</p>
-          <h2 className="welcome-slide-title" key={`title-${index}`}>
-            {slide.title}
-          </h2>
+          <h2 className="welcome-slide-title">{slide.title}</h2>
           {slide.image}
-          <p className="welcome-text" key={`text-${index}`}>
-            {slide.body}
-          </p>
+          <p className="welcome-text">{slide.body}</p>
           <button
             className="welcome-cta"
             type="button"
@@ -238,30 +195,6 @@ export const WelcomePopup: React.FC = () => {
             }}
           >
             {slide.cta}
-          </button>
-        </div>
-
-        <div className="welcome-controls">
-          <button className="welcome-arrow left" type="button" onClick={() => go(-1)} aria-label="Anterior">
-            <ChevronLeftIcon />
-          </button>
-
-          <div className="welcome-dots" role="tablist" aria-label="Ir a la página">
-            {slides.map((item, position) => (
-              <button
-                key={item.title}
-                type="button"
-                role="tab"
-                aria-selected={position === index}
-                aria-label={item.title}
-                className={`welcome-dot${position === index ? ' active' : ''}`}
-                onClick={() => setIndex(position)}
-              />
-            ))}
-          </div>
-
-          <button className="welcome-arrow right" type="button" onClick={() => go(1)} aria-label="Siguiente">
-            <ChevronRightIcon />
           </button>
         </div>
 

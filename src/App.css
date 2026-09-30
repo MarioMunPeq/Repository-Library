@@ -13,6 +13,11 @@
 /* ---------- 1. Barra de menú superior (26px) ---------- */
 
 .menu-bar {
+  /* `position` + `z-index` como en .nav-bar: sin esto queda en flujo normal y
+     cualquier fondo fijo de página (p. ej. .store-backdrop, z-index 0) se pinta
+     por encima, ocultando la barra. */
+  position: relative;
+  z-index: 60;
   height: var(--menubar-height);
   flex-shrink: 0;
   display: flex;

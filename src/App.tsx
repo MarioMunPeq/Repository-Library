@@ -11,7 +11,6 @@ import { Sidebar } from './components/Sidebar';
 import { ProjectStorePage } from './components/ProjectStorePage';
 import { LibraryHome } from './components/LibraryHome';
 import { StorePage } from './components/StorePage';
-import { ComunidadPage } from './components/ComunidadPage';
 import { ProfilePage } from './components/ProfilePage';
 import { Footer } from './components/Footer';
 import { FriendsPanel } from './components/FriendsPanel';
@@ -23,7 +22,6 @@ import './App.css';
 function sectionFromPath(pathname: string): SectionId {
   if (pathname.startsWith('/tienda')) return 'store';
   if (pathname.startsWith('/perfil')) return 'profile';
-  if (pathname.startsWith('/comunidad')) return 'community';
   return 'library';
 }
 
@@ -45,6 +43,7 @@ function AppContent() {
 
   const pathname = location.pathname;
   const activeSection = sectionFromPath(pathname);
+  // La tienda y el perfil van a ancho completo: sin la lista de juegos a la izquierda.
   const isLibraryRoute = !pathname.startsWith('/tienda') && !pathname.startsWith('/perfil');
 
   // El cajón lateral se cierra solo al cambiar de página: si no, en móvil
@@ -59,7 +58,6 @@ function AppContent() {
   const handleSelectSection = (section: SectionId) => {
     if (section === 'profile') navigate('/perfil');
     else if (section === 'store') navigate('/tienda');
-    else if (section === 'community') navigate('/comunidad');
     else navigate('/');
   };
 
@@ -105,7 +103,6 @@ function AppContent() {
             <Routes>
               <Route path="/perfil" element={<ProfilePage />} />
               <Route path="/tienda" element={<StorePage onOpenProject={handleOpenProject} />} />
-              <Route path="/comunidad" element={<ComunidadPage />} />
               <Route path="/juego/:slug" element={<ProjectRoute />} />
               <Route path="/" element={<LibraryHome onSelectProject={handleOpenProject} />} />
               <Route path="*" element={<Navigate to="/" replace />} />

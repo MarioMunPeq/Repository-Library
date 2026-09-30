@@ -169,5 +169,62 @@
         "hidden": false
       }
     ]
+  },
+  "papers-please": {
+    "appId": 239030,
+    "name": "Papers, Please",
+    "total": 13,
+    "achievements": [
+      {
+        "name": "Antegria Token",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/0d9cec4794f72f318ea0e615dba433dfebcfb1e9.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Republia Token",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/5336f24aab660949526e3b727a240ae145f2ba5d.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Impor Token",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/3b50a7d28adfe668e7ce81ec04fb393dea035037.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Obristan Token",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/d46363f56859035e5468bb931ca96e3a4be453b8.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Kolechia Token",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/6813d1f3493cf061f8b56e77e2d5a8d0b1a57efd.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Arstotzka Token",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/b3406db7b2a28fa312f2132941011050f5b3d78e.jpg",
+        "hidden": false
+      },
+      {
+        "name": "United Federation Token",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/acd4a680d7b9248e6033ac0c3ed0a58951a9d1cf.jpg",
+        "hidden": false
+      },
+      {
+        "name": "Too Honest",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/7ef6a715cac98b7de183e24090688914a3e6d19b.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Hired Rifle",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/3f2a5150872b7d7ce64a647e10573d6a4201f932.jpg",
+        "hidden": true
+      },
+      {
+        "name": "Member of the Order",
+        "icon": "https://shared.akamai.steamstatic.com/community_assets/images/apps/239030/4c6bf0252c7f320a7a1ac594cbddcebc0a4246fc.jpg",
+        "hidden": true
+      }
+    ]
   }
 }

@@ -1,22 +1,40 @@
 import { devProfile } from '../data/devProfile';
 import { projects } from '../data/projects.tsx';
+import { timeSince, useGithubData } from '../data/github';
+import { assetUrl } from '../utils/assets';
 import { SmartImage } from './SmartImage';
 import {
   CameraIcon,
   ChevronDownIcon,
+  ChevronRightIcon,
   CodeIcon,
   GearIcon,
+  GitHubIcon,
   HeartIcon,
+  LinkedInIcon,
   MapPinIcon,
 } from './Icons';
 import './ProfilePage.css';
 
-const MAX_FEATURED_CELLS = 8;
+const MAX_FEATURED_BADGES = 5;
 const MAX_SIDE_BADGES = 4;
 const MAX_STACK_SHOTS = 2;
 const MAX_GROUPS = 2;
 
+/** Elige texto oscuro o claro según lo claro que sea el fondo de la insignia,
+ *  para que se lea igual en el azul de TypeScript que en el amarillo de JS. */
+const readableText = (hex: string): string => {
+  const value = hex.replace('#', '');
+  const channels = [0, 2, 4].map((index) => parseInt(value.slice(index, index + 2), 16));
+  const [red, green, blue] = channels;
+  const luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+  return luminance > 0.6 ? '#1a1c1e' : '#ffffff';
+};
+
 export const ProfilePage: React.FC = () => {
+  const { social } = devProfile;
+  const github = useGithubData(social.githubUser);
+
   const favorite = projects.find((project) => project.slug === devProfile.favoriteProject.id) ?? projects[0];
   const totalScreenshots = projects.reduce((sum, project) => sum + project.screenshots.length, 0);
 
@@ -24,7 +42,7 @@ export const ProfilePage: React.FC = () => {
   const achievementsPercent =
     favAchievements.total === 0 ? 0 : Math.round((favAchievements.unlocked / favAchievements.total) * 100);
 
-  const shownCells = Math.min(favorite.technologies.length, MAX_FEATURED_CELLS);
+  const shownCells = Math.min(favorite.technologies.length, MAX_FEATURED_BADGES);
   const overflowTech = favorite.technologies.length - shownCells;
 
   const shots = favorite.screenshots;
@@ -32,6 +50,7 @@ export const ProfilePage: React.FC = () => {
   const stackedShots = shots.slice(1, 1 + MAX_STACK_SHOTS);
   const remainingShots = Math.max(0, totalScreenshots - (bigShot ? 1 : 0) - stackedShots.length);
 
+  const featuredBadges = devProfile.badges.slice(0, MAX_FEATURED_BADGES);
   const sideBadges = devProfile.badges.slice(0, MAX_SIDE_BADGES);
   const sideBadgeOverflow = devProfile.badges.length - sideBadges.length;
 
@@ -40,16 +59,38 @@ export const ProfilePage: React.FC = () => {
     { label: 'Logros', value: favAchievements.unlocked },
   ];
 
+  // Sin filas de proyectos: los juegos y las capturas ya están en la biblioteca.
   const statsRows = [
-    { label: 'Juegos', value: projects.length },
-    { label: 'Capturas', value: totalScreenshots },
     { label: 'Artículos del Workshop', value: devProfile.stats.articles },
-    { label: 'Reseñas', value: devProfile.reviews },
-    { label: 'Videos', value: devProfile.stats.videos },
+    { label: 'Guías', value: devProfile.stats.guides },
+    { label: 'Material gráfico', value: devProfile.stats.artwork },
+    { label: 'Inventario', value: devProfile.stats.inventory },
+    { label: 'Grupos', value: devProfile.groups.length },
   ];
+
+  const githubLabel = github ? `@${github.user.login} · ${github.user.publicRepos} repos` : `@${social.githubUser}`;
 
   return (
     <main className="profile-page" role="main" aria-label={`Perfil de ${devProfile.username}`}>
+      {/* Fondo a toda página: el vídeo en escritorio y, debajo, el póster que
+          es lo que se ve mientras carga y en móvil, donde no se reproduce. */}
+      <div className="profile-bg" aria-hidden="true">
+        <video
+          className="profile-bg-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={assetUrl(devProfile.background.posterPath)}
+        >
+          {devProfile.background.sources.map(({ path, type }) => (
+            <source key={path} src={assetUrl(path)} type={type} />
+          ))}
+        </video>
+        <img className="profile-bg-poster" src={assetUrl(devProfile.background.posterPath)} alt="" />
+      </div>
+
       <div className="profile-container">
         <header className="profile-header">
           <div className="profile-header-left">
@@ -88,12 +129,12 @@ export const ProfilePage: React.FC = () => {
               </span>
             </div>
 
-            <div className="profile-featured-badges" role="list" aria-label="Insignias destacadas">
-              {devProfile.featuredBadges.map((badge) => (
+            <div className="profile-featured-badges" role="list" aria-label="Lenguajes">
+              {featuredBadges.map((badge) => (
                 <span
                   key={badge.id}
                   className="profile-featured-badge"
-                  style={{ background: badge.color }}
+                  style={{ background: badge.color, color: readableText(badge.color) }}
                   title={badge.label}
                   role="listitem"
                 >
@@ -115,6 +156,7 @@ export const ProfilePage: React.FC = () => {
                   <span className="profile-years-value">{devProfile.yearsExperience}</span>
                 </div>
                 <span className="profile-years-label">Años de Servicio</span>
+                <span className="profile-years-exp">{devProfile.exp} EXP</span>
               </div>
             </div>
 
@@ -131,6 +173,12 @@ export const ProfilePage: React.FC = () => {
 
         <div className="profile-body">
           <section className="profile-main">
+            <section className="profile-panel">
+              <h2 className="profile-panel-title">Sobre mí</h2>
+              <p className="profile-about-role">{devProfile.role}</p>
+              <p className="profile-about-bio">{devProfile.bio}</p>
+            </section>
+
             <section className="profile-panel">
               <h2 className="profile-panel-title">Juego favorito</h2>
               <div className="profile-fav-row">
@@ -250,25 +298,54 @@ export const ProfilePage: React.FC = () => {
           <aside className="profile-side">
             <section className="profile-panel">
               <h2 className="profile-panel-title accent">En línea</h2>
-              <p className="profile-online-text">
-                <span className="profile-online-warn">1 bloqueo por VAC registrado</span> |{' '}
-                <button className="profile-side-link" type="button">
-                  Ver historial de bloqueos
-                </button>
-              </p>
               <p className="profile-online-text">Última actividad {devProfile.lastActivity}</p>
             </section>
 
             <section className="profile-panel">
+              <h2 className="profile-panel-title">Enlaces</h2>
+              <a
+                className="profile-link-row"
+                href={social.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GitHubIcon className="profile-link-icon" />
+                <span className="profile-link-body">
+                  <span className="profile-link-name">GitHub</span>
+                  <span className="profile-link-handle">{githubLabel}</span>
+                </span>
+                <ChevronRightIcon className="profile-link-caret" />
+              </a>
+
+              <a
+                className="profile-link-row"
+                href={social.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LinkedInIcon className="profile-link-icon" />
+                <span className="profile-link-body">
+                  <span className="profile-link-name">LinkedIn</span>
+                  <span className="profile-link-handle">{social.linkedinLocation}</span>
+                </span>
+                <ChevronRightIcon className="profile-link-caret" />
+              </a>
+
+              {github?.stale && (
+                <span className="profile-link-stale">datos de {timeSince(github.fetchedAt)}</span>
+              )}
+            </section>
+
+            <section className="profile-panel">
               <h2 className="profile-panel-title">
-                Insignias <span className="profile-panel-count">{favAchievements.unlocked}</span>
+                Insignias <span className="profile-panel-count">{devProfile.badges.length}</span>
               </h2>
               <div className="profile-badge-grid">
                 {sideBadges.map((badge) => (
                   <span
                     key={badge.id}
                     className="profile-badge-cell"
-                    style={{ background: badge.color }}
+                    style={{ background: badge.color, color: readableText(badge.color) }}
                     title={badge.label}
                   >
                     {badge.short}

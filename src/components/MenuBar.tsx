@@ -11,7 +11,7 @@ const MENU_ITEMS: MenuItem[] = [
   { label: 'Steam', caret: true, brand: true, items: ['Cuenta', 'Ajustes', 'Cambiar de usuario', 'Salir'] },
   { label: 'Ver', items: ['Modo compacto', 'Modo grande', 'Pantalla completa'] },
   { label: 'Amigos', caret: true, items: ['Lista de amigos', 'Añadir amigo', 'Invitar a jugar'] },
-  { label: 'Productos', caret: true, items: ['Tienda', 'Biblioteca', 'Comunidad'] },
+  { label: 'Productos', caret: true, items: ['Tienda', 'Biblioteca'] },
   { label: 'Ayuda', caret: true, items: ['Centro de ayuda', 'Informar de un error', 'Acerca de'] },
 ];
 

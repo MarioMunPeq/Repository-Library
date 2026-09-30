@@ -1,5 +1,5 @@
 import type { SectionId } from './NavBar';
-import { GridIcon, StoreIcon, TrophyIcon, UserIcon } from './Icons';
+import { GridIcon, StoreIcon, UserIcon } from './Icons';
 import './MobileTabBar.css';
 
 interface MobileTabBarProps {
@@ -10,7 +10,6 @@ interface MobileTabBarProps {
 const TABS: { id: SectionId; label: string; Icon: typeof GridIcon }[] = [
   { id: 'store', label: 'Tienda', Icon: StoreIcon },
   { id: 'library', label: 'Biblioteca', Icon: GridIcon },
-  { id: 'community', label: 'Comunidad', Icon: TrophyIcon },
   { id: 'profile', label: 'Perfil', Icon: UserIcon },
 ];
 

@@ -13,7 +13,7 @@ import {
   TrophyIcon,
 } from './Icons';
 
-export type SectionId = 'store' | 'library' | 'community' | 'profile';
+export type SectionId = 'store' | 'library' | 'profile';
 
 interface NavBarProps {
   username: string;
@@ -29,10 +29,9 @@ interface NavBarProps {
   friendsOpen?: boolean;
 }
 
-const SECTIONS: { id: 'store' | 'library' | 'community'; label: string }[] = [
+const SECTIONS: { id: 'store' | 'library'; label: string }[] = [
   { id: 'store', label: 'TIENDA' },
   { id: 'library', label: 'BIBLIOTECA' },
-  { id: 'community', label: 'COMUNIDAD' },
 ];
 
 const NOTIFICATIONS = [

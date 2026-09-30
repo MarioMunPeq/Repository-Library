@@ -1,0 +1,79 @@
+{
+  "fetchedAt": "2026-09-30T11:33:40.974Z",
+  "user": {
+    "name": "Mario Muñoz Pequeño",
+    "login": "MarioMunPeq",
+    "bio": "Construyendo cosas para entender cómo funcionan",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/119729985?v=4",
+    "location": "España",
+    "blog": "https://mariomunpeq.is-a.dev/",
+    "followers": 4,
+    "following": 3,
+    "publicRepos": 20,
+    "createdAt": "2022-12-03T09:09:33Z",
+    "htmlUrl": "https://github.com/MarioMunPeq"
+  },
+  "totalStars": 2,
+  "repos": [
+    {
+      "name": "Euromario",
+      "description": "Personalized video game news aggregator that automatically collects, filters, and summarizes the most relevant stories from the past 24 hours using AI. Features game detection, relevance scoring, news clustering, and automatic daily digest publishing.",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/MarioMunPeq/Euromario",
+      "homepage": "https://mariomunpeq.github.io/Euromario/",
+      "pushedAt": "2026-09-30T11:04:34Z"
+    },
+    {
+      "name": "Repository-Library",
+      "description": "Un portfolio interactivo inspirado en Steam donde puedes explorar mis proyectos de desarrollo como si fueran videojuegos: perfiles, biblioteca, páginas de proyecto, logros y más. Una forma diferente de presentar mi trabajo, experiencia y proyectos.",
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/MarioMunPeq/Repository-Library",
+      "homepage": "https://mariomunpeq.github.io/Repository-Library/",
+      "pushedAt": "2026-09-29T14:44:02Z"
+    },
+    {
+      "name": "Papers-Please-Portfolio",
+      "description": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/MarioMunPeq/Papers-Please-Portfolio",
+      "homepage": "https://mariomunpeq.github.io/Papers-Please-Portfolio/",
+      "pushedAt": "2026-09-29T13:51:06Z"
+    },
+    {
+      "name": "Minecraft-Portfolio",
+      "description": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/MarioMunPeq/Minecraft-Portfolio",
+      "homepage": "https://mariomunpeq.github.io/Minecraft-Portfolio/",
+      "pushedAt": "2026-09-28T21:44:51Z"
+    },
+    {
+      "name": "Vault-Archive",
+      "description": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "url": "https://github.com/MarioMunPeq/Vault-Archive",
+      "homepage": "https://mariomunpeq.github.io/Vault-Archive/",
+      "pushedAt": "2026-09-28T10:49:39Z"
+    },
+    {
+      "name": "portfolio-persona5",
+      "description": "Portfolio personal, desarrollado como un CV viviente con una estética inspirada en Persona 5. Proyectos, experiencia, formación y contacto en una experiencia web interactiva, visual y orientada a mostrar tanto mis habilidades técnicas como mi personalidad.",
+      "language": "TypeScript",
+      "stars": 1,
+      "forks": 0,
+      "url": "https://github.com/MarioMunPeq/portfolio-persona5",
+      "homepage": "http://mariomunpeq.is-a.dev/",
+      "pushedAt": "2026-09-22T20:12:10Z"
+    }
+  ]
+}

@@ -291,3 +291,9 @@ export const UserIcon = ({ className = '' }: IconProps) => (
     <path d="M4 21a8 8 0 0 1 16 0" />
   </svg>
 );
+
+export const StarIcon = ({ className = '' }: IconProps) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 2.5l2.9 5.9 6.6.95-4.8 4.65 1.15 6.5L12 17.4l-5.85 3.1L7.3 14 2.5 9.35l6.6-.95L12 2.5z" />
+  </svg>
+);

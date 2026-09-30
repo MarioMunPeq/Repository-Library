@@ -10,18 +10,56 @@
 }
 
 .profile-page {
+  position: relative;
   width: 100%;
   background: var(--content-gradient);
+}
+
+/* ---------- Fondo a toda página ---------- */
+
+.profile-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* El póster va debajo del vídeo: si el vídeo no existe todavía, no se queda un
+   hueco, y en móvil es lo único que se ve. */
+.profile-bg-video,
+.profile-bg-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-bg-video {
+  z-index: 1;
+}
+
+/* Velo suave: solo encadena un poco hacia abajo, donde hay más texto. Si se
+   oscurece más, el vídeo deja de verse y el fondo parece un color plano. */
+.profile-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.38) 100%);
 }
 
 /* ---------- Contenedor central ---------- */
 
 .profile-container {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: var(--profile-container-width);
   margin: 0 auto;
   padding-bottom: 48px;
-  background: var(--panel-bg);
+  background: rgba(23, 28, 34, 0.55);
 }
 
 /* ---------- Cabecera ---------- */
@@ -228,6 +266,13 @@
   color: #c7cdd3;
 }
 
+.profile-years-exp {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: #8b929a;
+}
+
 .profile-actions {
   display: flex;
   align-items: center;
@@ -315,6 +360,20 @@
   color: #8b929a;
   font-size: 13px;
   margin-left: 4px;
+}
+
+/* ---------- Sobre mí ---------- */
+
+.profile-about-role {
+  font-size: 14px;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.profile-about-bio {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #c7cdd3;
 }
 
 /* ---------- Proyecto favorito ---------- */
@@ -551,27 +610,65 @@
   margin-bottom: 6px;
 }
 
-.profile-online-warn {
-  color: #d06b6b;
-}
+/* Enlaces: filas planas, con el mismo peso visual que el resto de la
+   columna derecha en lugar de tarjetas. */
 
-.profile-side-link {
-  display: inline-block;
-  padding: 0;
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  color: #66c0f4;
+.profile-link-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
   text-decoration: none;
-  cursor: pointer;
-  transition: color var(--transition-fast);
+  color: inherit;
 }
 
-.profile-side-link:hover {
+.profile-link-row + .profile-link-row {
+  border-top: var(--panel-border);
+}
+
+.profile-link-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
   color: #c7cdd3;
+}
+
+.profile-link-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-link-name {
+  font-size: 14px;
+  color: #66c0f4;
+}
+
+.profile-link-row:hover .profile-link-name {
   text-decoration: underline;
+}
+
+.profile-link-handle {
+  font-size: 12px;
+  color: #8b929a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-link-caret {
+  width: 14px;
+  height: 14px;
+  margin-left: auto;
+  flex-shrink: 0;
+  color: #8b929a;
+}
+
+.profile-link-stale {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #6f767d;
 }
 
 .profile-badge-grid {
@@ -751,6 +848,12 @@
    ========================================================================== */
 
 @media (max-width: 900px) {
+  /* En móvil el vídeo no se reproduce: se queda la imagen fija del fondo,
+     que es la misma que hace de póster en escritorio. */
+  .profile-bg-video {
+    display: none;
+  }
+
   /* El bloque central deja de estar centrado: ocupa el ancho sin márgenes
      laterales, como en la app de Steam. */
   .profile-container {
@@ -896,9 +999,7 @@
     height: 56px;
   }
 
-  .profile-side-link {
+  .profile-link-row {
     min-height: var(--touch-target);
-    display: inline-flex;
-    align-items: center;
   }
 }
