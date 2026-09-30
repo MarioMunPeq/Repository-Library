@@ -5,8 +5,18 @@
 .app {
   display: flex;
   flex-direction: column;
+  /* `100dvh` y no `100vh`: la vh es el viewport *grande* (el de la pantalla
+     entera, con las barras del navegador ocultas). En un móvil la diferencia
+     es justo la barra de direcciones o la barra inferior del navegador, así que
+     con `100vh` la app queda más alta que la ventana, la barra de pestañas cae
+     por debajo del borde visible y `body { overflow: hidden }` la recorta:
+     era como desaparecía en el teléfono. `100vh` se deja como respaldo para
+     navegadores sin `dvh`. */
   height: 100vh;
-  width: 100vw;
+  height: 100dvh;
+  /* `100%` y no `100vw`: el 100vw incluye el ancho de la barra de
+     desplazamiento y en escritorio eso empuja un scroll horizontal. */
+  width: 100%;
   background: var(--bg-panel);
 }
 

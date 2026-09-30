@@ -30,7 +30,10 @@
   align-items: center;
   justify-content: center;
   max-width: calc(100vw - 160px);
+  /* `dvh` para que el visor no se meta debajo de las barras del navegador del
+     móvil; `vh` detrás como respaldo. */
   max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
   padding: 24px;
   animation: image-viewer-in 220ms ease-out;
 }
@@ -53,12 +56,14 @@
   justify-content: center;
   max-width: 100%;
   max-height: calc(100vh - 200px);
+  max-height: calc(100dvh - 200px);
 }
 
 .image-viewer-image {
   display: block;
   max-width: 100%;
   max-height: calc(100vh - 200px);
+  max-height: calc(100dvh - 200px);
   width: auto;
   height: auto;
   object-fit: contain;
@@ -222,14 +227,17 @@
     padding: 16px;
     max-width: calc(100vw - 16px);
     max-height: calc(100vh - 16px);
+    max-height: calc(100dvh - 16px);
   }
 
   .image-viewer-image-wrapper {
     max-height: calc(100vh - 190px);
+    max-height: calc(100dvh - 190px);
   }
 
   .image-viewer-image {
     max-height: calc(100vh - 190px);
+    max-height: calc(100dvh - 190px);
   }
 
   .image-viewer-thumb {

@@ -8,7 +8,10 @@
 
 .friends-panel {
   width: 340px;
+  /* `dvh` para que la ventana no se salga por debajo de las barras del
+     navegador en móvil; `vh` detrás como respaldo. */
   height: min(660px, calc(100vh - 48px));
+  height: min(660px, calc(100dvh - 48px));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -566,9 +569,11 @@
     max-height: 100dvh;
     border-radius: 8px 8px 0 0;
     border: none;
-    border-top: 1px solid #3a4048;
+    border-top: 1px solid var(--border-subtle);
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.6);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    /* Mismo suelo que la barra de pestañas: la barra del sistema se dibuja
+       encima y no siempre llega por `env()`. */
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
     animation: fp-sheet-in 240ms ease-out;
   }
 

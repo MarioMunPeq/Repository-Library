@@ -16,8 +16,11 @@
     flex-shrink: 0;
     background: var(--bg-menu-fino);
     border-top: 1px solid var(--border-subtle);
-    /* Respeta la barra de inicio del iPhone */
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    /* La barra del sistema (el gesto de "volver" o los tres botones) se dibuja
+       ENCIMA de la página y Chrome no siempre la reporta en
+       `env(safe-area-inset-bottom)`, así que se deja un suelo de 8px para que
+       las etiquetas no queden pegadas al borde inferior. */
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
   }
 
   .mobile-tab {

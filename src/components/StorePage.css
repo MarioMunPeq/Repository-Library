@@ -195,6 +195,7 @@
   justify-content: center;
   gap: 18px;
   min-height: calc(100vh - var(--menubar-height) - var(--navbar-height) - var(--footer-height));
+  min-height: calc(100dvh - var(--menubar-height) - var(--navbar-height) - var(--footer-height));
   padding: 40px 16px;
 }
 
