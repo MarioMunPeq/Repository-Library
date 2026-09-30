@@ -15,7 +15,7 @@
 .store-page {
   position: relative;
   width: 100%;
-  background: var(--content-gradient);
+  background: var(--content-bg);
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;
@@ -56,9 +56,9 @@
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 52%,
-    rgba(12, 14, 16, 0.35) 76%,
-    rgba(16, 18, 21, 0.7) 92%,
-    #16191d 100%
+    rgba(49, 53, 60, 0.15) 76%,
+    rgba(49, 53, 60, 0.6) 92%,
+    #31353c 100%
   );
   pointer-events: none;
 }
@@ -132,8 +132,8 @@
 }
 
 .store-play-btn:disabled {
-  background: #2a2f35;
-  color: #8b929a;
+  background: #4a505b;
+  color: #8f98a0;
   cursor: default;
 }
 
@@ -195,7 +195,7 @@
   width: 100px;
   height: 4px;
   margin-top: 3px;
-  background: #101215;
+  background: #292f36;
 }
 
 .store-stat-bar-fill {
@@ -216,7 +216,7 @@
 .store-cloud-icon {
   width: 20px;
   height: 20px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .store-cloud-info {
@@ -298,7 +298,7 @@
   align-items: center;
   padding: 0 14px;
   font-size: 14px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   white-space: nowrap;
   border-bottom: 2px solid transparent;
   transition: color var(--transition-fast), background-color var(--transition-fast);
@@ -325,7 +325,7 @@
   gap: 24px;
   margin: 0;
   padding: 14px 18px;
-  background: #2a2f35;
+  background: #4a505b;
   border: none;
 }
 
@@ -406,7 +406,7 @@
   padding: 10px;
   font-size: 14px;
   line-height: 1.5;
-  color: #8b929a;
+  color: #8f98a0;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid #3a4048;
   border-radius: 0;
@@ -420,7 +420,7 @@
 }
 
 .store-activity-textarea::placeholder {
-  color: #6b737c;
+  color: #64707c;
 }
 
 /* ---------- Content Body: two columns (76/24) ---------- */
@@ -457,14 +457,14 @@
   font-weight: 400;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #c7cdd3;
+  color: #c7d5e0;
   margin-bottom: 10px;
 }
 
 .store-about {
   font-size: var(--store-about-font-size);
   line-height: var(--store-about-line-height);
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 /* ---------- Grabaciones y capturas: rejilla 2x2 ---------- */
@@ -531,7 +531,7 @@
   padding: 0;
   font-family: inherit;
   font-size: 15px;
-  color: #8b929a;
+  color: #8f98a0;
   background: none;
   border: none;
   cursor: pointer;
@@ -540,13 +540,13 @@
 }
 
 .store-shots-manage:hover {
-  color: #c7cdd3;
+  color: #c7d5e0;
   text-decoration: underline;
 }
 
 .store-shots-empty {
   font-size: 15px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .store-updates {
@@ -569,7 +569,7 @@
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 /* Filete a la derecha de la fecha, como en el feed de Steam */
@@ -583,7 +583,7 @@
 .store-update-card {
   padding: 12px;
   border-radius: 0;
-  background: #22262b;
+  background: #3a414c;
 }
 
 .store-update-title {
@@ -596,7 +596,7 @@
 .store-update-body {
   font-size: 13px;
   line-height: 1.5;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 /* ---------- Columna derecha ---------- */
@@ -605,7 +605,7 @@
 .store-panel {
   padding: 16px;
   border-radius: 0;
-  background: #22262b;
+  background: #3a414c;
 }
 
 .store-panel-title {
@@ -613,7 +613,7 @@
   font-weight: 400;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #c7cdd3;
+  color: #c7d5e0;
   margin-bottom: 12px;
 }
 
@@ -623,7 +623,7 @@
 
 .store-friends-count {
   font-size: var(--store-panel-content-font-size);
-  color: #c7cdd3;
+  color: #c7d5e0;
   margin-bottom: 10px;
 }
 
@@ -667,7 +667,7 @@
 }
 
 .store-friends-link:hover {
-  color: #c7cdd3;
+  color: #c7d5e0;
   text-decoration: underline;
 }
 
@@ -681,7 +681,7 @@
   width: 100%;
   height: 6px;
   margin-bottom: 14px;
-  background: #101215;
+  background: #292f36;
 }
 
 .store-ach-bar-fill {
@@ -734,7 +734,7 @@
 
 .store-ach-featured-desc {
   font-size: 12px;
-  color: #8b929a;
+  color: #8f98a0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -760,22 +760,22 @@
 }
 
 .store-ach-cell.unlocked {
-  background: #1b1e22;
+  background: #31353c;
   border: 1px solid #3a4048;
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 .store-ach-cell.locked {
-  background: #1b1e22;
-  border: 1px solid #2a2f35;
+  background: #31353c;
+  border: 1px solid #4a505b;
   opacity: 0.4;
   filter: grayscale(1);
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 /* Logros marcados como secretos por el juego: algo más apagados */
 .store-ach-cell.hidden {
-  border-color: #2a2f35;
+  border-color: #4a505b;
 }
 
 .store-ach-cell-image {
@@ -787,7 +787,7 @@
 
 .store-ach-more {
   font-size: 14px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   white-space: nowrap;
 }
 
@@ -808,7 +808,7 @@
 }
 
 .store-ach-view-all:hover {
-  color: #c7cdd3;
+  color: #c7d5e0;
   text-decoration: underline;
 }
 

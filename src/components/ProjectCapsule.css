@@ -1,18 +1,18 @@
 /* ---------- Cápsula vertical de proyecto (estilo Steam) ---------- */
 
 .project-capsule {
-  --capsule-radius: 4px;
+  --capsule-radius: 0px;
   position: relative;
   display: block;
   width: 100%;
   padding: 0;
   border: none;
   border-radius: var(--capsule-radius);
-  overflow: hidden;
-  background: #1b1e22;
+  overflow: visible;
+  background: var(--content-bg);
   cursor: pointer;
   text-align: left;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: filter var(--transition-fast);
 }
 
 .project-capsule-frame {
@@ -21,6 +21,7 @@
   width: 100%;
   aspect-ratio: 2 / 3;
   overflow: hidden;
+  border-radius: var(--capsule-radius);
 }
 
 .project-capsule-img {
@@ -31,54 +32,73 @@
   object-fit: cover;
 }
 
+/* En el cliente la cápsula no se levanta ni proyecta sombra: al pasar el ratón
+   solo sube el brillo de la ilustración. */
 .project-capsule:hover .project-capsule-frame {
-  filter: brightness(1.08);
+  filter: brightness(1.12);
 }
 
 .project-capsule:active .project-capsule-frame {
   filter: brightness(0.92);
 }
 
-.project-capsule:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
 .project-capsule:focus-visible {
-  outline: 2px solid #66c0f4;
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-.project-capsule.selected {
-  box-shadow: inset 0 0 0 2px #3e4f69;
+.project-capsule.selected .project-capsule-frame {
+  box-shadow: inset 0 0 0 2px var(--steam-text-dim);
 }
 
-.project-capsule.selected:hover {
-  box-shadow: inset 0 0 0 2px #3e4f69, 0 8px 24px rgba(0, 0, 0, 0.4);
+/* Píldora de tiempo de juego: se superpone a la parte baja de la ilustración,
+   no va en una barra sólida debajo. */
+.project-capsule-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 2px;
+  background: var(--capsule-pill);
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
-.project-capsule-time {
+/* Círculo de contador, medio fuera de la cápsula en su esquina inferior
+   izquierda. Va fuera del frame para que `overflow: hidden` no lo recorte. */
+.project-capsule-count {
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 34px;
-  background: #1b1e22;
-  color: #c7cdd3;
-  font-size: 13px;
-  font-weight: 400;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.75);
+  color: #ffffff;
+  font-size: 12px;
   line-height: 1;
-  border-radius: 0 0 var(--capsule-radius) var(--capsule-radius);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  user-select: none;
+  pointer-events: none;
 }
 
-/* En móvil no hay hover: se anula el "lift" de la tarjeta para que al tocar
-   no se quede desplazada. */
+.project-capsule-count.online {
+  background: var(--steam-green-grad);
+}
+
 @media (hover: none) {
   .project-capsule:hover {
-    transform: none;
+    filter: none;
   }
 }
 

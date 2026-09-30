@@ -12,12 +12,12 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #1b1e22;
-  border: 1px solid #101215;
+  background: #31353c;
+  border: 1px solid #292f36;
   border-radius: 0;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   font-size: 14px;
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 /* ---------- Colores de estado ---------- */
@@ -43,8 +43,8 @@
   min-height: 76px;
   padding: 10px 10px 10px 12px;
   flex-shrink: 0;
-  background: #16191d;
-  border-bottom: 1px solid #101215;
+  background: #272d34;
+  border-bottom: 1px solid #292f36;
   cursor: move;
   touch-action: none;
   user-select: none;
@@ -125,12 +125,12 @@
   width: 11px;
   height: 11px;
   flex-shrink: 0;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .fp-header-status {
   font-size: 12px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -150,7 +150,7 @@
   width: 28px;
   height: 28px;
   border-radius: 2px;
-  color: #8b929a;
+  color: #8f98a0;
   transition: background-color 150ms ease, color 150ms ease;
 }
 
@@ -173,8 +173,8 @@
   padding: 12px 12px 10px;
   flex-shrink: 0;
   overflow-x: auto;
-  background: #1b1e22;
-  border-bottom: 1px solid #101215;
+  background: #31353c;
+  border-bottom: 1px solid #292f36;
   scrollbar-width: none;
 }
 
@@ -231,7 +231,7 @@
 
 .fp-fav-name {
   font-size: 12px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -246,7 +246,7 @@
   justify-content: space-between;
   padding: 8px 8px 8px 14px;
   flex-shrink: 0;
-  background: #1b1e22;
+  background: #31353c;
   box-shadow: inset 0 -1px 0 #66c0f4;
 }
 
@@ -269,7 +269,7 @@
 .fp-list {
   flex: 1;
   overflow-y: auto;
-  background: #1b1e22;
+  background: #31353c;
   padding-bottom: 8px;
 }
 
@@ -290,7 +290,7 @@
 }
 
 .fp-section-count {
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .fp-section-action {
@@ -301,7 +301,7 @@
   height: 24px;
   margin-left: auto;
   border-radius: 2px;
-  color: #8b929a;
+  color: #8f98a0;
   transition: color 150ms ease;
 }
 
@@ -325,7 +325,7 @@
 
 .fp-group-name {
   font-size: 12px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .fp-row {
@@ -369,33 +369,33 @@
 }
 
 .fp-name.offline {
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 .fp-subtitle {
   font-size: 12px;
-  color: #8b929a;
+  color: #8f98a0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .fp-subtitle.offline {
-  color: #6b737c;
+  color: #64707c;
 }
 
 .fp-empty {
   padding: 6px 14px 10px;
   font-size: 13px;
-  color: #6b737c;
+  color: #64707c;
 }
 
 /* ---------- Pie: chats de grupo ---------- */
 
 .fp-groups {
   flex-shrink: 0;
-  background: #16191d;
-  border-top: 1px solid #101215;
+  background: #272d34;
+  border-top: 1px solid #292f36;
 }
 
 .fp-groups-head {
@@ -420,7 +420,7 @@
 .fp-groups-chevron {
   width: 12px;
   height: 12px;
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 .fp-groups-body {
@@ -434,22 +434,22 @@
   padding: 0 10px;
   font-family: inherit;
   font-size: 13px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   background: rgba(0, 0, 0, 0.35);
-  border: 1px solid #2a2f35;
+  border: 1px solid #4a505b;
   border-radius: 4px;
   outline: none;
 }
 
 .fp-groups-input::placeholder {
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .fp-groups-text {
   margin-top: 10px;
   padding-right: 20px;
   font-size: 13px;
-  color: #8b929a;
+  color: #8f98a0;
   line-height: 1.45;
 }
 
@@ -463,7 +463,7 @@
   bottom: 6px;
   width: 12px;
   height: 12px;
-  color: #6b737c;
+  color: #64707c;
 }
 
 /* Elementos del modo hoja: ocultos en escritorio */

@@ -3,6 +3,7 @@ import { devProfile } from '../data/devProfile';
 import { SmartImage } from './SmartImage';
 import {
   BellIcon,
+  ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   CloseIcon,
@@ -116,17 +117,8 @@ export const NavBar: React.FC<NavBarProps> = ({
         onClick={() => onSelectSection?.('profile')}
         aria-current={activeSection === 'profile' ? 'page' : undefined}
       >
-        <span className="nav-avatar" aria-hidden="true">
-          <SmartImage
-            basePath={devProfile.avatarBasePath}
-            kind="avatar"
-            className="nav-avatar-img"
-            alt=""
-            extensions={['jpg', 'png', 'webp']}
-            fallback={<span className="nav-avatar-fallback">MA</span>}
-          />
-        </span>
         <span className="nav-username">{username}</span>
+        <ChevronDownIcon className="nav-user-caret" />
       </button>
 
       <div className="nav-right">
@@ -177,6 +169,24 @@ export const NavBar: React.FC<NavBarProps> = ({
           >
             <FriendsIcon className="nav-friends-btn-svg" />
           </button>
+        </div>
+
+        {/* Chip de cuenta: avatar, nombre y saldo. Es el elemento que más
+            identifica la barra del cliente. */}
+        <div className="nav-account">
+          <span className="nav-avatar" aria-hidden="true">
+            <SmartImage
+              basePath={devProfile.avatarBasePath}
+              kind="avatar"
+              className="nav-avatar-img"
+              alt=""
+              extensions={['jpg', 'png', 'webp']}
+              fallback={<span className="nav-avatar-fallback">MA</span>}
+            />
+          </span>
+          <span className="nav-account-name">{username}</span>
+          <ChevronDownIcon className="nav-account-caret" />
+          <span className="nav-account-wallet">{devProfile.walletBalance}</span>
         </div>
 
         <div className="window-controls">

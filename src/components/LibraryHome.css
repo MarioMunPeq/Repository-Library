@@ -4,7 +4,7 @@
 
 .library-home {
   width: 100%;
-  background: var(--content-gradient);
+  background: var(--content-bg);
   padding: 0 24px 24px;
   overflow-y: auto;
   flex: 1;
@@ -17,10 +17,35 @@
   margin-bottom: 0;
 }
 
+/* ---------- Banda "Añadir estantería" ---------- */
+
+.library-shelf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 34px;
+  margin: 0 -24px;
+  background: var(--shelf-bar);
+  color: #c7d5e0;
+  font-size: 12px;
+  transition: background-color var(--transition-fast);
+}
+
+.library-shelf:hover {
+  background: #3f4650;
+}
+
+.library-shelf-icon {
+  width: 14px;
+  height: 14px;
+}
+
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   padding: 24px 0 12px;
 }
 
@@ -35,8 +60,8 @@
 
 .section-title-secondary {
   font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
+  font-weight: 600;
+  color: #c7d5e0;
   margin: 0;
 }
 
@@ -46,32 +71,41 @@
   gap: 8px;
 }
 
-.section-chevron {
-  display: flex;
+/* Botón redondo: el que abre el desplegable de la sección y el de colapsar
+   todo. El cliente los pinta como círculos con velo blanco. */
+.section-round-btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 2px;
-  background: transparent;
-  color: #8b929a;
-  transition: color var(--transition-fast), background-color var(--transition-fast);
-  border: none;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
   padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: #c7d5e0;
   cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-.section-chevron:hover {
+.section-round-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
   color: #ffffff;
-  background: rgba(102, 192, 244, 0.12);
 }
 
-.section-chevron-icon {
+.section-round-btn.collapsed {
+  transform: rotate(-90deg);
+}
+
+.section-round-btn-svg {
   width: 14px;
   height: 14px;
 }
 
-/* ---------- Section Navigation Arrows ---------- */
+.section-collapse {
+  margin-left: auto;
+}
 
 /* ---------- Sort Dropdown ---------- */
 
@@ -79,65 +113,62 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: 16px;
 }
 
 .sort-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .sort-dropdown {
   padding: 4px 24px 4px 10px;
+  min-height: 26px;
   font-size: 12px;
   font-weight: 600;
-  color: #c7cdd3;
-  background: #1b1e22;
-  border: 1px solid #2f353c;
+  color: #c7d5e0;
+  background: #2f3742;
+  border: 1px solid #454d59;
   border-radius: 2px;
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238f98a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238f98a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 6px center;
 }
 
 .sort-dropdown:hover {
-  border-color: #66c0f4;
+  border-color: var(--accent);
   color: #ffffff;
 }
 
 .sort-dropdown:focus {
   outline: none;
-  border-color: #66c0f4;
-}
-
-/* ---------- News Carousel ---------- */
-
-.gradient-fallback {
-  position: absolute;
-  inset: 0;
-  background: inherit;
+  border-color: var(--accent);
 }
 
 /* ---------- Projects Grid ---------- */
 
+/* Ancho fijo por cápsula (220px) y alineado a la izquierda: el cliente no
+   estira las cápsulas para llenar la fila. */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
-  padding: 4px 0 12px;
+  grid-template-columns: repeat(auto-fill, 220px);
+  justify-content: start;
+  gap: 48px 28px;
+  padding: 4px 0 48px;
 }
 
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1200px) {
   .projects-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, 180px);
+    gap: 44px 24px;
   }
-
 }
 
 @media (max-width: 720px) {
@@ -145,13 +176,20 @@
     padding: 0 16px 16px;
   }
 
-  .projects-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
+  .library-shelf {
+    margin: 0 -16px;
   }
 
   .section-header {
     padding: 16px 0 8px;
+  }
+
+  .section-sort {
+    margin-left: 8px;
+  }
+
+  .sort-label {
+    display: none;
   }
 
   .section-title {
@@ -172,8 +210,13 @@
     padding: 0 12px 20px;
   }
 
+  .library-shelf {
+    margin: 0 -12px;
+  }
+
   .section-header {
     padding: 16px 0 10px;
+    gap: 8px;
   }
 
   .section-title {
@@ -182,18 +225,44 @@
 
   .section-title-secondary {
     font-size: 15px;
+    white-space: nowrap;
   }
 
   /* Las cápsulas son 2:3: caben dos por fila a 375px */
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px 10px;
+    gap: 40px 12px;
   }
 
   .sort-dropdown {
     min-height: var(--touch-target);
   }
+
+  /* A 390px no cabe el desplegable junto al título: se reduce al ancho
+     mínimo legible en vez de dejar que el título se parta en dos líneas. */
+  .section-sort {
+    margin-left: 4px;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .sort-dropdown {
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* El círculo de contador sobresale de la cápsula: sin salgo se sale del
+     viewport en la primera columna. */
+  .projects-grid .project-capsule-count {
+    left: 0;
+    bottom: -10px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .library-shelf,
+  .section-round-btn {
+    transition: none;
+  }
 }

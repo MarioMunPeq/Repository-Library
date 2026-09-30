@@ -79,14 +79,14 @@
   border-radius: 2px;
   background: rgba(27, 30, 34, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #c7cdd3;
+  color: #c7d5e0;
   transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
   z-index: 10;
 }
 
 .image-viewer-close:hover {
   background: rgba(255, 255, 255, 0.12);
-  border-color: #8b929a;
+  border-color: #8f98a0;
   color: #ffffff;
 }
 
@@ -119,7 +119,7 @@
 
 .image-viewer-nav:hover {
   background: rgba(255, 255, 255, 0.16);
-  border-color: #8b929a;
+  border-color: #8f98a0;
 }
 
 .image-viewer-nav:focus-visible {
@@ -160,7 +160,7 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 12px;
   font-weight: 500;
-  color: #c7cdd3;
+  color: #c7d5e0;
   white-space: nowrap;
   pointer-events: none;
 }

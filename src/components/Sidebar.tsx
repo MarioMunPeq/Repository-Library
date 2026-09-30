@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { projects } from '../data/projects.tsx';
 import type { Project, ProjectCategory } from '../data/projects.tsx';
 import { SmartImage } from './SmartImage';
-import { ChevronDownIcon, GridIcon } from './Icons';
+import { ChevronDownIcon, ClockIcon, FilterIcon, GridIcon, InfoIcon, PlayIcon, SearchIcon } from './Icons';
 
 interface SidebarProps {
   /** Slug del proyecto abierto, o null si estamos en la portada. */
@@ -54,8 +54,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ selectedSlug, onSelectProject,
     portfolio: false,
     juego: false,
   });
+  const [query, setQuery] = useState('');
 
-  const filteredProjects = useMemo(() => projects, []);
+  const filteredProjects = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    if (!term) return projects;
+    return projects.filter((project) => project.name.toLowerCase().includes(term));
+  }, [query]);
 
   const toggleSection = (key: ProjectCategory) => {
     setCollapsedSections((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -63,10 +68,51 @@ export const Sidebar: React.FC<SidebarProps> = ({ selectedSlug, onSelectProject,
 
   return (
     <aside className="sidebar" role="complementary" aria-label="Biblioteca">
-      <div className="sidebar-home" role="button" tabIndex={0} onClick={onDeselectProject} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onDeselectProject(); } }}>
-        <GridIcon className="sidebar-home-icon" />
-        <span className="sidebar-home-label">Página principal</span>
+      <div className="sidebar-top">
+        <button
+          className="sidebar-home"
+          onClick={onDeselectProject}
+          aria-current={selectedSlug ? undefined : 'page'}
+        >
+          <GridIcon className="sidebar-home-icon" />
+          <span className="sidebar-home-label">Página principal</span>
+        </button>
+
+        <button className="sidebar-grid-btn" type="button" aria-label="Ver como cuadrícula">
+          <span className="sidebar-grid-cell" aria-hidden="true" />
+          <span className="sidebar-grid-cell" aria-hidden="true" />
+          <span className="sidebar-grid-cell" aria-hidden="true" />
+          <span className="sidebar-grid-cell" aria-hidden="true" />
+        </button>
       </div>
+
+      <div className="sidebar-search">
+        <SearchIcon className="sidebar-search-icon" />
+        <input
+          className="sidebar-search-input"
+          type="search"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Buscar"
+          aria-label="Buscar en la biblioteca"
+        />
+        <button className="sidebar-search-filter" type="button" aria-label="Filtrar">
+          <FilterIcon className="sidebar-search-filter-icon" />
+        </button>
+      </div>
+
+      <button className="sidebar-apps" type="button">
+        <ClockIcon className="sidebar-apps-icon" />
+        <span className="sidebar-apps-label">Juegos y Herramientas</span>
+        <span className="sidebar-apps-actions">
+          <span className="sidebar-apps-btn" role="button" aria-label="Información">
+            <InfoIcon className="sidebar-apps-btn-icon" />
+          </span>
+          <span className="sidebar-apps-btn" role="button" aria-label="Jugar">
+            <PlayIcon className="sidebar-apps-btn-icon" />
+          </span>
+        </span>
+      </button>
 
       <nav className="sidebar-list" role="navigation" aria-label="Proyectos">
         {CATEGORY_SECTIONS.map((section) => {

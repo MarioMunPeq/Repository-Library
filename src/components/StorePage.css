@@ -15,7 +15,7 @@
 .store-page {
   position: relative;
   width: 100%;
-  background: var(--content-gradient);
+  background: var(--content-bg);
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@
   height: 52px;
   padding: 0 10px;
   font-size: 14px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   border-bottom: 2px solid transparent;
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
@@ -94,7 +94,7 @@
 .store-nav-caret {
   width: 10px;
   height: 10px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .store-search {
@@ -110,8 +110,8 @@
   padding: 0 38px 0 12px;
   font-family: inherit;
   font-size: 14px;
-  color: #c7cdd3;
-  background: #1b1e22;
+  color: #c7d5e0;
+  background: #31353c;
   border: 1px solid #3a4048;
   border-radius: 0;
   outline: none;
@@ -119,7 +119,7 @@
 }
 
 .store-search-input::placeholder {
-  color: #6b737c;
+  color: #64707c;
 }
 
 .store-search-input:focus {
@@ -161,25 +161,25 @@
   height: 32px;
   padding: 0 10px;
   font-size: 13px;
-  color: #c7cdd3;
-  background: #1b1e22;
+  color: #c7d5e0;
+  background: #31353c;
   border: 1px solid #3a4048;
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .store-wishlist:hover {
   color: #ffffff;
-  border-color: #8b929a;
+  border-color: #8f98a0;
 }
 
 .store-wishlist-icon {
   width: 15px;
   height: 15px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .store-wishlist-count {
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 /* ---------- Splash: el cuadrado central ---------- */
@@ -224,7 +224,7 @@
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 4px;
-  background: #1b1e22;
+  background: #31353c;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.12),
     0 18px 48px rgba(0, 0, 0, 0.65);
@@ -326,7 +326,7 @@
 
 .store-switcher-sub {
   font-size: 13px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
@@ -338,7 +338,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 12px 14px 14px;
-  background: #1b1e22;
+  background: #31353c;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -354,7 +354,7 @@
 }
 
 .store-switcher-review-count {
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .store-switcher-tags {
@@ -369,7 +369,7 @@
 .store-switcher-tag {
   padding: 4px 10px;
   font-size: 12px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 2px;
@@ -402,7 +402,7 @@
 
 .store-switcher-was {
   font-size: 14px;
-  color: #8b929a;
+  color: #8f98a0;
   text-decoration: line-through;
 }
 
@@ -484,7 +484,7 @@
   padding: 0;
   border-radius: 50%;
   border: none;
-  background: #8b929a;
+  background: #8f98a0;
   opacity: 0.45;
   cursor: pointer;
   transition: opacity var(--transition-fast), background-color var(--transition-fast);
@@ -502,7 +502,7 @@
 .store-switcher-hint {
   margin: 0;
   font-size: 12px;
-  color: #8b929a;
+  color: #8f98a0;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -512,7 +512,7 @@
   position: relative;
   z-index: 1;
   padding: 28px 35px 40px;
-  background: #101215;
+  background: #292f36;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -528,25 +528,25 @@
   margin: 0;
   font-size: 14px;
   font-weight: 400;
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 .store-projects-count {
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .store-projects-empty {
   padding: 24px 0;
   font-size: 14px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .store-sort {
   padding: 5px 26px 5px 10px;
   font-family: inherit;
   font-size: 12px;
-  color: #c7cdd3;
-  background: #1b1e22;
+  color: #c7d5e0;
+  background: #31353c;
   border: 1px solid #3a4048;
   border-radius: 0;
   cursor: pointer;

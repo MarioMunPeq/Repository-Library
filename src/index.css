@@ -15,29 +15,29 @@
 }
 
 :root {
-  /* Paleta neutra del cliente de Steam (nuevo UI).
-     Steam ya no usa el azul #1b2838: el suelo es un gris muy oscuro y frío,
-     y el azul queda reservado para acentos (enlaces, barra de logros, tabs).
-     Todos los valores viven aquí para poder ajustarlos desde un solo sitio. */
-  --steam-bg-top: #1b1e22;
-  --steam-bg-mid: #16191d;
-  --steam-bg-bottom: #101215;
-  --steam-panel: rgba(34, 38, 43, 0.72);
-  --steam-panel-solid: #22262b;
-  --steam-panel-raised: #2a2f35;
-  --steam-text: #c7cdd3;
+  /* Paleta del cliente, muestreada de las capturas reales.
+     El suelo NO es un gris neutro: es un azul-carbón que se mantiene PLANO en
+     el área de contenido (solo la barra lateral degrada hacia abajo). El azul
+     saturado queda reservado para acentos y superficies. */
+  --steam-bg-top: #31353c;
+  --steam-bg-mid: #31353c;
+  --steam-bg-bottom: #31353c;
+  --steam-panel: rgba(74, 80, 91, 0.72);
+  --steam-panel-solid: #3a414c;
+  --steam-panel-raised: #4a505b;
+  --steam-text: #c7d5e0;
   --steam-text-bright: #ffffff;
-  --steam-text-dim: #8b929a;
-  --steam-text-faint: #6b737c;
+  --steam-text-dim: #8f98a0;
+  --steam-text-faint: #64707c;
   --steam-accent: #66c0f4;
-  --steam-accent-strong: #1a9fff;
+  --steam-accent-strong: #1fadff;
   --steam-success: #1a9fff;
   --steam-green-grad: linear-gradient(90deg, #589439 0%, #4c7a31 100%);
   --steam-green-grad-hover: linear-gradient(90deg, #639f42 0%, #568838 100%);
-  --steam-border: rgba(255, 255, 255, 0.07);
-  --steam-hover: rgba(255, 255, 255, 0.06);
-  --steam-scrollbar: #2f353c;
-  --steam-scrollbar-hover: #3d434a;
+  --steam-border: rgba(0, 0, 0, 0.3);
+  --steam-hover: rgba(31, 173, 255, 0.12);
+  --steam-scrollbar: #3d4552;
+  --steam-scrollbar-hover: #4a5462;
   --steam-red: #c74343;
 
   --font-sans: 'Motiva Sans', 'Noto Sans', 'Segoe UI', system-ui, sans-serif;
@@ -69,7 +69,7 @@ body {
   line-height: var(--font-line-height);
   letter-spacing: 0.1px;
   color: var(--steam-text);
-  background-color: #1b1e22;
+  background-color: #272d34;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Evita el flash azul al tocar en Android/iOS */
@@ -107,10 +107,10 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2f353c;
+  background: #3d4552;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3d434a;
+  background: #4a5462;
 }

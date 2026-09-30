@@ -41,6 +41,8 @@ export interface DevProfile {
   avatarBasePath: string;
   background: DevBackground;
   username: string;
+  /** Saldo de la cartera, como el que muestra el chip azul de la barra. */
+  walletBalance: string;
   realName: string;
   role: string;
   bio: string;
@@ -84,6 +86,7 @@ export const devProfile: DevProfile = {
     ],
   },
   username: 'MarioMunPeq',
+  walletBalance: '0,45€',
   realName: 'Mario Muñoz Pequeño',
   role: 'Desarrollador web',
   bio: 'Esta web es mi portfolio con forma de cliente de Steam: cada proyecto tiene su ficha, con descripción, capturas y los logros del juego al que se asocia. Me interesa el frontend y también el lado visual de las cosas: los shaders, los efectos y el detalle que hace que una interfaz se sienta viva.',

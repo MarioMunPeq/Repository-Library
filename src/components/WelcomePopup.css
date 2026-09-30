@@ -68,7 +68,7 @@
   justify-content: center;
   width: 34px;
   height: 34px;
-  color: #8b929a;
+  color: #8f98a0;
   border-radius: 2px;
   transition: color var(--transition-fast), background-color var(--transition-fast);
 }
@@ -163,7 +163,7 @@
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .welcome-stat-value {
@@ -188,7 +188,7 @@
   font-weight: 400;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .welcome-slide-title {
@@ -251,7 +251,7 @@
   margin: 14px 0 18px;
   font-size: 15px;
   line-height: 1.6;
-  color: #c7cdd3;
+  color: #c7d5e0;
   animation: welcome-fade 300ms ease;
 }
 
@@ -333,11 +333,11 @@
 }
 
 .welcome-dot.active {
-  background: #c7cdd3;
+  background: #c7d5e0;
 }
 
 .welcome-dot:hover {
-  background: #8b929a;
+  background: #8f98a0;
 }
 
 /* ---------- Pie ---------- */
@@ -357,7 +357,7 @@
   margin: 0;
   font-size: 11px;
   line-height: 1.4;
-  color: #6b737c;
+  color: #64707c;
 }
 
 .welcome-dismiss {

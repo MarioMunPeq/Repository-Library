@@ -8,6 +8,10 @@ interface ProjectCapsuleProps {
   selected?: boolean;
   className?: string;
   label?: string;
+  /** Contador de la esquina inferior izquierda. Si se omite, no se pinta. */
+  count?: number;
+  /** El contador usa el verde de "jugando ahora" en lugar del gris. */
+  countOnline?: boolean;
 }
 
 const formatDevTime = (devTime: string | undefined): string => {
@@ -16,34 +20,47 @@ const formatDevTime = (devTime: string | undefined): string => {
   return `${String(hours).replace('.', ',')} horas`;
 };
 
-/** Cápsula vertical de proyecto (estilo Steam): portada 2:3 + barra de horas al pie. */
+/** Cápsula vertical de proyecto (estilo Steam): portada 2:3 con la píldora de
+ *  horas superpuesta y, si procede, un contador en la esquina inferior. */
 export const ProjectCapsule: React.FC<ProjectCapsuleProps> = ({
   project,
   onClick,
   selected = false,
   className,
   label = project.name,
-}) => (
-  <button
-    type="button"
-    className={`project-capsule ${selected ? 'selected' : ''} ${className ?? ''}`.trim()}
-    onClick={onClick}
-    aria-label={label}
-    aria-current={selected ? 'true' : undefined}
-  >
-    <span
-      className="project-capsule-frame"
-      style={{ background: project.fallbackGradient }}
-      aria-hidden="true"
+  count,
+  countOnline = false,
+}) => {
+  const playtime = formatDevTime(project.devTime);
+
+  return (
+    <button
+      type="button"
+      className={`project-capsule ${selected ? 'selected' : ''} ${className ?? ''}`.trim()}
+      onClick={onClick}
+      aria-label={label}
+      aria-current={selected ? 'true' : undefined}
     >
-      <SmartImage
-        basePath={project.capsulePath}
-        kind="capsule"
-        className="project-capsule-img"
-        alt=""
-        fallback={<span className="gradient-fallback" />}
-      />
-    </span>
-    <span className="project-capsule-time">{formatDevTime(project.devTime)}</span>
-  </button>
-);
+      <span
+        className="project-capsule-frame"
+        style={{ background: project.fallbackGradient }}
+        aria-hidden="true"
+      >
+        <SmartImage
+          basePath={project.capsulePath}
+          kind="capsule"
+          className="project-capsule-img"
+          alt=""
+          fallback={<span className="gradient-fallback" />}
+        />
+        {/* Sin dato de horas no se pinta píldora: un guion suelto parece un fallo. */}
+        {playtime !== '—' && <span className="project-capsule-badge">{playtime}</span>}
+      </span>
+      {typeof count === 'number' && (
+        <span className={`project-capsule-count${countOnline ? ' online' : ''}`} aria-hidden="true">
+          {count}
+        </span>
+      )}
+    </button>
+  );
+};

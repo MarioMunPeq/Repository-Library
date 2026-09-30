@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { projects } from '../data/projects.tsx';
 import type { Project } from '../data/projects.tsx';
 import { ProjectCapsule } from './ProjectCapsule';
-import { ChevronDownIcon } from './Icons';
+import { AddIcon, ChevronDownIcon, PlayIcon } from './Icons';
 import './LibraryHome.css';
 
 type SortOption = 'name' | 'devTime' | 'lastUpdate';
@@ -56,6 +56,10 @@ interface LibraryHomeProps {
 
 export const LibraryHome: React.FC<LibraryHomeProps> = ({ onSelectProject }) => {
   const [sortOption, setSortOption] = useState<SortOption>('name');
+  const [collapsed, setCollapsed] = useState<Record<'portfolio' | 'juego', boolean>>({
+    portfolio: false,
+    juego: false,
+  });
 
   const portfolioProjects = useMemo(
     () => projects.filter((p) => p.category === 'portfolio'),
@@ -86,71 +90,100 @@ export const LibraryHome: React.FC<LibraryHomeProps> = ({ onSelectProject }) => 
     });
   };
 
-  const sortedPortfolio = sortProjects(portfolioProjects, sortOption);
-  const sortedJuegos = sortProjects(juegoProjects, sortOption);
+  const toggle = (key: 'portfolio' | 'juego') =>
+    setCollapsed((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  const sections = [
+    { key: 'portfolio' as const, title: 'Portfolios', list: portfolioProjects },
+    { key: 'juego' as const, title: 'Juegos', list: juegoProjects },
+  ];
+
+  const sortControls = (id: string) => (
+    <div className="section-sort">
+      <span className="sort-label">ORDENAR POR</span>
+      <select
+        className="sort-dropdown"
+        value={sortOption}
+        onChange={(e) => setSortOption(e.target.value as SortOption)}
+        aria-label={`Ordenar ${id}`}
+      >
+        <option value="name">Nombre</option>
+        <option value="devTime">Tiempo invertido</option>
+        <option value="lastUpdate">Última actualización</option>
+      </select>
+    </div>
+  );
 
   return (
     <main className="library-home" role="main" aria-label="Página principal de la biblioteca">
-      <section className="library-section projects-section" aria-labelledby="portfolio-heading">
-        <header className="section-header">
-          <div className="section-title-group">
-            <h2 id="portfolio-heading" className="section-title-secondary">Portfolios ({portfolioProjects.length})</h2>
-            <button className="section-chevron" type="button" aria-label="Expandir sección">
-              <ChevronDownIcon className="section-chevron-icon" />
-            </button>
-          </div>
-          <div className="section-sort">
-            <span className="sort-label">ORDENAR POR</span>
-            <select
-              className="sort-dropdown"
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value as SortOption)}
-              aria-label="Ordenar proyectos"
-            >
-              <option value="name">Nombre</option>
-              <option value="devTime">Tiempo invertido</option>
-              <option value="lastUpdate">Última actualización</option>
-            </select>
-          </div>
-        </header>
-        <div className="projects-grid" role="list" aria-label="Proyectos de portfolio">
-          {sortedPortfolio.map((project) => {
-            if (!project) return null;
-            return (
-              <ProjectCapsule
-                key={project.slug}
-                project={project}
-                onClick={() => onSelectProject(project)}
-                label={project.name}
-              />
-            );
-          })}
-        </div>
-      </section>
+      <button className="library-shelf" type="button">
+        <AddIcon className="library-shelf-icon" />
+        <span>Añadir estantería</span>
+      </button>
 
-      <section className="library-section projects-section" aria-labelledby="juegos-heading">
-        <header className="section-header">
-          <div className="section-title-group">
-            <h2 id="juegos-heading" className="section-title-secondary">Juegos ({juegoProjects.length})</h2>
-            <button className="section-chevron" type="button" aria-label="Expandir sección">
-              <ChevronDownIcon className="section-chevron-icon" />
-            </button>
-          </div>
-        </header>
-        <div className="projects-grid" role="list" aria-label="Juegos">
-          {sortedJuegos.map((project) => {
-            if (!project) return null;
-            return (
-              <ProjectCapsule
-                key={project.slug}
-                project={project}
-                onClick={() => onSelectProject(project)}
-                label={project.name}
-              />
-            );
-          })}
-        </div>
-      </section>
+      {sections.map((section) => {
+        const isCollapsed = collapsed[section.key];
+        return (
+          <section
+            className="library-section projects-section"
+            key={section.key}
+            aria-labelledby={`${section.key}-heading`}
+          >
+            <header className="section-header">
+              <div className="section-title-group">
+                <h2 id={`${section.key}-heading`} className="section-title-secondary">
+                  {section.title} ({section.list.length})
+                </h2>
+
+                <button
+                  className={`section-round-btn ${isCollapsed ? 'collapsed' : ''}`}
+                  type="button"
+                  aria-label={isCollapsed ? `Expandir ${section.title}` : `Contraer ${section.title}`}
+                  aria-expanded={!isCollapsed}
+                  onClick={() => toggle(section.key)}
+                >
+                  <ChevronDownIcon className="section-round-btn-svg" />
+                </button>
+
+                <button
+                  className="section-round-btn"
+                  type="button"
+                  aria-label={`Opciones de ${section.title}`}
+                >
+                  <PlayIcon className="section-round-btn-svg" />
+                </button>
+              </div>
+
+              {sortControls(section.title)}
+
+              <button
+                className="section-round-btn section-collapse"
+                type="button"
+                aria-label="Contraer todo"
+                onClick={() => setCollapsed({ portfolio: true, juego: true })}
+              >
+                <ChevronDownIcon className="section-round-btn-svg" />
+              </button>
+            </header>
+
+            {!isCollapsed && (
+              <div className="projects-grid" role="list" aria-label={section.title}>
+                {sortProjects(section.list, sortOption).map((project) => {
+                  if (!project) return null;
+                  return (
+                    <ProjectCapsule
+                      key={project.slug}
+                      project={project}
+                      onClick={() => onSelectProject(project)}
+                      label={project.name}
+                    />
+                  );
+                })}
+              </div>
+            )}
+          </section>
+        );
+      })}
     </main>
   );
 };

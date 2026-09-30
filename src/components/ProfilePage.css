@@ -12,7 +12,7 @@
 .profile-page {
   position: relative;
   width: 100%;
-  background: var(--content-gradient);
+  background: var(--content-bg);
 }
 
 /* ---------- Fondo a toda página ---------- */
@@ -97,7 +97,7 @@
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 0;
   overflow: hidden;
-  background: #2a2f35;
+  background: #4a505b;
 }
 
 .profile-avatar-img {
@@ -132,7 +132,7 @@
 .profile-username-caret {
   width: 14px;
   height: 14px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .profile-realname-row {
@@ -141,11 +141,11 @@
   flex-wrap: wrap;
   gap: 4px 10px;
   font-size: var(--profile-realname-font-size);
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 .profile-realname {
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 .profile-location {
@@ -157,7 +157,7 @@
 .profile-location-icon {
   width: 13px;
   height: 13px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .profile-country-flag {
@@ -263,14 +263,14 @@
 .profile-years-label {
   display: block;
   font-size: var(--profile-years-label-font-size);
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 .profile-years-exp {
   display: block;
   margin-top: 2px;
   font-size: 11px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .profile-actions {
@@ -304,7 +304,7 @@
   height: 32px;
   border-radius: 2px;
   background: rgba(255, 255, 255, 0.1);
-  color: #c7cdd3;
+  color: #c7d5e0;
   cursor: pointer;
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
@@ -348,7 +348,7 @@
   font-size: var(--profile-panel-title-font-size);
   font-weight: 400;
   letter-spacing: 0.3px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   margin-bottom: 14px;
 }
 
@@ -357,7 +357,7 @@
 }
 
 .profile-panel-count {
-  color: #8b929a;
+  color: #8f98a0;
   font-size: 13px;
   margin-left: 4px;
 }
@@ -373,7 +373,7 @@
 .profile-about-bio {
   font-size: 14px;
   line-height: 1.6;
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 /* ---------- Proyecto favorito ---------- */
@@ -433,7 +433,7 @@
 
 .profile-fav-stat-label {
   font-size: var(--profile-stat-label-font-size);
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 /* Avance en los logros: fila inline como en Steam */
@@ -459,14 +459,14 @@
 
 .profile-ach-text {
   font-size: 14px;
-  color: #c7cdd3;
+  color: #c7d5e0;
   white-space: nowrap;
 }
 
 .profile-ach-bar {
   width: 180px;
   height: 6px;
-  background: #101215;
+  background: #292f36;
   overflow: hidden;
 }
 
@@ -491,14 +491,14 @@
   height: 32px;
   border-radius: 2px;
   background: rgba(0, 0, 0, 0.2);
-  border: 1px solid #2a2f35;
-  color: #c7cdd3;
+  border: 1px solid #4a505b;
+  color: #c7d5e0;
 }
 
 .profile-ach-badge.more {
   background: transparent;
   border: none;
-  color: #c7cdd3;
+  color: #c7d5e0;
   font-size: 12px;
   font-weight: 500;
 }
@@ -525,13 +525,13 @@
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .profile-meta-icon {
   width: 16px;
   height: 16px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .profile-meta-value {
@@ -596,7 +596,7 @@
   justify-content: center;
   flex: 0 0 80px;
   background: rgba(255, 255, 255, 0.1);
-  color: #c7cdd3;
+  color: #c7d5e0;
   font-size: 20px;
   font-weight: 400;
 }
@@ -606,7 +606,7 @@
 .profile-online-text {
   font-size: 14px;
   line-height: 1.5;
-  color: #c7cdd3;
+  color: #c7d5e0;
   margin-bottom: 6px;
 }
 
@@ -630,7 +630,7 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 .profile-link-body {
@@ -650,7 +650,7 @@
 
 .profile-link-handle {
   font-size: 12px;
-  color: #8b929a;
+  color: #8f98a0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -661,7 +661,7 @@
   height: 14px;
   margin-left: auto;
   flex-shrink: 0;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 .profile-link-stale {
@@ -694,7 +694,7 @@
 .profile-badge-cell.more {
   background: transparent;
   border: none;
-  color: #c7cdd3;
+  color: #c7d5e0;
   font-size: 14px;
   font-weight: 400;
 }
@@ -721,7 +721,7 @@
 }
 
 .profile-stats-label {
-  color: #c7cdd3;
+  color: #c7d5e0;
 }
 
 .profile-stats-value {
@@ -731,7 +731,7 @@
 
 .profile-stats-empty {
   font-size: 14px;
-  color: #8b929a;
+  color: #8f98a0;
   padding: 4px 0;
 }
 
@@ -752,7 +752,7 @@
   height: 32px;
   flex-shrink: 0;
   border-radius: 2px;
-  background: #2a2f35;
+  background: #4a505b;
   color: #ffffff;
   font-size: 12px;
   font-weight: 700;
@@ -774,7 +774,7 @@
 
 .profile-group-members {
   font-size: 12px;
-  color: #8b929a;
+  color: #8f98a0;
 }
 
 /* ---------- Ajustes de ventana estrecha ---------- */

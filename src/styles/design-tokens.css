@@ -24,8 +24,8 @@
   --nav-icon-size: 18px;
   --nav-back-btn-size: 22px;
 
-  /* ---------- Sidebar (175px) ---------- */
-  --sidebar-width: 175px;
+  /* ---------- Sidebar (270px) ---------- */
+  --sidebar-width: 270px;
   --sidebar-home-font-size: 15px;
   --sidebar-home-height: 44px;
   --sidebar-home-icon-size: 18px;
@@ -70,7 +70,7 @@
   --profile-stat-label-font-size: 14px;
 
   /* ---------- Shell ---------- */
-  --footer-height: 40px;
+  --footer-height: 45px;
 
   /* ---------- Shell móvil (solo dentro del breakpoint) ---------- */
   --mobile-breakpoint: 900px;
@@ -80,14 +80,36 @@
   /* Objetivo táctil mínimo recomendado (Apple HIG / Material). */
   --touch-target: 44px;
 
-  /* ---------- Chrome (menú superior, navegación y footer) ---------- */
-  --chrome-bg: #16191d;
-  --chrome-bg-alt: #121517;
+  /* ---------- Chrome (menú superior, navegación y footer) ----------
+     Colores muestreados de las capturas del cliente. */
+  --chrome-bg: #272d34;
+  --chrome-bg-alt: #22272d;
+  /* Filete de 1px que separa las bandas del chrome entre sí. */
+  --chrome-border: #292f36;
 
-  /* ---------- Fondo del área de contenido ---------- */
-  --content-gradient: linear-gradient(180deg, #1b1e22 0%, #16191d 55%, #101215 100%);
-  --panel-bg: rgba(0, 0, 0, 0.2);
-  --panel-border: 1px solid rgba(255, 255, 255, 0.07);
-  --sidebar-item-hover: #2f353c;
-  --sidebar-item-selected: linear-gradient(90deg, #3a4048 0%, #2d3238 100%);
+  /* ---------- Fondo del área de contenido ----------
+     En el cliente es PLANO: lo que degrada hacia abajo es solo la barra
+     lateral, no el contenido. */
+  --content-bg: #31353c;
+
+  /* ---------- Barra lateral ---------- */
+  --sidebar-gradient: linear-gradient(180deg, #373c45 0%, #30353c 100%);
+  --sidebar-border: #30333a;
+  --sidebar-item-hover: #3a4250;
+  --sidebar-item-selected: linear-gradient(90deg, #3d5573 0%, #2c3a50 100%);
+  --sidebar-item-selected-bar: #1fadff;
+
+  /* ---------- Superficies ---------- */
+  /* Barra de título de sección (p. ej. "AMIGOS", "CHATS DE GRUPO"). */
+  --panel-bar: #4a505b;
+  /* Banda "Añadir estantería" sobre el contenido. */
+  --shelf-bar: #373d46;
+  /* Campos de texto y buscador. */
+  --input-bg: #47515d;
+  /* Azul de los botones de la interfaz. */
+  --accent-strong: #1fadff;
+  /* Píldora de tiempo de juego sobre la cápsula. */
+  --capsule-pill: #444c58;
+
+  --footer-border: #39404b;
 }
