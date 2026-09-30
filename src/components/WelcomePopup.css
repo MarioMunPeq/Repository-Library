@@ -1,9 +1,10 @@
 /* ==========================================================================
    WelcomePopup — Ventana de bienvenida al entrar
-   Imita la notificación que Steam muestra al arrancar: cápsula a la
-   izquierda con el título y las stats, un bloque de "actualización
-   importante" con imagen, un CTA ancho, flechas con puntos y pie con
-   copyright y "Cerrar".
+   Imita el aviso de ofertas que Steam enseña al arrancar: la ilustración del
+   juego de fondo, muy ampliada y difuminada; un titular grande en blanco; la
+   imagen grande del juego con una tira de capturas debajo; el CTA ancho con el
+   descuento y el precio a su derecha; el texto descriptivo; y los controles
+   del carrusel (flechas y puntos) sobre el pie con el aviso legal y "Cerrar".
    ========================================================================== */
 
 .welcome-overlay {
@@ -32,11 +33,13 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  width: min(880px, 100%);
+  width: min(900px, 100%);
   max-height: calc(100dvh - 48px);
-  padding: 24px 28px 0;
-  background: #1a1f27;
-  border: 1px solid #2f3a47;
+  overflow: hidden;
+  /* El fondo del diálogo lo pone .welcome-art; aquí solo el marco. */
+  background: var(--bg-menu-fino);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
   animation: welcome-panel-in 240ms ease-out;
 }
@@ -56,25 +59,66 @@
   outline: none;
 }
 
+/* ---------- Fondo difuminado ---------- */
+
+.welcome-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* El degradiente del proyecto se ve mientras carga la ilustración y si no
+   existe: hace de base para que el panel nunca quede en negro plano. */
+.welcome-art-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.welcome-art-img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  /* El cliente agranda la arte hasta tapar el diálogo y la deja suave. */
+  filter: blur(34px) saturate(1.2);
+  transform: scale(1.15);
+}
+
+/* Velo encima: hunde el fondo para que el texto branco se lea. */
+.welcome-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(14, 20, 27, 0.62) 0%, rgba(14, 20, 27, 0.78) 62%, rgba(14, 20, 27, 0.92) 100%);
+  pointer-events: none;
+}
+
 /* ---------- Cerrar (esquina) ---------- */
 
 .welcome-close {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  right: 10px;
   z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 34px;
   height: 34px;
-  color: #8f98a0;
+  color: var(--text-secondary);
   border-radius: 2px;
   transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .welcome-close:hover {
-  color: #ffffff;
+  color: var(--text-primary);
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -83,176 +127,109 @@
   height: 20px;
 }
 
-/* ---------- Cabecera: cápsula + título + stats ---------- */
-
-.welcome-head {
-  display: flex;
-  gap: 20px;
-}
-
-.welcome-capsule {
-  position: relative;
-  display: block;
-  width: 100px;
-  aspect-ratio: 2 / 3;
-  flex-shrink: 0;
-  overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
-}
-
-.welcome-capsule-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.welcome-head-main {
-  flex: 1;
-  min-width: 0;
-  padding-top: 6px;
-}
-
-.welcome-title {
-  margin: 0 0 14px;
-  font-size: 30px;
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: 0.5px;
-  color: #ffffff;
-}
-
-.welcome-head-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 28px;
-  flex-wrap: wrap;
-}
-
-.welcome-library-btn {
-  height: 40px;
-  padding: 0 18px;
-  font-size: 15px;
-  color: #ffffff;
-  background: #4b6174;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: background-color var(--transition-fast);
-}
-
-.welcome-library-btn:hover {
-  background: #5a7a93;
-}
-
-.welcome-stats {
-  display: flex;
-  gap: 28px;
-  margin: 0;
-}
-
-.welcome-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 108px;
-}
-
-.welcome-stat-label {
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #8f98a0;
-}
-
-.welcome-stat-value {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 400;
-  color: #ffffff;
-}
-
-/* ---------- Cuerpo: aviso + imagen + texto + CTA ---------- */
+/* ---------- Cuerpo ---------- */
 
 .welcome-body {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  margin-top: 22px;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  padding: 30px 40px 0;
+  text-align: center;
   overflow-y: auto;
 }
 
-.welcome-eyebrow {
-  margin: 0 0 2px;
-  font-size: 15px;
-  font-weight: 400;
-  letter-spacing: 1.2px;
+.welcome-kicker {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
-.welcome-slide-title {
-  margin: 0 0 12px;
-  font-size: 30px;
+/* Titular grande en blanco, como el del aviso de Steam. */
+.welcome-title {
+  margin: 0 0 18px;
+  font-size: 40px;
   font-weight: 700;
-  line-height: 1.15;
-  color: #ffffff;
+  line-height: 1.1;
+  color: var(--text-primary);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
   animation: welcome-fade 260ms ease;
 }
 
-.welcome-slide-img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  background: #12161b;
-  animation: welcome-fade 320ms ease;
-}
+/* ---------- Imagen grande ---------- */
 
-/* Rejilla de proyectos en la segunda página */
-.welcome-slide-projects {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
-  margin-bottom: 4px;
-  animation: welcome-fade 320ms ease;
-}
-
-.welcome-slide-project {
+.welcome-media {
   position: relative;
   display: block;
-  aspect-ratio: 1;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 616 / 353;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
   overflow: hidden;
+  cursor: pointer;
+  background: transparent;
+  animation: welcome-fade 320ms ease;
 }
 
-.welcome-slide-project-img {
+.welcome-media-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.welcome-media-img {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.welcome-slide-project-name {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 4px 6px;
-  font-size: 9px;
-  line-height: 1.2;
-  color: #ffffff;
-  background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* ---------- Tira de capturas ---------- */
+
+.welcome-shots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 720px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  animation: welcome-fade 320ms ease;
 }
 
-.welcome-text {
-  margin: 14px 0 18px;
-  font-size: 15px;
-  line-height: 1.6;
-  color: #c7d5e0;
-  animation: welcome-fade 300ms ease;
+.welcome-shot {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.welcome-shot-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.welcome-shot-img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 @keyframes welcome-fade {
@@ -266,14 +243,26 @@
   }
 }
 
+/* ---------- CTA + precio ---------- */
+
+.welcome-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 720px;
+  margin-top: 18px;
+  animation: welcome-fade 300ms ease;
+}
+
 .welcome-cta {
+  flex: 1;
   height: 46px;
-  flex-shrink: 0;
-  font-size: 17px;
-  font-weight: 400;
-  letter-spacing: 2px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--text-primary);
   background: #4b6174;
   border: none;
   border-radius: 2px;
@@ -285,13 +274,67 @@
   background: #5a7a93;
 }
 
+.welcome-price {
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+/* Descuento en verde, como el distintivo de la tienda. */
+.welcome-discount {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  background: #a4d007;
+  border-radius: 2px;
+}
+
+.welcome-price-values {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1px;
+  min-width: 84px;
+  padding: 0 4px;
+}
+
+.welcome-price-was {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.welcome-price-now {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+/* ---------- Texto ---------- */
+
+.welcome-text {
+  max-width: 640px;
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #c7d5e0;
+  animation: welcome-fade 300ms ease;
+}
+
 /* ---------- Controles: flechas y puntos ---------- */
 
 .welcome-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0;
+  width: 100%;
+  margin-top: auto;
+  padding: 18px 0;
 }
 
 .welcome-arrow {
@@ -300,7 +343,8 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: #ffffff;
+  flex-shrink: 0;
+  color: var(--text-primary);
   border-radius: 2px;
   opacity: 0.7;
   transition: opacity var(--transition-fast), background-color var(--transition-fast);
@@ -343,21 +387,23 @@
 /* ---------- Pie ---------- */
 
 .welcome-footer {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin: 0 -28px;
+  flex-shrink: 0;
   padding: 12px 20px;
-  background: #141920;
-  border-top: 1px solid #2f3a47;
+  background: rgba(0, 0, 0, 0.35);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .welcome-legal {
   margin: 0;
   font-size: 11px;
   line-height: 1.4;
-  color: #64707c;
+  color: var(--text-tertiary);
 }
 
 .welcome-dismiss {
@@ -365,7 +411,7 @@
   height: 32px;
   padding: 0 14px;
   font-size: 13px;
-  color: #ffffff;
+  color: var(--text-primary);
   background: #4b6174;
   border: none;
   border-radius: 2px;
@@ -389,58 +435,48 @@
   .welcome-panel {
     width: 100%;
     max-height: 100dvh;
-    padding: 20px 16px 0;
+    border-radius: 0;
   }
 
-  .welcome-head {
-    gap: 14px;
+  .welcome-body {
+    padding: 24px 16px 0;
   }
 
-  .welcome-capsule {
-    width: 68px;
+  .welcome-kicker {
+    font-size: 11px;
+    letter-spacing: 2px;
   }
 
   .welcome-title {
-    font-size: 22px;
-    margin-bottom: 10px;
+    font-size: 24px;
+    margin-bottom: 14px;
   }
 
-  .welcome-head-row {
-    gap: 14px;
+  .welcome-shots {
+    gap: 6px;
   }
 
-  .welcome-library-btn {
-    min-height: var(--touch-target);
-  }
-
-  .welcome-stats {
-    gap: 18px;
-  }
-
-  .welcome-stat {
-    min-width: 0;
-  }
-
-  .welcome-eyebrow {
-    font-size: 13px;
-  }
-
-  .welcome-slide-title {
-    font-size: 22px;
-  }
-
-  .welcome-text {
-    font-size: 14px;
-  }
-
-  .welcome-slide-projects {
-    grid-template-columns: repeat(3, 1fr);
+  .welcome-actions {
+    flex-direction: column;
+    margin-top: 14px;
   }
 
   .welcome-cta {
     min-height: var(--touch-target);
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 1px;
+  }
+
+  .welcome-price {
+    align-self: flex-end;
+  }
+
+  .welcome-discount {
+    font-size: 17px;
+  }
+
+  .welcome-text {
+    font-size: 13px;
   }
 
   .welcome-arrow {
@@ -453,7 +489,6 @@
   }
 
   .welcome-footer {
-    margin: 0 -16px;
     padding: 12px 16px;
   }
 }
@@ -461,9 +496,10 @@
 @media (prefers-reduced-motion: reduce) {
   .welcome-overlay,
   .welcome-panel,
-  .welcome-slide-title,
-  .welcome-slide-img,
-  .welcome-slide-projects,
+  .welcome-title,
+  .welcome-media,
+  .welcome-shots,
+  .welcome-actions,
   .welcome-text {
     animation: none;
   }

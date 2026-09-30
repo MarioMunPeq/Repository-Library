@@ -14,8 +14,8 @@
     display: flex;
     align-items: stretch;
     flex-shrink: 0;
-    background: var(--chrome-bg-alt);
-    border-top: 1px solid #0e141c;
+    background: var(--bg-menu-fino);
+    border-top: 1px solid var(--border-subtle);
     /* Respeta la barra de inicio del iPhone */
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
@@ -29,12 +29,12 @@
     gap: 3px;
     min-height: var(--mobile-tabbar-height);
     padding: 6px 2px;
-    color: #8f98a0;
+    color: var(--text-tertiary);
     transition: color var(--transition-fast);
   }
 
   .mobile-tab.active {
-    color: #1a9fff;
+    color: var(--accent-link);
   }
 
   .mobile-tab-icon {

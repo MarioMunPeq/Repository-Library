@@ -7,7 +7,10 @@ import { ProjectLogo } from './ProjectLogo';
 import { SmartImage } from './SmartImage';
 import {
   CalendarIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ClockIcon,
+  CloseIcon,
   CloudIcon,
   CodeIcon,
   DownloadIcon,
@@ -29,7 +32,8 @@ interface ProjectStorePageProps {
 /** La rejilla 2x2 de Steam muestra 4 capturas; el resto, vía el enlace de gestion. */
 const GRID_SHOT_COUNT = 4;
 
-const MAX_FEATURED_UNLOCKED = 7;
+/** Logros que caben en cada tira del panel lateral antes del "+N". */
+const STRIP_COUNT = 8;
 
 /** Logro mostrable: con icono real de Steam o solo con texto (tecnologías). */
 interface AchievementEntry {
@@ -70,7 +74,7 @@ const EmptyState: React.FC = () => (
     <div className="empty-books" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 6 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
       </svg>
     </div>
   </main>
@@ -79,6 +83,8 @@ const EmptyState: React.FC = () => (
 export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) => {
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
+  const [newsOffset, setNewsOffset] = useState(0);
+  const [notesOpen, setNotesOpen] = useState(false);
 
   if (!project) {
     return <EmptyState />;
@@ -92,17 +98,22 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
     : project.technologies.map((tech) => ({ name: tech, icon: null, hidden: false }));
 
   const achievementTotal = steam?.total ?? project.totalTech;
-  // El progreso desbloqueado es inventado: Steam no publica el progreso de un
-  // usuario sin su API key, así que solo se muestra si el proyecto lo define.
-  const achievementUnlocked = project.unlockedTech > 0 ? project.unlockedTech : null;
+  // Steam no publica el progreso de un usuario sin su API key, así que el
+  // número desbloqueado lo declara el proyecto (`achievementsUnlocked`).
+  const achievementUnlocked = Math.min(project.achievementsUnlocked ?? 0, achievementTotal);
   const achievementsPercent =
-    achievementUnlocked !== null && achievementTotal > 0
+    achievementUnlocked > 0 && achievementTotal > 0
       ? Math.round((achievementUnlocked / achievementTotal) * 100)
       : 0;
 
   const [featuredAchievement, ...otherAchievements] = achievementList;
-  const shownAchievements = otherAchievements.slice(0, MAX_FEATURED_UNLOCKED);
-  const achievementOverflow = Math.max(0, otherAchievements.length - MAX_FEATURED_UNLOCKED);
+  const unlockedStrip = otherAchievements.slice(0, STRIP_COUNT);
+  const unlockedOverflow = Math.max(0, achievementUnlocked - STRIP_COUNT);
+  // El store solo publica los logros destacados, así que los bloqueados se
+  // pintan con el icono "?" que usa el cliente, sin nombre ni icono real.
+  const lockedCount = Math.max(0, achievementTotal - achievementUnlocked);
+  const lockedShown = Math.min(STRIP_COUNT, lockedCount);
+  const lockedOverflow = Math.max(0, lockedCount - STRIP_COUNT);
 
   const playingFriends = friendsPlaying(project.name);
   const friendsCountText =
@@ -111,10 +122,19 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
       : `${playingFriends.length} amigos jugaron a él anteriormente`;
 
   const gridShots = project.screenshots.slice(0, GRID_SHOT_COUNT);
+  const openShot = (index: number) => {
+    setViewerIndex(index);
+    setViewerOpen(true);
+  };
+
+  const newsShots = project.screenshots;
+  const newsMaxOffset = Math.max(0, newsShots.length - 3);
+  const visibleNews = newsShots.slice(newsOffset, newsOffset + 3);
 
   return (
     <main className="store-page" role="main" aria-label={project.name}>
       <div className="store-shell" key={project.slug}>
+        {/* ---------- HERO: solo la ilustración ---------- */}
         <header className="store-banner" style={{ background: project.fallbackGradient }}>
           <SmartImage
             basePath={project.heroPath}
@@ -126,8 +146,24 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
           <div className="store-banner-logo">
             <ProjectLogo project={project} />
           </div>
+        </header>
 
-          <div className="store-actionbar">
+        {/* ---------- PLAYBAR: banda propia bajo el hero ----------
+            El cliente no pinta la fila JUGAR encima de la ilustración: la
+            ilustración se difumina y sigue apareciendo detrás de la banda. */}
+        <div className="store-actionbar">
+          <span className="store-actionbar-art" style={{ background: project.fallbackGradient }} aria-hidden="true">
+            <SmartImage
+              basePath={project.heroPath}
+              kind="hero"
+              className="store-actionbar-art-img"
+              alt=""
+              fallback={<span className="gradient-fallback" />}
+            />
+          </span>
+          <span className="store-actionbar-scrim" aria-hidden="true" />
+
+          <div className="store-actionbar-content">
             <div className="store-play-group">
               {project.githubUrl ? (
                 <a className="store-play-btn" href={project.githubUrl} target="_blank" rel="noreferrer">
@@ -150,7 +186,6 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
               </div>
             </div>
 
-            {/* Fila compacta y alineada a la izquierda, como en el cliente */}
             <div className="store-stats">
               <div className="store-stat">
                 <CalendarIcon className="store-stat-icon" />
@@ -166,20 +201,23 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
                   <span className="store-stat-value">{project.devTime}</span>
                 </div>
               </div>
-              <div className="store-stat">
+              <div className="store-stat store-stat-ach">
                 <TrophyIcon className="store-stat-icon" />
                 <div className="store-stat-info">
                   <span className="store-stat-label">Logros</span>
                   <span className="store-stat-value">
-                    {project.unlockedTech}/{project.totalTech}
+                    {achievementUnlocked}/{achievementTotal}
                   </span>
-                  <div className="store-stat-bar" aria-hidden="true">
-                    <div className="store-stat-bar-fill" style={{ width: `${achievementsPercent}%` }} />
-                  </div>
+                  {achievementTotal > 0 && (
+                    <div className="store-stat-bar" aria-hidden="true">
+                      <div className="store-stat-bar-fill" style={{ width: `${achievementsPercent}%` }} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
+            {/* El cliente sí pone una caja detrás de estos tres iconos. */}
             <div className="store-icon-actions">
               <button className="store-icon-btn" type="button" aria-label="Ajustes">
                 <GearIcon className="store-icon-btn-svg" />
@@ -192,7 +230,7 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
               </button>
             </div>
           </div>
-        </header>
+        </div>
 
         <nav className="store-tabs" aria-label="Secciones de la página del proyecto">
           {STORE_TABS.map((tab, index) => (
@@ -233,6 +271,73 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
               </div>
             </section>
 
+            {/* ---------- RESUMEN POSTERIOR A LA PARTIDA ---------- */}
+            <section className="store-section store-news" aria-labelledby="store-news-heading">
+              <header className="store-news-header">
+                <h2 className="store-section-title" id="store-news-heading">
+                  Resumen posterior a la partida
+                </h2>
+                {newsShots.length > 0 && (
+                  <div className="store-news-controls">
+                    <button
+                      className="store-news-btn"
+                      type="button"
+                      aria-label="Anterior"
+                      disabled={newsOffset === 0}
+                      onClick={() => setNewsOffset((value) => Math.max(0, value - 1))}
+                    >
+                      <ChevronLeftIcon />
+                    </button>
+                    <button
+                      className="store-news-btn"
+                      type="button"
+                      aria-label="Siguiente"
+                      disabled={newsOffset >= newsMaxOffset}
+                      onClick={() => setNewsOffset((value) => Math.min(newsMaxOffset, value + 1))}
+                    >
+                      <ChevronRightIcon />
+                    </button>
+                    <button className="store-news-btn" type="button" aria-label="Cerrar">
+                      <CloseIcon />
+                    </button>
+                  </div>
+                )}
+              </header>
+
+              {newsShots.length > 0 ? (
+                <div className="store-news-box">
+                  <p className="store-news-date">Ayer</p>
+                  <div className="store-news-strip">
+                    {visibleNews.map((file, index) => {
+                      const absoluteIndex = newsOffset + index;
+                      return (
+                        <button
+                          key={file}
+                          className="store-news-item"
+                          style={{ background: project.fallbackGradient }}
+                          type="button"
+                          onClick={() => openShot(absoluteIndex)}
+                          aria-label={`Ver captura ${absoluteIndex + 1} de ${newsShots.length}`}
+                        >
+                          <SmartImage
+                            basePath={`/projects/${project.slug}/screenshots/${file}`}
+                            kind="screenshots"
+                            className="store-news-item-img"
+                            alt=""
+                            fallback={<span className="gradient-fallback" />}
+                          />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div className="store-news-box store-news-empty">
+                  <p className="store-news-date">Todavía no hay novedades registradas.</p>
+                </div>
+              )}
+            </section>
+
             <section className="store-section">
               <h2 className="store-section-title">Acerca de este juego</h2>
               <p className="store-about">{project.description}</p>
@@ -249,10 +354,7 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
                         key={file}
                         className="store-shot"
                         style={{ background: project.fallbackGradient }}
-                        onClick={() => {
-                          setViewerIndex(index);
-                          setViewerOpen(true);
-                        }}
+                        onClick={() => openShot(index)}
                         aria-label={`Ver captura ${index + 1} de ${project.screenshots.length}`}
                         type="button"
                       >
@@ -270,35 +372,31 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
                     ))}
                   </div>
 
-                  {project.screenshots.length > 0 && (
-                    <button
-                      className="store-shots-manage"
-                      type="button"
-                      onClick={() => {
-                        setViewerIndex(gridShots.length);
-                        setViewerOpen(true);
-                      }}
-                    >
-                      Administrar mis {project.screenshots.length} grabaciones y capturas
-                    </button>
-                  )}
+                  <button
+                    className="store-shots-manage"
+                    type="button"
+                    onClick={() => openShot(gridShots.length)}
+                  >
+                    Administrar mis {project.screenshots.length} grabaciones y capturas
+                  </button>
                 </>
               ) : (
                 <p className="store-shots-empty">Este proyecto todavía no tiene capturas.</p>
               )}
             </section>
 
-            {project.updates.length > 0 && (
-              <section className="store-section">
-                <h2 className="store-section-title">Actividad</h2>
-                <div className="store-activity-input" aria-label="Escribir actividad">
-                  <input
-                    type="text"
-                    className="store-activity-textarea"
-                    placeholder="Escribe algo sobre este proyecto..."
-                    readOnly
-                  />
-                </div>
+            <section className="store-section">
+              <h2 className="store-section-title">Actividad</h2>
+              <div className="store-activity-input" aria-label="Escribir actividad">
+                <input
+                  type="text"
+                  className="store-activity-textarea"
+                  placeholder="Escribe algo sobre este juego a tus amigos..."
+                  readOnly
+                />
+              </div>
+              <p className="store-activity-more">Ver las últimas noticias</p>
+              {project.updates.length > 0 && (
                 <div className="store-updates">
                   {project.updates.map((entry) => (
                     <article className="store-update" key={`${entry.date}-${entry.title}`}>
@@ -310,11 +408,109 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
                     </article>
                   ))}
                 </div>
-              </section>
-            )}
+              )}
+            </section>
           </section>
 
+          {/* ---------- Columna derecha: logros, notas y amigos ---------- */}
           <aside className="store-side">
+            <section className="store-panel">
+              <h2 className="store-panel-title">Logros</h2>
+
+              {achievementTotal > 0 ? (
+                <>
+                  <p className="store-ach-text">
+                    Has desbloqueado {achievementUnlocked}/{achievementTotal} ({achievementsPercent}%)
+                  </p>
+                  <div className="store-ach-bar" aria-hidden="true">
+                    <div className="store-ach-bar-fill" style={{ width: `${achievementsPercent}%` }} />
+                  </div>
+                </>
+              ) : (
+                <p className="store-ach-text">Este juego no tiene logros en Steam.</p>
+              )}
+
+              {featuredAchievement && (
+                <div className="store-ach-featured">
+                  <span className="store-ach-featured-media">
+                    {featuredAchievement.icon ? (
+                      <img
+                        className="store-ach-featured-image"
+                        src={featuredAchievement.icon}
+                        alt=""
+                        loading="lazy"
+                      />
+                    ) : (
+                      <TrophyIcon className="store-ach-featured-icon" />
+                    )}
+                  </span>
+                  <div className="store-ach-featured-info">
+                    <span className="store-ach-featured-title">{featuredAchievement.name}</span>
+                    <span className="store-ach-featured-desc">
+                      {featuredAchievement.hidden ? 'Logro secreto' : 'Logro destacado'}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {unlockedStrip.length > 0 && (
+                <div className="store-ach-grid" aria-label="Logros desbloqueados">
+                  {unlockedStrip.map((achievement, index) => (
+                    <span
+                      key={`${achievement.name}-${index}`}
+                      className="store-ach-cell"
+                      title={achievement.hidden ? 'Logro secreto' : achievement.name}
+                    >
+                      {achievement.icon ? (
+                        <img
+                          className="store-ach-cell-image"
+                          src={achievement.icon}
+                          alt=""
+                          loading="lazy"
+                        />
+                      ) : (
+                        <CodeIcon className="store-ach-cell-icon" />
+                      )}
+                    </span>
+                  ))}
+                  {unlockedOverflow > 0 && (
+                    <span className="store-ach-more">+{unlockedOverflow}</span>
+                  )}
+                </div>
+              )}
+
+              {lockedShown > 0 && (
+                <>
+                  <h3 className="store-ach-subtitle">Logros bloqueados</h3>
+                  <div className="store-ach-grid store-ach-grid-locked" aria-label="Logros bloqueados">
+                    {Array.from({ length: lockedShown }, (_, index) => (
+                      <span className="store-ach-cell locked" key={`locked-${index}`}>
+                        <span className="store-ach-locked-mark" aria-hidden="true">
+                          ?
+                        </span>
+                      </span>
+                    ))}
+                    {lockedOverflow > 0 && (
+                      <span className="store-ach-more">+{lockedOverflow}</span>
+                    )}
+                  </div>
+                </>
+              )}
+
+              <a className="store-ach-view-all" href="#">Ver mis logros</a>
+            </section>
+
+            <section className="store-panel">
+              <h2 className="store-panel-title">Notas</h2>
+              {notesOpen ? (
+                <textarea className="store-notes-textarea" placeholder="Escribe una nota..." autoFocus />
+              ) : (
+                <button className="store-notes-new" type="button" onClick={() => setNotesOpen(true)}>
+                  Nota nueva
+                </button>
+              )}
+            </section>
+
             <section className="store-panel">
               <h2 className="store-panel-title store-friends-title">Amigos que juegan a este juego</h2>
               <p className="store-friends-count">{friendsCountText}</p>
@@ -363,85 +559,6 @@ export const ProjectStorePage: React.FC<ProjectStorePageProps> = ({ project }) =
               <a className="store-friends-link" href="#">
                 Ver todos los amigos que juegan a este juego
               </a>
-            </section>
-
-            <section className="store-panel">
-              <h2 className="store-panel-title">Logros</h2>
-
-              {achievementTotal > 0 ? (
-                <>
-                  <p className="store-ach-text">
-                    {achievementUnlocked !== null ? (
-                      <>
-                        Has desbloqueado {achievementUnlocked}/{achievementTotal} (
-                        {achievementsPercent}%)
-                      </>
-                    ) : (
-                      <>
-                        {achievementTotal} logros en Steam
-                        {steam ? ` · ${steam.name}` : ''}
-                      </>
-                    )}
-                  </p>
-
-                  {achievementUnlocked !== null && (
-                    <div className="store-ach-bar" aria-hidden="true">
-                      <div className="store-ach-bar-fill" style={{ width: `${achievementsPercent}%` }} />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <p className="store-ach-text">Este juego no tiene logros en Steam.</p>
-              )}
-
-              {featuredAchievement && (
-                <div className="store-ach-featured" title={featuredAchievement.name}>
-                  {featuredAchievement.icon ? (
-                    <img
-                      className="store-ach-featured-image"
-                      src={featuredAchievement.icon}
-                      alt=""
-                      loading="lazy"
-                    />
-                  ) : (
-                    <TrophyIcon className="store-ach-featured-icon" />
-                  )}
-                  <div className="store-ach-featured-info">
-                    <span className="store-ach-featured-title">{featuredAchievement.name}</span>
-                    <span className="store-ach-featured-desc">
-                      {featuredAchievement.hidden ? 'Logro secreto' : 'Logro destacado'}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {shownAchievements.length > 0 && (
-                <div className="store-ach-grid">
-                  {shownAchievements.map((achievement, index) => (
-                    <span
-                      key={`${achievement.name}-${index}`}
-                      className={`store-ach-cell ${achievement.hidden ? 'hidden' : ''}`}
-                      title={achievement.name}
-                    >
-                      {achievement.icon ? (
-                        <img
-                          className="store-ach-cell-image"
-                          src={achievement.icon}
-                          alt=""
-                          loading="lazy"
-                        />
-                      ) : (
-                        <CodeIcon className="store-ach-cell-icon" />
-                      )}
-                    </span>
-                  ))}
-                  {achievementOverflow > 0 && (
-                    <span className="store-ach-more">+{achievementOverflow}</span>
-                  )}
-                </div>
-              )}
-
-              <a className="store-ach-view-all" href="#">Ver mis logros</a>
             </section>
           </aside>
         </div>

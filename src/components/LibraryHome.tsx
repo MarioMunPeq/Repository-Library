@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { projects } from '../data/projects.tsx';
 import type { Project } from '../data/projects.tsx';
 import { ProjectCapsule } from './ProjectCapsule';
-import { AddIcon, ChevronDownIcon, PlayIcon } from './Icons';
+import { ChevronDownIcon, PlayIcon } from './Icons';
 import './LibraryHome.css';
 
 type SortOption = 'name' | 'devTime' | 'lastUpdate';
@@ -116,11 +116,6 @@ export const LibraryHome: React.FC<LibraryHomeProps> = ({ onSelectProject }) => 
 
   return (
     <main className="library-home" role="main" aria-label="Página principal de la biblioteca">
-      <button className="library-shelf" type="button">
-        <AddIcon className="library-shelf-icon" />
-        <span>Añadir estantería</span>
-      </button>
-
       {sections.map((section) => {
         const isCollapsed = collapsed[section.key];
         return (

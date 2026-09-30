@@ -15,7 +15,7 @@
 .store-page {
   position: relative;
   width: 100%;
-  background: var(--content-bg);
+  background: var(--bg-panel);
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
@@ -87,14 +87,15 @@
 }
 
 .store-nav-item:hover {
-  color: #ffffff;
-  border-bottom-color: #1a9fff;
+  color: var(--text-primary);
+  border-bottom-color: var(--accent-link);
 }
+
 
 .store-nav-caret {
   width: 10px;
   height: 10px;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .store-search {
@@ -111,19 +112,19 @@
   font-family: inherit;
   font-size: 14px;
   color: #c7d5e0;
-  background: #31353c;
-  border: 1px solid #3a4048;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 0;
   outline: none;
   transition: border-color var(--transition-fast);
 }
 
 .store-search-input::placeholder {
-  color: #64707c;
+  color: var(--text-tertiary);
 }
 
 .store-search-input:focus {
-  border-color: #1a9fff;
+  border-color: var(--accent-link);
 }
 
 .store-search-input::-webkit-search-cancel-button {
@@ -140,7 +141,7 @@
   width: 32px;
   height: 30px;
   background: #2f6ca8;
-  color: #ffffff;
+  color: var(--text-primary);
   transition: background-color var(--transition-fast);
 }
 
@@ -162,24 +163,24 @@
   padding: 0 10px;
   font-size: 13px;
   color: #c7d5e0;
-  background: #31353c;
-  border: 1px solid #3a4048;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .store-wishlist:hover {
-  color: #ffffff;
-  border-color: #8f98a0;
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
 }
 
 .store-wishlist-icon {
   width: 15px;
   height: 15px;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .store-wishlist-count {
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 /* ---------- Splash: el cuadrado central ---------- */
@@ -216,15 +217,17 @@
   pointer-events: auto;
 }
 
+/* El splash de la tienda es una tarjeta apaisada: imagen a la izquierda y ficha
+   a la derecha, no un cuadrado con la ficha debajo. */
 .store-switcher-card {
   position: relative;
   display: flex;
-  flex-direction: column;
-  width: min(420px, 62vw);
-  aspect-ratio: 1;
+  flex-direction: row;
+  width: min(820px, 94vw);
+  aspect-ratio: 820 / 471;
   overflow: hidden;
   border-radius: 4px;
-  background: #31353c;
+  background: var(--bg-card);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.12),
     0 18px 48px rgba(0, 0, 0, 0.65);
@@ -254,7 +257,8 @@
 .store-switcher-media {
   position: relative;
   display: block;
-  flex: 1 1 58%;
+  flex: 1 1 auto;
+  min-width: 0;
   min-height: 0;
   padding: 0;
   background: none;
@@ -304,42 +308,64 @@
   text-align: center;
 }
 
-.store-switcher-meta {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 16px 18px;
-  text-align: left;
-  pointer-events: none;
-}
+/* ---------- Panel de ficha: título, reseñas, capturas y precio ---------- */
 
-.store-switcher-name {
-  font-size: 20px;
-  font-weight: 300;
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-}
-
-.store-switcher-sub {
-  font-size: 13px;
-  color: #c7d5e0;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-}
-
-/* ---------- Panel de ficha: valoración, etiquetas y precio ---------- */
-
+/* Panel derecho de la ficha: la misma caja que el resto de tarjetas. */
 .store-switcher-info {
-  flex: 0 0 42%;
+  flex: 0 0 300px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 12px 14px 14px;
-  background: #31353c;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 14px 16px 16px;
+  overflow-y: auto;
+  background: var(--bg-card);
+}
+
+.store-switcher-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+/* Rejilla 2x2 de capturas dentro del panel, como en la tienda. */
+.store-switcher-shots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+}
+
+.store-switcher-shot {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.store-switcher-shot-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Texto solo para lectores de pantalla: las miniaturas son decorativas. */
+.store-switcher-shot .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .store-switcher-review {
@@ -349,12 +375,12 @@
 }
 
 .store-switcher-review-score {
-  color: #a4d007;
+  color: var(--accent-blue);
   font-weight: 700;
 }
 
 .store-switcher-review-count {
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .store-switcher-tags {
@@ -384,25 +410,43 @@
   margin-top: auto;
 }
 
+.store-switcher-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
 .store-switcher-prices {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 6px;
   flex-wrap: wrap;
+}
+
+/* Disponibilidad en verde y fecha de lanzamiento en blanco, como en la tienda. */
+.store-switcher-availability {
+  font-size: 14px;
+  color: #a4d007;
+}
+
+.store-switcher-release {
+  font-size: 13px;
+  color: #c7d5e0;
 }
 
 .store-switcher-discount {
   padding: 2px 5px;
   font-size: 13px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   background: #5c7e10;
   border-radius: 2px;
 }
 
 .store-switcher-was {
   font-size: 14px;
-  color: #8f98a0;
+  color: var(--text-secondary);
   text-decoration: line-through;
 }
 
@@ -413,18 +457,20 @@
   color: #acdbf5;
 }
 
+/* El botón de precio va abajo a la derecha y es una caja oscura (la superficie
+   de las filas seleccionadas), no el CTA verde: el verde lo lleva el texto de
+   disponibilidad. */
 .store-switcher-cta {
   height: 34px;
   padding: 0 14px;
   flex-shrink: 0;
   font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #ffffff;
-  background: linear-gradient(90deg, #589439 0%, #4c7a31 100%);
-  border: none;
+  letter-spacing: 0.3px;
+  color: var(--text-primary);
+  background: var(--bg-selected);
+  border: 1px solid var(--border-subtle);
   border-radius: 2px;
   cursor: pointer;
   transition: filter var(--transition-fast);
@@ -447,7 +493,7 @@
   height: 44px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.45);
-  color: #ffffff;
+  color: var(--text-primary);
   opacity: 0.75;
   cursor: pointer;
   transition: opacity var(--transition-fast), background-color var(--transition-fast);
@@ -484,8 +530,8 @@
   padding: 0;
   border-radius: 50%;
   border: none;
-  background: #8f98a0;
-  opacity: 0.45;
+  background: var(--bg-menu-fino);
+  opacity: 1;
   cursor: pointer;
   transition: opacity var(--transition-fast), background-color var(--transition-fast);
 }
@@ -502,7 +548,7 @@
 .store-switcher-hint {
   margin: 0;
   font-size: 12px;
-  color: #8f98a0;
+  color: var(--text-secondary);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -512,8 +558,8 @@
   position: relative;
   z-index: 1;
   padding: 28px 35px 40px;
-  background: #292f36;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .store-projects-head {
@@ -532,13 +578,13 @@
 }
 
 .store-projects-count {
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .store-projects-empty {
   padding: 24px 0;
   font-size: 14px;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .store-sort {
@@ -546,8 +592,8 @@
   font-family: inherit;
   font-size: 12px;
   color: #c7d5e0;
-  background: #31353c;
-  border: 1px solid #3a4048;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 0;
   cursor: pointer;
   appearance: none;
@@ -557,13 +603,13 @@
 }
 
 .store-sort:hover {
-  border-color: #1a9fff;
-  color: #ffffff;
+  border-color: var(--accent-link);
+  color: var(--text-primary);
 }
 
 .store-sort:focus {
   outline: none;
-  border-color: #1a9fff;
+  border-color: var(--accent-link);
 }
 
 .store-projects-grid {
@@ -620,7 +666,7 @@
   padding: 10px 12px;
   font-size: 14px;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -682,8 +728,20 @@
     gap: 12px;
   }
 
+  /* En pantallas estrechas la ficha no cabe apaisada: vuelve a una columna
+     con la imagen arriba y la ficha debajo. */
   .store-switcher-card {
+    flex-direction: column;
     width: min(300px, 78vw);
+    aspect-ratio: auto;
+  }
+
+  .store-switcher-media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .store-switcher-info {
+    flex: 0 0 auto;
   }
 
   .store-switcher-controls {

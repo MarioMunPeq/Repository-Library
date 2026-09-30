@@ -13,8 +13,6 @@ interface StorePageProps {
 /** Slug del proyecto que se usa como fondo a toda página de la tienda. */
 const HERO_SLUG = 'persona5';
 
-const NO_TIME = '—';
-
 const STORE_NAV = ['Explorar', 'Recomendaciones', 'Categorías', 'Hardware', 'Formas de jugar', 'Más'];
 
 const STATUS_LABEL: Record<ProjectStatus, string> = {
@@ -146,24 +144,40 @@ export const StorePage: React.FC<StorePageProps> = ({ onOpenProject }) => {
                   <span className="store-switcher-logo">
                     <ProjectLogo project={active} />
                   </span>
-                  <span className="store-switcher-meta">
-                    <span className="store-switcher-name">{active.name}</span>
-                    <span className="store-switcher-sub">
-                      {active.devTime !== NO_TIME
-                        ? `${active.devTime} de trabajo`
-                        : STATUS_LABEL[active.status]}
-                    </span>
-                  </span>
                 </button>
 
-                {/* Panel de "ficha de tienda": valoración, etiquetas y precio */}
+                {/* Panel derecho de la ficha: título, reseñas, rejilla de
+                    capturas y el precio como botón, como en la tienda. */}
                 <div className="store-switcher-info">
+                  <h2 className="store-switcher-title">{active.name}</h2>
+
                   <p className="store-switcher-review">
                     <span className="store-switcher-review-score">{active.price.review}</span>{' '}
                     <span className="store-switcher-review-count">
                       ({active.price.reviewCount} reseñas)
                     </span>
                   </p>
+
+                  {active.screenshots.length > 0 && (
+                    <ul className="store-switcher-shots" aria-label="Capturas">
+                      {active.screenshots.slice(0, 4).map((file, index) => (
+                        <li
+                          key={file}
+                          className="store-switcher-shot"
+                          style={{ background: active.fallbackGradient }}
+                        >
+                          <SmartImage
+                            basePath={`/projects/${active.slug}/screenshots/${file}`}
+                            kind="screenshots"
+                            className="store-switcher-shot-img"
+                            alt=""
+                            fallback={<span className="gradient-fallback" />}
+                          />
+                          <span className="sr-only">Captura {index + 1}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
                   <ul className="store-switcher-tags" aria-label="Etiquetas">
                     {active.tags.slice(0, 3).map((tag) => (
@@ -174,23 +188,31 @@ export const StorePage: React.FC<StorePageProps> = ({ onOpenProject }) => {
                   </ul>
 
                   <div className="store-switcher-buy">
-                    <div className="store-switcher-prices">
-                      {active.price.discount && (
-                        <span className="store-switcher-discount">
-                          -{active.price.discount}%
-                        </span>
-                      )}
-                      {active.price.original && (
-                        <span className="store-switcher-was">{active.price.original}</span>
-                      )}
-                      <span className="store-switcher-now">{active.price.final}</span>
+                    <div className="store-switcher-meta">
+                      <span className="store-switcher-availability">
+                        {STATUS_LABEL[active.status]}
+                      </span>
+                      <span className="store-switcher-release">
+                        Lanzamiento: {active.lastUpdate.toUpperCase()}
+                      </span>
+                      <div className="store-switcher-prices">
+                        {active.price.discount && (
+                          <span className="store-switcher-discount">
+                            -{active.price.discount}%
+                          </span>
+                        )}
+                        {active.price.original && (
+                          <span className="store-switcher-was">{active.price.original}</span>
+                        )}
+                      </div>
                     </div>
+
                     <button
                       className="store-switcher-cta"
                       type="button"
                       onClick={() => onOpenProject(active)}
                     >
-                      Ver en la biblioteca
+                      {active.price.final}
                     </button>
                   </div>
                 </div>
@@ -275,9 +297,11 @@ export const StorePage: React.FC<StorePageProps> = ({ onOpenProject }) => {
                   style={{ background: project.fallbackGradient }}
                   aria-hidden="true"
                 >
+                  {/* La tarjeta del catálogo es 16:9: usa el header del
+                      proyecto, no la cápsula vertical. */}
                   <SmartImage
-                    basePath={project.capsulePath}
-                    kind="capsule"
+                    basePath={project.headerPath}
+                    kind="header"
                     className="store-project-img"
                     alt=""
                     fallback={<span className="gradient-fallback" />}

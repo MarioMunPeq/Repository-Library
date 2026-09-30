@@ -9,7 +9,7 @@
   border: none;
   border-radius: var(--capsule-radius);
   overflow: visible;
-  background: var(--content-bg);
+  background: var(--bg-panel);
   cursor: pointer;
   text-align: left;
   transition: filter var(--transition-fast);
@@ -43,7 +43,7 @@
 }
 
 .project-capsule:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-link);
   outline-offset: 2px;
 }
 
@@ -65,7 +65,7 @@
   padding: 0 8px;
   border-radius: 2px;
   background: var(--capsule-pill);
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 12px;
   line-height: 1;
   white-space: nowrap;
@@ -86,7 +86,7 @@
   height: 26px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.75);
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 12px;
   line-height: 1;
   pointer-events: none;

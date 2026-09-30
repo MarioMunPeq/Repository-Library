@@ -6,11 +6,16 @@ export interface Friend {
   name: string;
   avatarInitial: string;
   status: FriendStatus;
-  statusText: string;
   githubUrl?: string;
+  /** Id del juego que está jugando (ver `friendGames`). Es lo que hace que el
+   *  cliente lo agrupe bajo el juego, con su icono, en vez de dejarlo suelto en
+   *  "Amigos en línea". */
+  game?: string;
+  /** Nombre del proyecto del portfolio con el que se enlaza (ficha de tienda). */
   project?: string;
-  activityGroup?: string;
   favorite?: boolean;
+  /** Solo para los desconectados: "hace 1 día y 13 horas". */
+  lastSeen?: string;
 }
 
 export interface CurrentUser {
@@ -35,9 +40,7 @@ export const friends: Friend[] = [
     avatarInitial: 'JP',
     githubUrl: 'https://github.com/Jeanpefe',
     status: 'online',
-    statusText: 'Satisfactory',
-    project: 'Satisfactory',
-    activityGroup: 'Satisfactory',
+    game: 'satisfactory',
     favorite: true,
   },
   {
@@ -47,9 +50,23 @@ export const friends: Friend[] = [
     avatarInitial: 'PA',
     githubUrl: 'https://github.com/Paula1610',
     status: 'online',
-    statusText: 'Hollow Knight',
-    project: 'Hollow Knight',
-    activityGroup: 'Hollow Knight',
+    game: 'hollow-knight',
     favorite: true,
+  },
+  {
+    id: 'kr1s',
+    name: 'The Red Ambassadress',
+    avatarInitial: 'KR',
+    status: 'online',
+    game: 'magia-exedra',
+  },
+  // Desconectados: el cliente los lista con su "última conexión" y un caret
+  // de ordenación, así que la lista necesita más de dos entradas.
+  {
+    id: 'oxido',
+    name: 'oxido',
+    avatarInitial: 'OX',
+    status: 'offline',
+    lastSeen: 'hace 2 días',
   },
 ];

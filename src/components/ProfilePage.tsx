@@ -60,12 +60,17 @@ export const ProfilePage: React.FC = () => {
   ];
 
   // Sin filas de proyectos: los juegos y las capturas ya están en la biblioteca.
+  // El cliente lista aquí una cuenta por cada tipo de contenido, sin título de
+  // panel: etiqueta a la izquierda y valor a la derecha.
   const statsRows = [
+    { label: 'Juegos', value: projects.length },
+    { label: 'Inventario', value: devProfile.stats.inventory },
+    { label: 'Capturas', value: totalScreenshots },
+    { label: 'Videos', value: devProfile.stats.videos },
     { label: 'Artículos del Workshop', value: devProfile.stats.articles },
+    { label: 'Reseñas', value: devProfile.reviews },
     { label: 'Guías', value: devProfile.stats.guides },
     { label: 'Material gráfico', value: devProfile.stats.artwork },
-    { label: 'Inventario', value: devProfile.stats.inventory },
-    { label: 'Grupos', value: devProfile.groups.length },
   ];
 
   const githubLabel = github ? `@${github.user.login} · ${github.user.publicRepos} repos` : `@${social.githubUser}`;
@@ -146,9 +151,11 @@ export const ProfilePage: React.FC = () => {
 
           <div className="profile-header-right">
             <div className="profile-header-right-top">
-              <div className="profile-level" title={`Nivel ${devProfile.level}`}>
-                <span className="profile-level-number">{devProfile.level}</span>
+              <div className="profile-level">
                 <span className="profile-level-label">Nivel</span>
+                <span className="profile-level-badge" title={`Nivel ${devProfile.level}`}>
+                  <span className="profile-level-number">{devProfile.level}</span>
+                </span>
               </div>
               <div className="profile-years-card">
                 <div className="profile-years-head">
@@ -359,8 +366,7 @@ export const ProfilePage: React.FC = () => {
               </div>
             </section>
 
-            <section className="profile-panel">
-              <h2 className="profile-panel-title">Estadísticas</h2>
+            <section className="profile-stats-block">
               <div className="profile-stats-list">
                 {statsRows.map((row) => (
                   <div key={row.label} className="profile-stats-row">

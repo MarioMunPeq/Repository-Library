@@ -1,16 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { currentUser as defaultCurrentUser, friends as defaultFriends } from '../data/friends';
-import { devProfile } from '../data/devProfile';
 import type { CurrentUser, Friend, FriendStatus } from '../data/friends';
+import { devProfile } from '../data/devProfile';
+import { gameOf } from '../data/games';
+import type { FriendGame } from '../data/games';
 import { SmartImage } from './SmartImage';
 import {
+  AddFriendIcon,
   ChevronDownIcon,
   CloseIcon,
   FilterIcon,
-  GearIcon,
   GroupChatIcon,
   MinimizeIcon,
-  PlusIcon,
   ResizeIcon,
   SearchIcon,
 } from './Icons';
@@ -24,6 +25,10 @@ interface FriendsPanelProps {
 }
 
 const AVATAR_PALETTE = ['#2a475e', '#2d5a3f', '#4a3a6a', '#6a523a', '#3a4f6a', '#5e3a52'];
+
+/** El icono que descarga `npm run steam:games` es un jpg; el png queda como
+ *  red de seguridad por si se regenera en otro formato. */
+const GAME_ICON_EXTENSIONS = ['jpg', 'png'] as const;
 
 function avatarColor(name: string): string {
   let hash = 0;
@@ -63,6 +68,8 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
   /** En móvil el panel es una hoja inferior, no una ventana arrastrable. */
   const [isSheet, setIsSheet] = useState(false);
   const [sheetExpanded, setSheetExpanded] = useState(false);
+  /** "Chats de grupo" arranca plegado, como en el cliente. */
+  const [groupsOpen, setGroupsOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<DragState | null>(null);
 
@@ -141,23 +148,25 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
   );
   const favorites = useMemo(() => friends.filter((friend) => friend.favorite), [friends]);
 
+  /** Un grupo por cada juego que alguien está jugando, con su icono y su
+   *  ficha en la tienda, como el bloque de "Counter-Strike 2" del cliente. */
   const activityGroups = useMemo(() => {
-    const groups: { name: string; friends: Friend[] }[] = [];
+    const groups: { game: FriendGame; friends: Friend[] }[] = [];
     const seen = new Set<string>();
     for (const friend of onlineFriends) {
-      if (friend.activityGroup && !seen.has(friend.activityGroup)) {
-        seen.add(friend.activityGroup);
-        groups.push({
-          name: friend.activityGroup,
-          friends: onlineFriends.filter((item) => item.activityGroup === friend.activityGroup),
-        });
+      const game = gameOf(friend.game);
+      if (game && !seen.has(game.id)) {
+        seen.add(game.id);
+        groups.push({ game, friends: onlineFriends.filter((item) => item.game === game.id) });
       }
     }
     return groups;
   }, [onlineFriends]);
 
+  /** Los que están en línea pero no jugando a nada: los que no sacan su
+   *  nombre de la fila y se quedan solo con el "Conectado" de subtítulo. */
   const ungroupedOnline = useMemo(
-    () => onlineFriends.filter((friend) => !friend.activityGroup),
+    () => onlineFriends.filter((friend) => !friend.game),
     [onlineFriends],
   );
 
@@ -165,8 +174,9 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
 
   const renderRow = (friend: Friend, indented = false) => {
     const offline = isOfflineStatus(friend.status);
-    const playing = Boolean(friend.project);
-    const rowClassName = `fp-row ${indented ? 'indented' : ''}`;
+    const game = gameOf(friend.game);
+    const playing = Boolean(game);
+    const rowClassName = `fp-row ${indented ? 'indented' : ''} ${indented ? 'rich' : ''}`;
     const content = (
       <>
         <span
@@ -187,7 +197,11 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
         </span>
         <span className="fp-row-info">
           <span className={`fp-name ${offline ? 'offline' : 'online'}`}>{friend.name}</span>
-          <span className={`fp-subtitle ${offline ? 'offline' : ''}`}>{friend.statusText}</span>
+          {/* En línea el subtítulo es el juego (o "Conectado" si no juega a
+              nada); desconectado, la última conexión. */}
+          <span className={`fp-subtitle ${offline ? 'offline' : ''}`}>
+            {offline ? `Última conexión: ${friend.lastSeen ?? 'hace un tiempo'}` : game?.name ?? 'Conectado'}
+          </span>
         </span>
       </>
     );
@@ -261,9 +275,6 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
             <span className="fp-header-status">{currentUser.statusText}</span>
           </div>
           <div className="fp-header-actions">
-            <button className="fp-icon-btn" aria-label="Ajustes">
-              <GearIcon className="fp-icon-btn-svg" />
-            </button>
             <button className="fp-icon-btn" aria-label="Minimizar" onClick={() => onOpenChange(false)}>
               <MinimizeIcon className="fp-icon-btn-svg" />
             </button>
@@ -279,7 +290,7 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
               const content = (
                 <>
                   <span
-                    className={`fp-fav-avatar ${ringClass(friend.status, Boolean(friend.project))}`}
+                    className={`fp-fav-avatar ${ringClass(friend.status, Boolean(friend.game))}`}
                     style={{ background: avatarColor(friend.name) }}
                     aria-hidden="true"
                   >
@@ -297,7 +308,7 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
                   <span className="fp-fav-name">{friend.name}</span>
                 </>
               );
-              const title = `${friend.name} · ${friend.statusText}`;
+              const title = `${friend.name} · ${gameOf(friend.game)?.name ?? 'Conectado'}`;
               // Igual que las filas de la lista, el favorito abre su GitHub.
               if (friend.githubUrl) {
                 return (
@@ -329,29 +340,51 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
               <SearchIcon className="fp-icon-btn-svg" />
             </button>
             <button className="fp-icon-btn" aria-label="Añadir amigo">
-              <PlusIcon className="fp-icon-btn-svg" />
+              <AddFriendIcon className="fp-icon-btn-svg" />
             </button>
           </div>
         </div>
 
         <div className="fp-list">
           <div className="fp-section">
-            <h3 className="fp-section-title">
-              Amigos en línea <span className="fp-section-count">({onlineFriends.length})</span>
-            </h3>
+            {activityGroups.length > 0 && (
+              <>
+                {activityGroups.map(({ game, friends: groupFriends }) => (
+                  <div key={game.id} className="fp-activity">
+                    {/* El encabezado lleva el icono del juego y abre su ficha. */}
+                    <a
+                      className="fp-group"
+                      href={game.storeUrl}
+                      target="_blank"
+                      rel="noopener"
+                      title={game.name}
+                    >
+                      <SmartImage
+                        basePath={`/games/${game.id}/icon`}
+                        kind="icon"
+                        extensions={GAME_ICON_EXTENSIONS}
+                        className="fp-group-icon-img"
+                        fallback={<GroupChatIcon className="fp-group-icon" />}
+                      />
+                      <span className="fp-group-name">{game.name}</span>
+                    </a>
+                    {groupFriends.map((friend) => renderRow(friend, true))}
+                  </div>
+                ))}
+                <hr className="fp-divider" />
+              </>
+            )}
 
-            {activityGroups.map((group) => (
-              <div key={group.name}>
-                <div className="fp-group">
-                  <GroupChatIcon className="fp-group-icon" />
-                  <span className="fp-group-name">{group.name}</span>
-                </div>
-                {group.friends.map((friend) => renderRow(friend, true))}
-              </div>
-            ))}
+            {/* El contador solo mira a los que no están bajo un juego: los
+                agrupados ya se cuentan en su propio bloque, como en el cliente. */}
+            <h3 className="fp-section-title">
+              Amigos en línea <span className="fp-section-count">({ungroupedOnline.length})</span>
+            </h3>
 
             {ungroupedOnline.map((friend) => renderRow(friend))}
 
+            {/* Solo cuando no hay nadie en línea: si todos están jugando a algo
+                ya aparecen arriba, bajo su juego. */}
             {onlineFriends.length === 0 && <p className="fp-empty">No hay amigos en línea</p>}
           </div>
 
@@ -368,30 +401,39 @@ export const FriendsPanel: React.FC<FriendsPanelProps> = ({
           )}
         </div>
 
-        <footer className="fp-groups">
-          <div className="fp-groups-head">
+        {/* El cliente pinta esta barra plegada por defecto: el cuerpo solo se
+            abre al pulsarla. */}
+        <footer className={`fp-groups${groupsOpen ? ' open' : ''}`}>
+          <button
+            className="fp-groups-head"
+            type="button"
+            aria-expanded={groupsOpen}
+            onClick={() => setGroupsOpen((value) => !value)}
+          >
             <span className="fp-groups-title-row">
               <ChevronDownIcon className="fp-groups-chevron" />
               Chats de grupo
             </span>
-            <button className="fp-icon-btn" aria-label="Nuevo chat de grupo">
-              <PlusIcon className="fp-icon-btn-svg" />
-            </button>
-          </div>
-          <div className="fp-groups-body">
-            <input
-              className="fp-groups-input"
-              type="text"
-              placeholder="Los chats de grupo en los que participes aparecerán aquí."
-              readOnly
-              aria-label="Buscar chat de grupo"
-            />
-            <p className="fp-groups-text">
-              Puedes iniciar un chat con <span className="fp-groups-link">amigos</span> o unirte al chat de un{' '}
-              <span className="fp-groups-link">grupo de Steam</span>.
-            </p>
-            <ResizeIcon className="fp-resize" />
-          </div>
+            <span className="fp-icon-btn" aria-hidden="true">
+              <GroupChatIcon className="fp-icon-btn-svg" />
+            </span>
+          </button>
+          {groupsOpen && (
+            <div className="fp-groups-body">
+              <input
+                className="fp-groups-input"
+                type="text"
+                placeholder="Los chats de grupo en los que participes aparecerán aquí."
+                readOnly
+                aria-label="Buscar chat de grupo"
+              />
+              <p className="fp-groups-text">
+                Puedes iniciar un chat con <span className="fp-groups-link">amigos</span> o unirte al chat de un{' '}
+                <span className="fp-groups-link">grupo de Steam</span>.
+              </p>
+              <ResizeIcon className="fp-resize" />
+            </div>
+          )}
         </footer>
         </section>
       </div>

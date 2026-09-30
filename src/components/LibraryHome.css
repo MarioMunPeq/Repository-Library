@@ -4,7 +4,7 @@
 
 .library-home {
   width: 100%;
-  background: var(--content-bg);
+  background: var(--bg-panel);
   padding: 0 24px 24px;
   overflow-y: auto;
   flex: 1;
@@ -15,30 +15,6 @@
 
 .library-section {
   margin-bottom: 0;
-}
-
-/* ---------- Banda "Añadir estantería" ---------- */
-
-.library-shelf {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 34px;
-  margin: 0 -24px;
-  background: var(--shelf-bar);
-  color: #c7d5e0;
-  font-size: 12px;
-  transition: background-color var(--transition-fast);
-}
-
-.library-shelf:hover {
-  background: #3f4650;
-}
-
-.library-shelf-icon {
-  width: 14px;
-  height: 14px;
 }
 
 .section-header {
@@ -54,7 +30,7 @@
 .section-title {
   font-size: 20px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -91,7 +67,7 @@
 
 .section-round-btn:hover {
   background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .section-round-btn.collapsed {
@@ -121,7 +97,7 @@
   font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .sort-dropdown {
@@ -130,8 +106,8 @@
   font-size: 12px;
   font-weight: 600;
   color: #c7d5e0;
-  background: #2f3742;
-  border: 1px solid #454d59;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 2px;
   cursor: pointer;
   appearance: none;
@@ -141,13 +117,13 @@
 }
 
 .sort-dropdown:hover {
-  border-color: var(--accent);
-  color: #ffffff;
+  border-color: var(--accent-link);
+  color: var(--text-primary);
 }
 
 .sort-dropdown:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: var(--accent-link);
 }
 
 /* ---------- Projects Grid ---------- */
@@ -174,10 +150,6 @@
 @media (max-width: 720px) {
   .library-home {
     padding: 0 16px 16px;
-  }
-
-  .library-shelf {
-    margin: 0 -16px;
   }
 
   .section-header {
@@ -208,10 +180,6 @@
 @media (max-width: 900px) {
   .library-home {
     padding: 0 12px 20px;
-  }
-
-  .library-shelf {
-    margin: 0 -12px;
   }
 
   .section-header {
@@ -261,7 +229,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .library-shelf,
   .section-round-btn {
     transition: none;
   }

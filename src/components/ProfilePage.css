@@ -12,7 +12,7 @@
 .profile-page {
   position: relative;
   width: 100%;
-  background: var(--content-bg);
+  background: var(--bg-panel);
 }
 
 /* ---------- Fondo a toda página ---------- */
@@ -40,18 +40,22 @@
   z-index: 1;
 }
 
-/* Velo suave: solo encadena un poco hacia abajo, donde hay más texto. Si se
-   oscurece más, el vídeo deja de verse y el fondo parece un color plano. */
+/* Velo del fondo: neutro y suave. Solo sirve para que el texto se lea sobre las
+   zonas claras; el tinte cálido NO va aquí, porque en el cliente los laterales
+   conservan los colores naturales de la imagen (cielo pálido, piedra gris). */
 .profile-bg::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.38) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.34) 100%);
 }
 
 /* ---------- Contenedor central ---------- */
 
+/* Aquí sí va el tinte cálido: el cliente lava la columna de contenido de rojo
+   para que los paneles se lean como parte de la imagen y no como cajas grises.
+   Es un rectángulo con bordes duros que se nota sobre el lado izquierdo. */
 .profile-container {
   position: relative;
   z-index: 1;
@@ -59,7 +63,7 @@
   max-width: var(--profile-container-width);
   margin: 0 auto;
   padding-bottom: 48px;
-  background: rgba(23, 28, 34, 0.55);
+  background: rgba(78, 28, 22, 0.34);
 }
 
 /* ---------- Cabecera ---------- */
@@ -79,13 +83,18 @@
   flex-shrink: 0;
 }
 
+/* El cliente rodea el avatar de un halo naranja encendido. Aquí es fijo, sin
+   animación, para no cargar con más con prefers-reduced-motion. */
 .profile-avatar-wrap {
   width: var(--profile-avatar-size);
   height: var(--profile-avatar-size);
   padding: 0;
-  border-radius: 0;
+  border-radius: 3px;
   background: transparent;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+  box-shadow:
+    0 0 0 3px rgba(255, 138, 26, 0.85),
+    0 0 20px 7px rgba(255, 110, 20, 0.5),
+    0 0 0 1px rgba(0, 0, 0, 0.6);
 }
 
 .profile-avatar-inner {
@@ -97,7 +106,7 @@
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 0;
   overflow: hidden;
-  background: #4a505b;
+  background: var(--bg-card);
 }
 
 .profile-avatar-img {
@@ -125,14 +134,14 @@
   font-size: var(--profile-username-font-size);
   font-weight: 400;
   line-height: 1.1;
-  color: #ffffff;
+  color: var(--text-primary);
   letter-spacing: 0.3px;
 }
 
 .profile-username-caret {
   width: 14px;
   height: 14px;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .profile-realname-row {
@@ -157,7 +166,7 @@
 .profile-location-icon {
   width: 13px;
   height: 13px;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .profile-country-flag {
@@ -183,7 +192,7 @@
   height: 22px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.35);
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.3px;
@@ -206,10 +215,23 @@
 
 .profile-level {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+}
+
+.profile-level-label {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+/* Círculo dorado con el número dentro, como en el cliente. */
+.profile-level-badge {
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
   width: var(--profile-level-size);
   height: var(--profile-level-size);
   border-radius: 50%;
@@ -225,20 +247,13 @@
   line-height: 1;
 }
 
-.profile-level-label {
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
 .profile-years-card {
   width: 160px;
   padding: 10px 12px;
   border-radius: 2px;
   background: rgba(255, 255, 255, 0.1);
   border: none;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .profile-years-head {
@@ -251,7 +266,7 @@
 .profile-years-icon {
   width: 24px;
   height: 24px;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .profile-years-value {
@@ -270,7 +285,7 @@
   display: block;
   margin-top: 2px;
   font-size: 11px;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .profile-actions {
@@ -283,17 +298,17 @@
   padding: 8px 16px;
   border: none;
   border-radius: 2px;
-  background: #c74343;
+  background: #5c2620;
   font-size: var(--profile-edit-btn-font-size);
   font-weight: 500;
   letter-spacing: 0.3px;
-  color: #ffffff;
+  color: var(--text-primary);
   cursor: pointer;
   transition: background-color var(--transition-fast);
 }
 
 .profile-edit-btn:hover {
-  background: #a93a3a;
+  background: #74302a;
 }
 
 .profile-settings-btn {
@@ -311,7 +326,7 @@
 
 .profile-settings-btn:hover {
   background: rgba(255, 255, 255, 0.18);
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .profile-settings-icon {
@@ -337,10 +352,14 @@
   gap: 20px;
 }
 
+/* Los paneles son un velo oscuro SEMIopaco sobre la imagen de fondo: el
+   cliente no los pinta de un gris plano, así que el color del fondo se filtra. */
 .profile-panel {
   padding: 16px 18px;
   border-radius: 0;
-  background: rgba(0, 0, 0, 0.2);
+  /* Rojo muy oscuro. La columna ya está lavada de cálido, así que el panel solo
+     necesita oscurecer; si se pone rojo saturado sale granate. */
+  background: rgba(34, 16, 14, 0.45);
   border: var(--panel-border);
 }
 
@@ -353,11 +372,11 @@
 }
 
 .profile-panel-title.accent {
-  color: #66c0f4;
+  color: #1fadff;
 }
 
 .profile-panel-count {
-  color: #8f98a0;
+  color: var(--text-secondary);
   font-size: 13px;
   margin-left: 4px;
 }
@@ -366,7 +385,7 @@
 
 .profile-about-role {
   font-size: 14px;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
@@ -406,7 +425,7 @@
 .profile-fav-name {
   font-size: 20px;
   font-weight: 400;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Horas jugadas / Logros: números grandes con label debajo, sin tarjetas */
@@ -428,12 +447,12 @@
   font-size: var(--profile-stat-value-font-size);
   font-weight: 300;
   line-height: 1.1;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .profile-fav-stat-label {
   font-size: var(--profile-stat-label-font-size);
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 /* Avance en los logros: fila inline como en Steam */
@@ -453,7 +472,7 @@
 .profile-ach-title {
   font-size: 14px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   white-space: nowrap;
 }
 
@@ -466,13 +485,13 @@
 .profile-ach-bar {
   width: 180px;
   height: 6px;
-  background: #292f36;
+  background: var(--bg-menu-fino);
   overflow: hidden;
 }
 
 .profile-ach-bar-fill {
   height: 100%;
-  background: #1a9fff;
+  background: var(--accent-link);
 }
 
 .profile-ach-badges {
@@ -490,8 +509,10 @@
   width: 32px;
   height: 32px;
   border-radius: 2px;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid #4a505b;
+  /* Las insignias van sobre un hueco algo más claro que el panel, como en el
+     cliente, para que la rejuela se lea. */
+  background: rgba(48, 24, 20, 0.5);
+  border: 1px solid var(--border-subtle);
   color: #c7d5e0;
 }
 
@@ -525,17 +546,17 @@
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .profile-meta-icon {
   width: 16px;
   height: 16px;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .profile-meta-value {
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -641,7 +662,7 @@
 
 .profile-link-name {
   font-size: 14px;
-  color: #66c0f4;
+  color: var(--accent-blue);
 }
 
 .profile-link-row:hover .profile-link-name {
@@ -650,7 +671,7 @@
 
 .profile-link-handle {
   font-size: 12px;
-  color: #8f98a0;
+  color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -661,7 +682,7 @@
   height: 14px;
   margin-left: auto;
   flex-shrink: 0;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 .profile-link-stale {
@@ -678,15 +699,20 @@
   gap: 8px;
 }
 
+/* Insignias: el cliente usa placas foil con marco metálico. Sin los PNG de las
+   insignias reales, se aproximan con el color de cada una y un marco claro. */
 .profile-badge-cell {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 48px;
   height: 48px;
-  border-radius: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  border-radius: 3px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.45),
+    0 1px 4px rgba(0, 0, 0, 0.5);
+  color: var(--text-primary);
   font-size: 12px;
   font-weight: 700;
 }
@@ -725,13 +751,13 @@
 }
 
 .profile-stats-value {
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
 .profile-stats-empty {
   font-size: 14px;
-  color: #8f98a0;
+  color: var(--text-secondary);
   padding: 4px 0;
 }
 
@@ -752,8 +778,8 @@
   height: 32px;
   flex-shrink: 0;
   border-radius: 2px;
-  background: #4a505b;
-  color: #ffffff;
+  background: var(--bg-selected);
+  color: var(--text-primary);
   font-size: 12px;
   font-weight: 700;
 }
@@ -766,7 +792,7 @@
 
 .profile-group-name {
   font-size: 14px;
-  color: #ffffff;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -774,7 +800,7 @@
 
 .profile-group-members {
   font-size: 12px;
-  color: #8f98a0;
+  color: var(--text-secondary);
 }
 
 /* ---------- Ajustes de ventana estrecha ---------- */

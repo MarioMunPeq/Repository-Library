@@ -1,43 +1,54 @@
 @import './styles/design-tokens.css';
 
 /* Motiva Sans — la tipografía real del cliente de Steam.
-   Solo se dispone del peso Regular, así que se declara como variable
-   (100 900) para que el navegador reparta el peso sin deformar el trazo.
+   Solo se dispone del peso Regular, y se declara como tal (400). Declararla
+   como variable 100 900 haría que el navegador creyera tener un eje de peso y
+   pintara los 500 sin engrosar el trazo; con 400 el peso 700 de las pestañas
+   se sintetiza y el grosor se acerca al del cliente.
    La fuente vive en src/assets (no en public) para que Vite la emita con
    hash y anteponga el `base` de despliegue; si estuviera en public, la ruta
    /fonts/... no resolvería en GitHub Pages. */
 @font-face {
   font-family: 'Motiva Sans';
   src: url('./assets/fonts/MotivaSans-Regular.ttf') format('truetype');
-  font-weight: 100 900;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
   /* Paleta del cliente, muestreada de las capturas reales.
-     El suelo NO es un gris neutro: es un azul-carbón que se mantiene PLANO en
-     el área de contenido (solo la barra lateral degrada hacia abajo). El azul
-     saturado queda reservado para acentos y superficies. */
-  --steam-bg-top: #31353c;
-  --steam-bg-mid: #31353c;
-  --steam-bg-bottom: #31353c;
+     OJO: el cliente cambió de tema a uno más claro que la tanda anterior
+     (#3B3F46 de contenido y #333940 de chrome), así que los textos y las
+     superficies suben un punto para mantener el contraste sobre ese suelo. */
+  --steam-bg-top: #3b3f46;
+  --steam-bg-mid: #3b3f46;
+  --steam-bg-bottom: #3b3f46;
   --steam-panel: rgba(74, 80, 91, 0.72);
-  --steam-panel-solid: #3a414c;
+  --steam-panel-solid: #454c56;
   --steam-panel-raised: #4a505b;
   --steam-text: #c7d5e0;
   --steam-text-bright: #ffffff;
-  --steam-text-dim: #8f98a0;
-  --steam-text-faint: #64707c;
-  --steam-accent: #66c0f4;
-  --steam-accent-strong: #1fadff;
-  --steam-success: #1a9fff;
+  --steam-text-dim: #9aa5b0;
+  --steam-text-faint: #79838f;
+  --steam-accent: #6ec8f5;
+  --steam-accent-strong: #23bcff;
+  --steam-success: #23bcff;
   --steam-green-grad: linear-gradient(90deg, #589439 0%, #4c7a31 100%);
   --steam-green-grad-hover: linear-gradient(90deg, #639f42 0%, #568838 100%);
+  /* Botón JUGAR. El cliente no pinta el degradado a medida del botón: pinta
+     una tira 3.3x más ancha y la desplaza, así que la franja visible en reposo
+     va de ~#50c82f a ~#18b14e, y al pasar el ratón la tira se mueve a la
+     izquierda y el botón se aclara. Replicado tal cual con
+     background-size / background-position. */
+  --steam-play-grad: linear-gradient(90deg, #70d61d 0%, #01a75b 60%);
+  --steam-play-grad-size: 330% 100%;
+  --steam-play-grad-pos: 25% 0;
+  --steam-play-grad-pos-hover: 0% 0;
   --steam-border: rgba(0, 0, 0, 0.3);
-  --steam-hover: rgba(31, 173, 255, 0.12);
-  --steam-scrollbar: #3d4552;
-  --steam-scrollbar-hover: #4a5462;
+  --steam-hover: rgba(35, 188, 255, 0.14);
+  --steam-scrollbar: #4a525d;
+  --steam-scrollbar-hover: #5a636f;
   --steam-red: #c74343;
 
   --font-sans: 'Motiva Sans', 'Noto Sans', 'Segoe UI', system-ui, sans-serif;
@@ -69,7 +80,7 @@ body {
   line-height: var(--font-line-height);
   letter-spacing: 0.1px;
   color: var(--steam-text);
-  background-color: #272d34;
+  background-color: var(--bg-menu-fino);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Evita el flash azul al tocar en Android/iOS */
@@ -107,10 +118,10 @@ textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3d4552;
+  background: #4a525d;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4a5462;
+  background: #5a636f;
 }

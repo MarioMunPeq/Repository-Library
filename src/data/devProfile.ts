@@ -73,6 +73,7 @@ export interface DevProfile {
     guides: number;
     artwork: number;
     inventory: number;
+    videos: number;
   };
 }
 
@@ -130,5 +131,6 @@ export const devProfile: DevProfile = {
     guides: 0,
     artwork: 1,
     inventory: 0,
+    videos: 0,
   },
 };

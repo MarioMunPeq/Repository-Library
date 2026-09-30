@@ -84,6 +84,10 @@ export interface Project {
   lastUpdate: string;
   unlockedTech: number;
   totalTech: number;
+  /** Logros de Steam ya desbloqueados. Steam no publica el progreso de un
+   *  usuario sin su API key, así que el número se declara aquí; es lo que
+   *  pinta la barra y las tiras del panel "Logros" de la ficha del proyecto. */
+  achievementsUnlocked?: number;
   technologies: string[];
   collaborators: string[];
   price: ProjectPrice;
@@ -135,6 +139,7 @@ export const projects: Project[] = [
     githubUrl: 'http://mariomunpeq.is-a.dev/',
     status: 'completado',
     steamAppId: 1687950,
+    achievementsUnlocked: 29,
     screenshots: ['1', '2', '3', '4', '5', '6'],
     fallbackGradient: 'linear-gradient(90deg, #14060a 0%, #4a0d16 55%, #8f1420 100%)',
     description:
@@ -165,6 +170,7 @@ export const projects: Project[] = [
     githubUrl: 'https://mariomunpeq.github.io/Vault-Archive/',
     status: 'en desarrollo',
     steamAppId: 22380,
+    achievementsUnlocked: 31,
     screenshots: ['1', '2', '3', '4', '5', '6'],
     fallbackGradient: 'linear-gradient(90deg, #150d24 0%, #2b1a4a 55%, #3f2a6e 100%)',
     description:
@@ -252,6 +258,7 @@ export const projects: Project[] = [
     githubUrl: 'https://mariomunpeq.github.io/Dungeon-Archive/',
     status: 'completado',
     steamAppId: 1086940,
+    achievementsUnlocked: 41,
     screenshots: ['1', '2', '3', '4', '5'],
     fallbackGradient: 'linear-gradient(90deg, #1c1208 0%, #3a2412 55%, #5c3a1e 100%)',
     description:
@@ -309,6 +316,7 @@ export const projects: Project[] = [
     githubUrl: 'https://mariomunpeq.github.io/Papers-Please-Portfolio/',
     status: 'completado',
     steamAppId: 239030,
+    achievementsUnlocked: 9,
     screenshots: ['1', '2', '3', '4'],
     fallbackGradient: 'linear-gradient(90deg, #14140d 0%, #3a3520 55%, #5d5430 100%)',
     description:
